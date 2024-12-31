@@ -4,7 +4,7 @@
 package com.devturtle.mission;
 import java.util.ArrayList;
 
-import com.DevTurtle.mission.ObjectiveVO;
+import com.devturtle.mission.ObjectiveVO;
 
 /**
  * Description : 클래스에 대한 설명을 입력해주세요.<br>
@@ -62,6 +62,13 @@ public class MissionPersonalDAO {
 	}
 	
 	public int update() {
+		
+		int row = 1;
+		
+		return row;
+	}
+	
+	public int delete() {
 		
 		int row = 1;
 		
