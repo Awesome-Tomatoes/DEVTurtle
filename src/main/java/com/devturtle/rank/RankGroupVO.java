@@ -3,15 +3,15 @@
  */
 package com.devturtle.rank;
 
-/**
- * Description : 클래스에 대한 설명을 입력해주세요.<br>
- * Date : 2024. 12. 31.<br>
- * History :<br>
- * - 작성자 : Ho, 날짜 : 2024. 12. 31., 설명 : 최초작성<br>
- *
- * @author Ho
- * @version 1.0
- */
-public class RankGroupVO {
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+
+@Data
+@AllArgsConstructor
+public class RankGroupVO {
+	private int rankGroupID;
+	private int groupID;
+	private int scoreSum;
+	private String date;
 }
