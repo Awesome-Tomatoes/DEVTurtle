@@ -1,19 +1,11 @@
 package com.devturtle.group;
 
+import java.util.ArrayList;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-/**
- * Description : 클래스에 대한 설명을 입력해주세요.<br>
- * Date : 2024. 12. 30.<br>
- * History :<br>
-<<<<<<< HEAD
- * - 작성자 : user, 날짜 : 2024. 12. 30., 설명 : 최초작성<br>
- *
- * @author user
- * @version 1.0
- */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -29,5 +21,21 @@ public class GroupVO {
 	private String createdAt;
 	private String updatedAt;
 	
+	private ArrayList<GroupUserVO> listfGroupUser;
+	
+	// 그룹에 대한 정보
+	public GroupVO(long groupId, String name, String description, String category, String gPrivate, long totalScore,
+			long rankScore, String createdAt, String updatedAt) {
+		super();
+		this.groupId = groupId;
+		this.name = name;
+		this.description = description;
+		this.category = category;
+		this.gPrivate = gPrivate;
+		this.totalScore = totalScore;
+		this.rankScore = rankScore;
+		this.createdAt = createdAt;
+		this.updatedAt = updatedAt;
+	}
 
 }
