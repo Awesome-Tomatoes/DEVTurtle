@@ -1,0 +1,143 @@
+@font-face {
+  font-family: "DungGeunMo";
+  src: url("/assets/DungGeunMo.ttf") format("truetype");
+  font-weight: 300; /* 폰트를 얇게 설정 */
+  font-style: normal;
+}
+
+body {
+  padding: 20px;
+  font-family: "DungGeunMo", Arial, sans-serif;
+  background-color: #01131f;
+  color: #cccccc;
+  display: flex;
+  justify-content: center;
+  align-items: start;
+  height: 100vh;
+}
+
+/* 컨테이너 */
+.container {
+  text-align: center;
+}
+
+/* 로고 스타일 */
+.logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-bottom: 50px; /* 간격 수정 */
+}
+
+.logo a {
+  text-decoration: none;
+  color: #b3ff43;
+  display: flex;
+  align-items: center;
+  font-size: 22px; /* 크기 증가 */
+}
+
+.logo img {
+  width: 90px; /* 크기 증가 */
+  height: auto;
+  margin-right: 20px; /* 간격 증가 */
+}
+
+/* 로그인 폼 */
+.login-form {
+  display: inline-block;
+  text-align: left;
+  width: 380px; /* 길이 증가 */
+}
+
+.input-container {
+  position: relative;
+}
+
+/* 텍스트 필드 스타일 */
+.input-container input {
+  width: 40%;
+  padding: 14px 40px 14px 14px;
+  border: 2px solid #304d5d;
+  border-radius: 5px;
+  background-color: #01131f;
+  color: #304d5d;
+  font-size: 16px;
+  font-family: "DungGeunMo", Arial, sans-serif;
+  box-sizing: border-box;
+}
+
+/* 중복 체크 버튼 스타일 */
+.check-btn {
+  position: absolute;
+  right: 10px; /* 버튼을 텍스트 필드의 오른쪽에 위치시킴 */
+  top: 25%;
+  transform: translateY(-50%); /* 세로 중앙 정렬 */
+  padding: 10px 5px;
+  background-color: #007bff; /* system blue 색상 */
+  border: none;
+  border-radius: 5px;
+  color: white;
+  font-size: 14px;
+  cursor: pointer;
+  font-family: "DungGeunMo", Arial, sans-serif;
+}
+
+.check-btn:hover {
+  background-color: #0056b3; /* hover 시 더 어두운 파란색 */
+}
+
+/*여기까지*/
+
+.login-form label {
+  display: block;
+  font-size: 18px; /* 크기 증가 */
+  margin-bottom: 10px; /* 간격 증가 */
+  font-family: "DungGeunMo", Arial, sans-serif;
+}
+
+.login-form input {
+  width: 100%;
+  padding: 14px; /* 크기 증가 */
+  margin-bottom: 50px; /* 간격 수정 */
+  border: 2px solid #304d5d; /* 테두리 색상 적용 */
+  border-radius: 5px;
+  background-color: #01131f;
+  color: #304d5d;
+  font-size: 16px;
+  font-family: "DungGeunMo", Arial, sans-serif;
+  box-sizing: border-box;
+}
+.login-btn {
+  width: 100%;
+  padding: 14px;
+  border: none;
+  border-radius: 5px;
+  background: linear-gradient(to right, #b3ff43, #6b9928);
+  color: #f9ffff;
+  font-size: 20px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.3s ease;
+  margin-top: 50px;
+  margin-bottom: 50px;
+}
+
+.login-btn:hover {
+  background: linear-gradient(to right, #6b9928, #b3ff43);
+}
+
+/* 회원가입 링크 */
+.register-link p {
+  font-size: 18px;
+  margin-top: 50px;
+}
+.register-link a {
+  color: #4fa5ff;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 18px;
+}
+.register-link a:hover {
+  text-decoration: underline;
+}
