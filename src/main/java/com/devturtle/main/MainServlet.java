@@ -9,8 +9,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.DevTurtle.user.UserDAO;
-import com.DevTurtle.user.UserVO;
+import com.devturtle.user.UserDAO;
+import com.devturtle.user.UserVO;
 
 @WebServlet("/main")
 public class MainServlet extends HttpServlet {
