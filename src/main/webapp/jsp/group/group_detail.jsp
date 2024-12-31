@@ -15,6 +15,8 @@
 </head>
 <body>
 그룹 상세소개  - 정하 
+${GROUP_DETAIL.groupId}
+${GROUP_DETAIL.name}
 
 그룹원 소개 - 유저+ 그룹 <- 종현/정하
 그룹랭킹차티 - 찬호 selectAllGroupRankOrderByDate
