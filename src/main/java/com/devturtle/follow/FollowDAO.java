@@ -6,9 +6,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import com.DevTurtle.common.DBManager;
-import com.DevTurtle.common.OracleDBManager;
-import com.DevTurtle.user.UserVO;
+import com.devturtle.common.DBManager;
+import com.devturtle.common.OracleDBManager;
+import com.devturtle.user.UserVO;
 
 public class FollowDAO {
 	
