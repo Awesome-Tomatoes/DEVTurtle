@@ -8,6 +8,8 @@ import java.util.ArrayList;
 
 import com.devturtle.common.DBManager;
 import com.devturtle.common.OracleDBManager;
+import com.devturtle.rank.RankUserDAO;
+import com.devturtle.rank.RankUserVO;
 import com.devturtle.solved.SolvedDAO;
 import com.devturtle.solved.SolvedManager;
 
@@ -158,7 +160,7 @@ public class UserDAO {
 		Connection conn = dbm.connect();
 		PreparedStatement pstmt = null;
 		SolvedManager mgr = new SolvedManager();
-		
+		RankUserDAO rudao = new RankUserDAO();
 		int rows = 0;
 		try {
 			conn.setAutoCommit(false);
@@ -192,6 +194,7 @@ public class UserDAO {
 		UserVO uservo = selectUserByLoginID(uvo.getLoginID());
 		mgr.insertSolvedData(uservo.getUserID());
 		updateUserSolvedScore(uservo.getUserID(), mgr.selectUserSolvedData(uservo.getUserID()).getRating());
+		rudao.insertRankUser(uservo.getUserID(),uservo.getTotalScore(), uservo.getCreatedAt());
 		return rows;
 	}
 
