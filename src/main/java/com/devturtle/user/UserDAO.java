@@ -9,122 +9,205 @@ import java.util.ArrayList;
 import com.devturtle.common.DBManager;
 import com.devturtle.common.OracleDBManager;
 
+
 public class UserDAO {
 
 	//단일 유저 더미
-	public UserVO select(String userID) {
-		return new UserVO(1,"name","id","pw","nickname","create","update","solved","git","userbio",1000,300,700);
-	}
-	
-	//유저리스트 더미
-	public ArrayList<UserVO> select() {
-		ArrayList<UserVO> alist = new ArrayList<UserVO>();
-		alist.add(new UserVO(1,"name1","id1","pw1","nickname1","create1","update1","solved1","git1","userbio",1000,300,700));
-		alist.add(new UserVO(2,"name2","id2","pw2","nickname2","create2","update2","solved2","git2","userbio",1200,500,700));
-		alist.add(new UserVO(3,"name3","id3","pw3","nickname3","create3","update3","solved3","git3","userbio",1100,500,600));
-		alist.add(new UserVO(4,"name4","id4","pw4","nickname4","create4","update4","solved4","git4","userbio",940,510,430));
-		return alist;
-	}
-	
-	
-	public  ArrayList<Integer> selectChartRank(String userid) {
-		//조인 UserVO + RankVO
-		//차트 : 날짜, 랭킹
-		ArrayList<Integer> chartRankList = new ArrayList();
-		chartRankList.add(1);
-		chartRankList.add(2);
-		chartRankList.add(3);
-		
-		return chartRankList;
-	
-	}
-	
-	public int selectUserMissionPoint(String userid) {
-		return 100;
-	}
-	
-	public ArrayList<UserVO> selectAllUser(){
-		ArrayList<UserVO> ulist = new ArrayList<UserVO>();
-		DBManager dbm = OracleDBManager.getInstance(); 
+	public UserVO selectUser(int userid) {
+		UserVO uvo = new UserVO();
+
+		DBManager dbm = OracleDBManager.getInstance();
 		Connection conn = dbm.connect();
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
-		
 		try {
-			String sql = "select * from users";
-			pstmt =  conn.prepareStatement(sql);
-			rs = pstmt.executeQuery();  
-			while(rs.next()) {
-				UserVO uvo = new UserVO();
-				uvo.setUserID(  rs.getInt("USER_SEQ")     );
-				uvo.setUserName(  rs.getString("USER_NAME")  );
-				uvo.setLoginID(  rs.getString("LOGIN_ID")  );
-				uvo.setLoginPW(  rs.getString("LOGIN_PW")  );
-				uvo.setNickname(  rs.getString("NICKNAME")  );
-				uvo.setGitID(  rs.getString("GIT_ID")  );
-				uvo.setSolvedID(  rs.getString("SOLVED_ID")  );
-				uvo.setUserBio(  rs.getString("USER_BIO")  );
-				uvo.setTotalScore(  rs.getInt("TOTAL_SCORE")  );
-				uvo.setSolvedScore(  rs.getInt("SOLVED_SCORE")  );
-				uvo.setGitScore(  rs.getInt("GIT_SCORE")  );
-				ulist.add(uvo);
-			}	
+			String sql = "select * from users where user_id=?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, userid); //------파라미터를 1번째?에 바인딩
+
+			rs = pstmt.executeQuery();
+			rs.next();
+			
+			uvo.setUserID(rs.getInt("USER_ID"));
+			uvo.setUserName(rs.getString("USER_NAME"));
+			uvo.setLoginID(rs.getString("LOGIN_ID"));
+			uvo.setLoginPW(rs.getString("LOGIN_PW"));
+			uvo.setNickname(rs.getString("NICKNAME"));
+			uvo.setGitID(rs.getString("GIT_ID"));
+			uvo.setSolvedID(rs.getString("SOLVED_ID"));
+			uvo.setUserBio(rs.getString("USER_BIO"));
+			uvo.setTotalScore(rs.getInt("TOTAL_SCORE"));
+			uvo.setSolvedScore(rs.getInt("SOLVED_SCORE"));
+			uvo.setGitScore(rs.getInt("GIT_SCORE"));
+
 		} catch (SQLException e) {
 			e.printStackTrace();
-		}	finally {
-				dbm.close(conn, pstmt, rs);
+		} finally {
+			dbm.close(conn, pstmt, rs);
+		}
+		return uvo;
+	}
+
+	public ArrayList<UserVO> selectAllUser() {
+		ArrayList<UserVO> ulist = new ArrayList<UserVO>();
+		DBManager dbm = OracleDBManager.getInstance();
+		Connection conn = dbm.connect();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+
+		try {
+			String sql = "select * from users";
+			pstmt = conn.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+			while (rs.next()) {
+				UserVO uvo = new UserVO();
+				uvo.setUserID(rs.getInt("USER_ID"));
+				uvo.setUserName(rs.getString("USER_NAME"));
+				uvo.setLoginID(rs.getString("LOGIN_ID"));
+				uvo.setLoginPW(rs.getString("LOGIN_PW"));
+				uvo.setNickname(rs.getString("NICKNAME"));
+				uvo.setGitID(rs.getString("GIT_ID"));
+				uvo.setSolvedID(rs.getString("SOLVED_ID"));
+				uvo.setUserBio(rs.getString("USER_BIO"));
+				uvo.setTotalScore(rs.getInt("TOTAL_SCORE"));
+				uvo.setSolvedScore(rs.getInt("SOLVED_SCORE"));
+				uvo.setGitScore(rs.getInt("GIT_SCORE"));
+				ulist.add(uvo);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			dbm.close(conn, pstmt, rs);
 		}
 		return ulist;
 	}
-	
-	public ArrayList<UserVO> selectAllUserOrderByRank(){
+
+	public ArrayList<UserVO> selectAllUserOrderByRank() {
 		ArrayList<UserVO> ulist = new ArrayList<UserVO>();
-		DBManager dbm = OracleDBManager.getInstance(); 
+		DBManager dbm = OracleDBManager.getInstance();
 		Connection conn = dbm.connect();
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
-		
-		
-		
-//		try {
-//			String sql = "select * from users order by TOTAL_SCORE";
-//			pstmt =  conn.prepareStatement(sql);
-//			rs = pstmt.executeQuery();  
-//			while(rs.next()) {
-//				UserVO uvo = new UserVO();
-//				uvo.setUserID(  rs.getInt("USER_SEQ")     );
-//				uvo.setUserName(  rs.getString("USER_NAME")  );
-//				uvo.setLoginID(  rs.getString("LOGIN_ID")  );
-//				uvo.setLoginPW(  rs.getString("LOGIN_PW")  );
-//				uvo.setNickname(  rs.getString("NICKNAME")  );
-//				uvo.setGitID(  rs.getString("GIT_ID")  );
-//				uvo.setSolvedID(  rs.getString("SOLVED_ID")  );
-//				uvo.setUserBio(  rs.getString("USER_BIO")  );
-//				uvo.setTotalScore(  rs.getInt("TOTAL_SCORE")  );
-//				uvo.setSolvedScore(  rs.getInt("SOLVED_SCORE")  );
-//				uvo.setGitScore(  rs.getInt("GIT_SCORE")  );
-//				ulist.add(uvo);
-//			}	
-//		} catch (SQLException e) {
-//			e.printStackTrace();
-//		}	finally {
-//				dbm.close(conn, pstmt, rs);
-//		}
+
+		try {
+			String sql = "select * from users order by TOTAL_SCORE";
+			pstmt = conn.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+			while (rs.next()) {
+				UserVO uvo = new UserVO();
+				uvo.setUserID(rs.getInt("USER_ID"));
+				uvo.setUserName(rs.getString("USER_NAME"));
+				uvo.setLoginID(rs.getString("LOGIN_ID"));
+				uvo.setLoginPW(rs.getString("LOGIN_PW"));
+				uvo.setNickname(rs.getString("NICKNAME"));
+				uvo.setGitID(rs.getString("GIT_ID"));
+				uvo.setSolvedID(rs.getString("SOLVED_ID"));
+				uvo.setUserBio(rs.getString("USER_BIO"));
+				uvo.setTotalScore(rs.getInt("TOTAL_SCORE"));
+				uvo.setSolvedScore(rs.getInt("SOLVED_SCORE"));
+				uvo.setGitScore(rs.getInt("GIT_SCORE"));
+				ulist.add(uvo);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			dbm.close(conn, pstmt, rs);
+		}
 		return ulist;
 	}
-	
-	public void insert(UserVO uvo) {
-		System.out.println("insert 성공");
+
+	public int insertUser(UserVO uvo) {
+		DBManager dbm = OracleDBManager.getInstance(); //new OracleDBManager();
+		Connection conn = dbm.connect();
+		PreparedStatement pstmt = null;
+		int rows = 0;
+		try {
+			conn.setAutoCommit(false);
+
+			String sql = "insert into users(user_id, user_name, login_id, login_pw, nickname, created_at, updated_at, solved_id, git_id, user_bio, total_score, solved_score, git_score)\r\n"
+				+ "values(user_seq.nextval,?,?,?,?,sysdate,sysdate,?,?,?,?,?,?)";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, uvo.getUserName()); //------파라미터를 1번째?에 바인딩
+			pstmt.setString(2, uvo.getLoginID());
+			pstmt.setString(3, uvo.getLoginPW());
+			pstmt.setString(4, uvo.getNickname());
+			pstmt.setString(5, uvo.getSolvedID());
+			pstmt.setString(6, uvo.getGitID());
+			pstmt.setString(7, uvo.getUserBio());
+			pstmt.setInt(8, uvo.getTotalScore());
+			pstmt.setInt(9, uvo.getSolvedScore());
+			pstmt.setInt(10, uvo.getGitScore());
+			rows = pstmt.executeUpdate();
+			if (rows == 1) {
+				conn.commit();
+			} else {
+				conn.rollback();
+			}
+		} catch (SQLException e) {
+
+			e.printStackTrace();
+		} finally {
+			dbm.close(conn, pstmt);
+		}
+		return rows;
 	}
 
-	public void update(UserVO uvo, int gitScore, int solvedScore) {
-		uvo.setGitScore(gitScore);
-		uvo.setSolvedScore(solvedScore);
-		uvo.setTotalScore(gitScore+solvedScore);
-		System.out.println("update 성공");
+	public int updateUserScore(int userid, int solvedScore, int gitScore) {
+		DBManager dbm = OracleDBManager.getInstance(); //new OracleDBManager();
+		Connection conn = dbm.connect();
+		PreparedStatement pstmt = null;
+		int rows = 0;
+		try {
+			String sql = "update users set total_score=?, solved_score=? , git_score = ?, updated_at = sysdate where user_id=?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, solvedScore + gitScore); //------파라미터를 1번째?에 바인딩
+			pstmt.setInt(2, solvedScore);
+			pstmt.setInt(3, gitScore);
+			pstmt.setInt(4, userid);
+			rows = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			dbm.close(conn, pstmt);
+		}
+		return rows;
 	}
 	
-	public void delete(UserVO uvo) {
-		System.out.println("delete 성공");
+	public int updateUserData(int userid, String nickname, String userBio) {
+		DBManager dbm = OracleDBManager.getInstance(); //new OracleDBManager();
+		Connection conn = dbm.connect();
+		PreparedStatement pstmt = null;
+		int rows = 0;
+		try {
+			String sql = "update users set nickname=?, user_bio=?, updated_at = sysdate where user_id=?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, nickname);
+			pstmt.setString(2, userBio);
+			pstmt.setInt(3, userid);
+			rows = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			dbm.close(conn, pstmt);
+		}
+		return rows;
 	}
+
+	public int deleteUser(int userid) {
+		DBManager dbm = OracleDBManager.getInstance(); //new OracleDBManager();
+		Connection conn = dbm.connect();
+		PreparedStatement pstmt = null;
+		int rows = 0;
+		try {
+			String sql = "delete from users where user_id=?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, userid); //------파라미터를 1번째?에 바인딩
+			rows = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			dbm.close(conn, pstmt);
+		}
+		return rows;
+	}	
 }
