@@ -12,10 +12,6 @@ package com.devturtle.rank;
  * @author Ho
  * @version 1.0
  */
-public class RankDAO {
-	
-	public int selectRank(String userid) {
-		return 10;
-	}
+public class RankUserDAO {
 
 }
