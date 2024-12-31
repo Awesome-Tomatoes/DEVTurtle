@@ -2,15 +2,12 @@ package com.devturtle.rank;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
 import com.devturtle.common.DBManager;
 import com.devturtle.common.OracleDBManager;
-import com.devturtle.solved.SolvedManager;
-import com.devturtle.user.UserDAO;
-import com.devturtle.user.UserVO;
+
 
 public class RankUserDAO {
 	public ArrayList<RankUserVO> selectRankUser() {
@@ -26,7 +23,7 @@ public class RankUserDAO {
 	
 	
 	
-	public int insertRankUser(int userID, int sumScore, String date) {
+	public int insertRankUser(int userID, int sumScore) {
 		
 		DBManager dbm = OracleDBManager.getInstance(); //new OracleDBManager();
 		Connection conn = dbm.connect();
@@ -37,12 +34,10 @@ public class RankUserDAO {
         try {
             conn.setAutoCommit(false);
 
-            String sql = "INSERT INTO Rank_User (rankUserID, userID, scoreSum, date) VALUES (RANK_USER_SEQ.NEXTVAL, ?, ?, ?)";
-
+            String sql = "INSERT INTO Rank_User (RANK_USER_ID, USER_ID, SCORE_SUM, RANK_USER_DATE) VALUES (RANK_USER_SEQ.NEXTVAL, ?, ?, SYSDATE)";
+            pstmt = conn.prepareStatement(sql);
             pstmt.setInt(1, userID);
             pstmt.setInt(2, sumScore);
-            pstmt.setString(3, date);
-
             rows = pstmt.executeUpdate();
             if (rows == 1) {
                 conn.commit();
@@ -59,5 +54,9 @@ public class RankUserDAO {
         return rows;
     }
 	
+	public static void main(String[] argv) {
+		RankUserDAO rudao = new RankUserDAO();
+		rudao.insertRankUser(15, 2400);
+	}
 	
 }
