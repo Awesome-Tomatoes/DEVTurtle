@@ -61,14 +61,14 @@ public class MissionPersonalDAO {
 		
 	}
 	
-	public int update() {
+	public int update(String contents, int points) {
 		
 		int row = 1;
 		
 		return row;
 	}
 	
-	public int delete() {
+	public int delete(String contents, int points) {
 		
 		int row = 1;
 		
