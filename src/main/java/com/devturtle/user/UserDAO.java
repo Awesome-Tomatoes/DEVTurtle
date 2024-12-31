@@ -8,6 +8,8 @@ import java.util.ArrayList;
 
 import com.devturtle.common.DBManager;
 import com.devturtle.common.OracleDBManager;
+import com.devturtle.solved.SolvedDAO;
+import com.devturtle.solved.SolvedManager;
 
 
 public class UserDAO {
@@ -24,6 +26,41 @@ public class UserDAO {
 			String sql = "select * from users where user_id=?";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, userid); //------파라미터를 1번째?에 바인딩
+
+			rs = pstmt.executeQuery();
+			rs.next();
+			
+			uvo.setUserID(rs.getInt("USER_ID"));
+			uvo.setUserName(rs.getString("USER_NAME"));
+			uvo.setLoginID(rs.getString("LOGIN_ID"));
+			uvo.setLoginPW(rs.getString("LOGIN_PW"));
+			uvo.setNickname(rs.getString("NICKNAME"));
+			uvo.setGitID(rs.getString("GIT_ID"));
+			uvo.setSolvedID(rs.getString("SOLVED_ID"));
+			uvo.setUserBio(rs.getString("USER_BIO"));
+			uvo.setTotalScore(rs.getInt("TOTAL_SCORE"));
+			uvo.setSolvedScore(rs.getInt("SOLVED_SCORE"));
+			uvo.setGitScore(rs.getInt("GIT_SCORE"));
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			dbm.close(conn, pstmt, rs);
+		}
+		return uvo;
+	}
+	
+	public UserVO selectUserByLoginID(String loginid) {
+		UserVO uvo = new UserVO();
+
+		DBManager dbm = OracleDBManager.getInstance();
+		Connection conn = dbm.connect();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		try {
+			String sql = "select * from users where login_id=?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, loginid); //------파라미터를 1번째?에 바인딩
 
 			rs = pstmt.executeQuery();
 			rs.next();
@@ -120,6 +157,8 @@ public class UserDAO {
 		DBManager dbm = OracleDBManager.getInstance(); //new OracleDBManager();
 		Connection conn = dbm.connect();
 		PreparedStatement pstmt = null;
+		SolvedManager mgr = new SolvedManager();
+		
 		int rows = 0;
 		try {
 			conn.setAutoCommit(false);
@@ -149,27 +188,53 @@ public class UserDAO {
 		} finally {
 			dbm.close(conn, pstmt);
 		}
+		
+		UserVO uservo = selectUserByLoginID(uvo.getLoginID());
+		mgr.insertSolvedData(uservo.getUserID());
+		updateUserSolvedScore(uservo.getUserID(), mgr.selectUserSolvedData(uservo.getUserID()).getRating());
 		return rows;
 	}
 
-	public int updateUserScore(int userid, int solvedScore, int gitScore) {
+	public int updateUserGitScore(int userid, int gitScore) {
 		DBManager dbm = OracleDBManager.getInstance(); //new OracleDBManager();
 		Connection conn = dbm.connect();
 		PreparedStatement pstmt = null;
+		UserVO uvo = selectUser(userid);
 		int rows = 0;
 		try {
-			String sql = "update users set total_score=?, solved_score=? , git_score = ?, updated_at = sysdate where user_id=?";
+			String sql = "update users set total_score=?, git_score = ?, updated_at = sysdate where user_id=?";
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setInt(1, solvedScore + gitScore); //------파라미터를 1번째?에 바인딩
-			pstmt.setInt(2, solvedScore);
-			pstmt.setInt(3, gitScore);
-			pstmt.setInt(4, userid);
+			pstmt.setInt(1, uvo.getSolvedScore() + gitScore); //------파라미터를 1번째?에 바인딩
+			pstmt.setInt(2, gitScore);
+			pstmt.setInt(3, userid);
 			rows = pstmt.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
 			dbm.close(conn, pstmt);
 		}
+		return rows;
+	}
+	
+	public int updateUserSolvedScore(int userid, int solvedScore) {
+		DBManager dbm = OracleDBManager.getInstance(); //new OracleDBManager();
+		Connection conn = dbm.connect();
+		PreparedStatement pstmt = null;
+		UserVO uvo = selectUser(userid);
+		int rows = 0;
+		try {
+			String sql = "update users set total_score=?, solved_score = ?, updated_at = sysdate where user_id=?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, uvo.getGitScore() + solvedScore); //------파라미터를 1번째?에 바인딩
+			pstmt.setInt(2, solvedScore);
+			pstmt.setInt(3, userid);
+			rows = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			dbm.close(conn, pstmt);
+		}
+		
 		return rows;
 	}
 	
@@ -197,6 +262,9 @@ public class UserDAO {
 		DBManager dbm = OracleDBManager.getInstance(); //new OracleDBManager();
 		Connection conn = dbm.connect();
 		PreparedStatement pstmt = null;
+		SolvedDAO dao = new SolvedDAO();
+		dao.delete(userid);
+		
 		int rows = 0;
 		try {
 			String sql = "delete from users where user_id=?";
@@ -210,4 +278,5 @@ public class UserDAO {
 		}
 		return rows;
 	}	
+	
 }
