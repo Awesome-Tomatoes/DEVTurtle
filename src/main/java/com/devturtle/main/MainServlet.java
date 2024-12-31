@@ -31,10 +31,13 @@ protected void doGet(HttpServletRequest request, HttpServletResponse response) t
 	ArrayList<GroupVO> glist = gdao.selectAllGroup();
 	request.setAttribute("GLIST", glist);
 	
+	// 동적으로 포함할 contentPage 경로 설정
+    request.setAttribute("contentPage", "/jsp/main/main.jsp");
+
+    // layout.jsp로 포워딩
+    request.getRequestDispatcher("/index.jsp").forward(request, response);
 	
 	
-	response.getWriter().append("Served at: ").append(request.getContextPath());
-	request.getRequestDispatcher("/index.jsp").forward(request, response);
 }
 
 protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

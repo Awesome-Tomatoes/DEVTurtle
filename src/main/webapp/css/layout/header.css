@@ -1,0 +1,68 @@
+#layout-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 30px;
+}
+
+#header-logo {
+  display: flex;
+  gap: 10px;
+}
+
+#header-logo img {
+  width: 30px;
+  height: 30px;
+}
+
+#header-logo p {
+  color: var(--main-color);
+  font-size: 30px;
+}
+
+#header-search {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  background-color: var(--depth-third-color);
+  width: 300px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  padding-left: 10px;
+  padding-right: 10px;
+  border-radius: 20px;
+}
+
+#header-search input {
+  width: 100%;
+  color: var(--font-white-color);
+}
+
+#header-search img {
+  width: 20px;
+  height: 20px;
+}
+
+#header-auth {
+  font-family: "DungGeunMo";
+  font-size: 20px;
+}
+
+#header-auth-mypage {
+  width: fit-content;
+  background-color: var(--main-color);
+  border-radius: 3px;
+  color: var(--back-color);
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+
+#header-auth-logout {
+  padding-top: 5px;
+  padding-bottom: 5px;
+  color: var(--main-color);
+  background-color: transparent;
+  border: 2px solid var(--main-color);
+  border-radius: 3px;
+}
