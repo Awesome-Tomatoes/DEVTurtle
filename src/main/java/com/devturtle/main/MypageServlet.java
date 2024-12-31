@@ -1,7 +1,6 @@
 package com.devturtle.main;
 
 import java.io.IOException;
-import java.util.ArrayList;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -11,7 +10,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.devturtle.follow.FollowDAO;
 import com.devturtle.group.GroupDAO;
-import com.devturtle.group.GroupVO;
 import com.devturtle.rank.RankDAO;
 import com.devturtle.user.UserDAO;
 import com.devturtle.user.UserVO;
@@ -30,7 +28,7 @@ protected void doGet(HttpServletRequest request, HttpServletResponse response) t
 	
 	//상단 유저정보	
 	UserDAO udao = new UserDAO();
-	UserVO uvo = udao.select("userid");
+	UserVO uvo = udao.selectUser(1);
 	request.setAttribute("USER_INFO_VO", uvo);
 	
 	
@@ -40,8 +38,8 @@ protected void doGet(HttpServletRequest request, HttpServletResponse response) t
 	request.setAttribute("USER_RANK", userRank);
 	
 	//미션 : 
-	int userMissionPoint = udao.selectUserMissionPoint("userid");
-	request.setAttribute("USER_MISSION_POINT", userMissionPoint);
+//	int userMissionPoint = udao.selectUserMissionPoint("userid");
+//	request.setAttribute("USER_MISSION_POINT", userMissionPoint);
 	
 	
 	//팔로워 : 
@@ -56,8 +54,8 @@ protected void doGet(HttpServletRequest request, HttpServletResponse response) t
 	request.setAttribute("NUMBER_OF_JOIN_GROUP", numberOfJoinGroup);
 	
 	//차트
-	 ArrayList<Integer> chartRankList = udao.selectChartRank("userid");
-	 request.setAttribute("CHART_RANK_LIST", chartRankList);
+//	 ArrayList<Integer> chartRankList = udao.selectChartRank("userid");
+//	 request.setAttribute("CHART_RANK_LIST", chartRankList);
 	 
 	
 	request.getRequestDispatcher("/jsp/mypage/mypage.jsp").forward(request, response);
