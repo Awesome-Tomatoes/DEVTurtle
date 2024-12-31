@@ -23,26 +23,28 @@
                 <h1>DEVTurtle</h1>
             </a>
         </div>
-        <form class="login-form">
+        <form id="login-form" class="login-form">
             <label for="username">아이디</label>
-            <input type="text" id="userid" name="userid" placeholder="placeholder">
+            <input type="text" id="loginid" name="loginid" placeholder="아이디를 입력하세요">
             <label for="password">비밀번호</label>
-            <input type="password" id="password" name="password" placeholder="placeholder">
-            <button type="submit" class="login-btn">로그인</button>
+            <input type="password" id="password" name="password" placeholder="비밀번호를 입력하세요">
+            <button type="button" id="login-btn" class="login-btn">로그인</button>
         </form>
         <div class="register-link">
             <p>아직 회원이 아니신가요? <a href="${pageContext.request.contextPath}/user/user_signup.jsp">회원가입</a></p>
         </div>
     </div>
 </body>
-</html>
-</html>
 
 <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
 <script>
 $( document ).ready(function() {
-	//$("#btn").click( function() {  
-	//    	$("#input").val();
-	//});
+	$("#login-btn").click( function() {  
+    	$("#login-form").attr("method", "post");
+    	$("#login-form").attr("action", "/login");
+    	$("#login-form").submit();
+    } );  
 });
 </script>
+</html>
+

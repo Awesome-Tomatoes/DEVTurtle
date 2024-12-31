@@ -48,9 +48,6 @@
 
 	</div>
 </body>
-
-</html>
-
 <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
   <script>
 	$(document).ready(function() {
@@ -81,7 +78,7 @@
 		        contentType: "application/json; charset=UTF-8",
 		        success: function(res) {
 		            console.log("응답:" + res);
-		            window.location.href = "${pageContext.request.contextPath}/user_login.jsp"; // 페이지 이동
+		            
 		        },
 		        error: function(err) {
 		            console.log("에러:" + err);
@@ -91,4 +88,8 @@
 
 	});
 </script> 
+
+</html>
+
+
 
