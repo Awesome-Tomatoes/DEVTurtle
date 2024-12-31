@@ -19,7 +19,7 @@
 <body>
 	<div class="container">
 		<div class="logo" id="signin-logo">
-			<a href="index.html"> <img
+			<a href="/main"> <img
 				src="${pageContext.request.contextPath}/assets/rabTuttle.webp"
 				alt="로고 이미지">
 				<h1>DEVTurtle</h1>

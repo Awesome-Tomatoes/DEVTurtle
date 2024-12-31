@@ -8,8 +8,6 @@ import java.util.ArrayList;
 
 import com.devturtle.common.DBManager;
 import com.devturtle.common.OracleDBManager;
-import com.devturtle.rank.RankUserDAO;
-import com.devturtle.rank.RankUserVO;
 import com.devturtle.solved.SolvedDAO;
 import com.devturtle.solved.SolvedManager;
 
@@ -30,20 +28,20 @@ public class UserDAO {
 			pstmt.setInt(1, userid); //------파라미터를 1번째?에 바인딩
 
 			rs = pstmt.executeQuery();
-			rs.next();
+			if(rs.next()) {
 			
-			uvo.setUserID(rs.getInt("USER_ID"));
-			uvo.setUserName(rs.getString("USER_NAME"));
-			uvo.setLoginID(rs.getString("LOGIN_ID"));
-			uvo.setLoginPW(rs.getString("LOGIN_PW"));
-			uvo.setNickname(rs.getString("NICKNAME"));
-			uvo.setGitID(rs.getString("GIT_ID"));
-			uvo.setSolvedID(rs.getString("SOLVED_ID"));
-			uvo.setUserBio(rs.getString("USER_BIO"));
-			uvo.setTotalScore(rs.getInt("TOTAL_SCORE"));
-			uvo.setSolvedScore(rs.getInt("SOLVED_SCORE"));
-			uvo.setGitScore(rs.getInt("GIT_SCORE"));
-
+				uvo.setUserID(rs.getInt("USER_ID"));
+				uvo.setUserName(rs.getString("USER_NAME"));
+				uvo.setLoginID(rs.getString("LOGIN_ID"));
+				uvo.setLoginPW(rs.getString("LOGIN_PW"));
+				uvo.setNickname(rs.getString("NICKNAME"));
+				uvo.setGitID(rs.getString("GIT_ID"));
+				uvo.setSolvedID(rs.getString("SOLVED_ID"));
+				uvo.setUserBio(rs.getString("USER_BIO"));
+				uvo.setTotalScore(rs.getInt("TOTAL_SCORE"));
+				uvo.setSolvedScore(rs.getInt("SOLVED_SCORE"));
+				uvo.setGitScore(rs.getInt("GIT_SCORE"));
+			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -65,20 +63,20 @@ public class UserDAO {
 			pstmt.setString(1, loginid); //------파라미터를 1번째?에 바인딩
 
 			rs = pstmt.executeQuery();
-			rs.next();
+			if(rs.next()) {
 			
-			uvo.setUserID(rs.getInt("USER_ID"));
-			uvo.setUserName(rs.getString("USER_NAME"));
-			uvo.setLoginID(rs.getString("LOGIN_ID"));
-			uvo.setLoginPW(rs.getString("LOGIN_PW"));
-			uvo.setNickname(rs.getString("NICKNAME"));
-			uvo.setGitID(rs.getString("GIT_ID"));
-			uvo.setSolvedID(rs.getString("SOLVED_ID"));
-			uvo.setUserBio(rs.getString("USER_BIO"));
-			uvo.setTotalScore(rs.getInt("TOTAL_SCORE"));
-			uvo.setSolvedScore(rs.getInt("SOLVED_SCORE"));
-			uvo.setGitScore(rs.getInt("GIT_SCORE"));
-
+				uvo.setUserID(rs.getInt("USER_ID"));
+				uvo.setUserName(rs.getString("USER_NAME"));
+				uvo.setLoginID(rs.getString("LOGIN_ID"));
+				uvo.setLoginPW(rs.getString("LOGIN_PW"));
+				uvo.setNickname(rs.getString("NICKNAME"));
+				uvo.setGitID(rs.getString("GIT_ID"));
+				uvo.setSolvedID(rs.getString("SOLVED_ID"));
+				uvo.setUserBio(rs.getString("USER_BIO"));
+				uvo.setTotalScore(rs.getInt("TOTAL_SCORE"));
+				uvo.setSolvedScore(rs.getInt("SOLVED_SCORE"));
+				uvo.setGitScore(rs.getInt("GIT_SCORE"));
+			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -160,7 +158,6 @@ public class UserDAO {
 		Connection conn = dbm.connect();
 		PreparedStatement pstmt = null;
 		SolvedManager mgr = new SolvedManager();
-		RankUserDAO rudao = new RankUserDAO();
 		int rows = 0;
 		try {
 			conn.setAutoCommit(false);
@@ -194,7 +191,7 @@ public class UserDAO {
 		UserVO uservo = selectUserByLoginID(uvo.getLoginID());
 		mgr.insertSolvedData(uservo.getUserID());
 		updateUserSolvedScore(uservo.getUserID(), mgr.selectUserSolvedData(uservo.getUserID()).getRating());
-		rudao.insertRankUser(uservo.getUserID(),uservo.getTotalScore(), uservo.getCreatedAt());
+		
 		return rows;
 	}
 

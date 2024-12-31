@@ -18,7 +18,7 @@
 <body>
     <div class="container">
         <div class="logo">
-            <a href="index.html">
+            <a href="/main">
                 <!-- <img src="${pageContext.request.contextPath}/assets/rabTuttle.webp" alt="로고 이미지"> -->
                 <h1>DEVTurtle</h1>
             </a>
