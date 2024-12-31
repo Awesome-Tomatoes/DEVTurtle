@@ -26,6 +26,23 @@ public class UserDAO {
 		return alist;
 	}
 	
+	
+	public  ArrayList<Integer> selectChartRank(String userid) {
+		//조인 UserVO + RankVO
+		//차트 : 날짜, 랭킹
+		ArrayList<Integer> chartRankList = new ArrayList();
+		chartRankList.add(1);
+		chartRankList.add(2);
+		chartRankList.add(3);
+		
+		return chartRankList;
+	
+	}
+	
+	public int selectUserMissionPoint(String userid) {
+		return 100;
+	}
+	
 	public ArrayList<UserVO> selectAllUser(){
 		ArrayList<UserVO> ulist = new ArrayList<UserVO>();
 		DBManager dbm = OracleDBManager.getInstance(); 
@@ -67,30 +84,32 @@ public class UserDAO {
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		
-		try {
-			String sql = "select * from users order by TOTAL_SCORE";
-			pstmt =  conn.prepareStatement(sql);
-			rs = pstmt.executeQuery();  
-			while(rs.next()) {
-				UserVO uvo = new UserVO();
-				uvo.setUserID(  rs.getInt("USER_SEQ")     );
-				uvo.setUserName(  rs.getString("USER_NAME")  );
-				uvo.setLoginID(  rs.getString("LOGIN_ID")  );
-				uvo.setLoginPW(  rs.getString("LOGIN_PW")  );
-				uvo.setNickname(  rs.getString("NICKNAME")  );
-				uvo.setGitID(  rs.getString("GIT_ID")  );
-				uvo.setSolvedID(  rs.getString("SOLVED_ID")  );
-				uvo.setUserBio(  rs.getString("USER_BIO")  );
-				uvo.setTotalScore(  rs.getInt("TOTAL_SCORE")  );
-				uvo.setSolvedScore(  rs.getInt("SOLVED_SCORE")  );
-				uvo.setGitScore(  rs.getInt("GIT_SCORE")  );
-				ulist.add(uvo);
-			}	
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}	finally {
-				dbm.close(conn, pstmt, rs);
-		}
+		
+		
+//		try {
+//			String sql = "select * from users order by TOTAL_SCORE";
+//			pstmt =  conn.prepareStatement(sql);
+//			rs = pstmt.executeQuery();  
+//			while(rs.next()) {
+//				UserVO uvo = new UserVO();
+//				uvo.setUserID(  rs.getInt("USER_SEQ")     );
+//				uvo.setUserName(  rs.getString("USER_NAME")  );
+//				uvo.setLoginID(  rs.getString("LOGIN_ID")  );
+//				uvo.setLoginPW(  rs.getString("LOGIN_PW")  );
+//				uvo.setNickname(  rs.getString("NICKNAME")  );
+//				uvo.setGitID(  rs.getString("GIT_ID")  );
+//				uvo.setSolvedID(  rs.getString("SOLVED_ID")  );
+//				uvo.setUserBio(  rs.getString("USER_BIO")  );
+//				uvo.setTotalScore(  rs.getInt("TOTAL_SCORE")  );
+//				uvo.setSolvedScore(  rs.getInt("SOLVED_SCORE")  );
+//				uvo.setGitScore(  rs.getInt("GIT_SCORE")  );
+//				ulist.add(uvo);
+//			}	
+//		} catch (SQLException e) {
+//			e.printStackTrace();
+//		}	finally {
+//				dbm.close(conn, pstmt, rs);
+//		}
 		return ulist;
 	}
 	

@@ -12,6 +12,11 @@ import com.devturtle.user.UserVO;
 
 public class FollowDAO {
 	
+	
+	public int selectUserFollow(String userid) {
+		return  1000;
+	}
+	
 	//단일 팔로워 더미
 	public FollowVO select(int followID) {
 		return new FollowVO(1,1,2,"accept");
