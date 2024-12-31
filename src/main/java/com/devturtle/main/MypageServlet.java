@@ -10,7 +10,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.devturtle.follow.FollowDAO;
 import com.devturtle.group.GroupDAO;
-import com.devturtle.rank.RankDAO;
 import com.devturtle.user.UserDAO;
 import com.devturtle.user.UserVO;
 
@@ -33,9 +32,9 @@ protected void doGet(HttpServletRequest request, HttpServletResponse response) t
 	
 	
 	//랭킹 :
-	RankDAO rdao = new RankDAO();
-	int userRank = rdao.selectRank("userid");
-	request.setAttribute("USER_RANK", userRank);
+//	RankDAO rdao = new RankDAO();
+//	int userRank = rdao.selectRank("userid");
+//	request.setAttribute("USER_RANK", userRank);
 	
 	//미션 : 
 //	int userMissionPoint = udao.selectUserMissionPoint("userid");
