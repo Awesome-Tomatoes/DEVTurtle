@@ -21,4 +21,19 @@ public class UserVO {
 	private int totalScore;
 	private int solvedScore;
 	private int gitScore;
+	
+	public UserVO(String userName, String loginID, String loginPW, String nickname, String solvedID, String gitID,
+			String userBio, int totalScore, int solvedScore, int gitScore) {
+		super();
+		this.userName = userName;
+		this.loginID = loginID;
+		this.loginPW = loginPW;
+		this.nickname = nickname;
+		this.solvedID = solvedID;
+		this.gitID = gitID;
+		this.userBio = userBio;
+		this.totalScore = totalScore;
+		this.solvedScore = solvedScore;
+		this.gitScore = gitScore;
+	}
 }
