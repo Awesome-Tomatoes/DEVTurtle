@@ -12,6 +12,8 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<link rel="stylesheet" type="text/css"
+	href="${pageContext.request.contextPath}/css/rank/rank_user.css">
 </head>
 <body>
 
@@ -19,22 +21,22 @@
 
 <c:forEach var="ruvo" items="${RULIST}">
         <tr>
-            <td>${ruvo.rankUserID}</td>
-            <td>${ruvo.userID}</td>
-            <td>${ruvo.scoreSum}</td>
-            <td>${ruvo.date}<br></td>
+            <td>랭크id${ruvo.rankUserID}<br></td>
+            <td>유저id${ruvo.userID}<br></td>
+            <td>총점${ruvo.scoreSum}<br></td>
+            <td>날짜${ruvo.date}<br><br></td>
             
         </tr>
 </c:forEach>
-<br>
+<br><br>
 
 <h1>사용자 정보<br></h1>
 <c:forEach var="uvo" items="${ULIST}">
         <tr>
-            <td>${uvo.userName}</td>
-            <td>${uvo.solvedScore}</td>
-            <td>${uvo.gitScore}</td>
-            <td>${uvo.userBio}<br></td>
+            <td>유저명${uvo.userName}<br></td>
+            <td>솔브드점수${uvo.solvedScore}<br></td>
+            <td>깃점수${uvo.gitScore}<br></td>
+            <td>유저소개${uvo.userBio}<br><br></td>
         </tr>
 </c:forEach>
 

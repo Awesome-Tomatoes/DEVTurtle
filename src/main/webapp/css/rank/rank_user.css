@@ -1,0 +1,66 @@
+@import "../common/reset.css";
+@import "../common/color.css";
+
+@font-face {
+  font-family: "DungGeunMo";
+  src: url("./assets/DungGeunMo.ttf") format("ttf");
+}
+
+body {
+  font-family: "DungGeunMo";
+  color: var(--font-gray-color);
+  background-color: var(--back-color);
+  padding-top: 40px;
+  padding-bottom: 40px;
+  padding-left: 60px;
+  padding-right: 60px; 
+}
+
+input {
+  font-family: "DungGeunMo";
+}
+
+button {
+  font-family: "DungGeunMo";
+}
+
+/* 로고 스타일 */
+.logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-bottom: 50px; /* 간격 수정 */
+}
+
+.logo a {
+  text-decoration: none;
+  color: #b3ff43;
+  display: flex;
+  align-items: center;
+  font-size: 22px; /* 크기 증가 */
+}
+
+.logo img {
+  width: 90px; /* 크기 증가 */
+  height: auto;
+  margin-right: 20px; /* 간격 증가 */
+}
+
+.input-container {
+  position: relative;
+}
+
+/* 텍스트 필드 스타일 */
+.input-container input {
+  width: 40%;
+  padding: 14px 40px 14px 14px;
+  border: 2px solid #304d5d;
+  border-radius: 5px;
+  background-color: #01131f;
+  color: #304d5d;
+  font-size: 16px;
+  font-family: "DungGeunMo", Arial, sans-serif;
+  box-sizing: border-box;
+}
+
+
