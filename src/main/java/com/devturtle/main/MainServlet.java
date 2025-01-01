@@ -9,12 +9,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.devturtle.follow.FollowDAO;
 import com.devturtle.group.GroupDAO;
 import com.devturtle.group.GroupVO;
-import com.devturtle.rank.RankDAO;
-import com.devturtle.user.UserDAO;
-import com.devturtle.user.UserVO;
 
 @WebServlet("/main")
 public class MainServlet extends HttpServlet {
@@ -25,13 +21,9 @@ private static final long serialVersionUID = 1L;
     }
 
 protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-	
-	
-		
-	UserDAO udao = new UserDAO();
-	ArrayList<UserVO> ulist = udao.select();
-	request.setAttribute("ULIST", ulist);
+//	UserDAO udao = new UserDAO();
+//	ArrayList<UserVO> ulist = udao.selectUser(1);
+//	request.setAttribute("ULIST", ulist);
 	
 	
 	GroupDAO gdao  = new GroupDAO();
@@ -39,10 +31,13 @@ protected void doGet(HttpServletRequest request, HttpServletResponse response) t
 	ArrayList<GroupVO> glist = gdao.selectAllGroup();
 	request.setAttribute("GLIST", glist);
 	
+	// 동적으로 포함할 contentPage 경로 설정
+    request.setAttribute("contentPage", "/jsp/main/main.jsp");
+
+    // layout.jsp로 포워딩
+    request.getRequestDispatcher("/index.jsp").forward(request, response);
 	
 	
-	response.getWriter().append("Served at: ").append(request.getContextPath());
-	request.getRequestDispatcher("/index.jsp").forward(request, response);
 }
 
 protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

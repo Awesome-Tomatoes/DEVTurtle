@@ -26,3 +26,5 @@ replay_pid*
 src/main/resources/
 
 *.properties
+.classpath
+.classpath

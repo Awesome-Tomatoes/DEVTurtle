@@ -16,6 +16,18 @@
 <body>
 
 
+<h1>그룹별 랭킹 총점</h1>
+
+<c:forEach var="rgvo" items="${RGLIST}">
+        <tr>
+            <td>${rgvo.rankGroupID}</td>
+            <td>${rgvo.groupID}</td>
+            <td>${rgvo.scoreSum}</td>
+            <td>${rgvo.date}</td>
+        </tr>
+</c:forEach>
+
+
 <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
 <script>
 $( document ).ready(function() {
@@ -24,7 +36,5 @@ $( document ).ready(function() {
 	//});
 });
 </script>
-
-
 </body>
 </html>

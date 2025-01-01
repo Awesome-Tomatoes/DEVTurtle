@@ -15,6 +15,16 @@
 </head>
 <body>
 
+<h1>사용자 랭킹 정보</h1>
+
+<c:forEach var="ruvo" items="${RULIST}">
+        <tr>
+            <td>${ruvo.rankUserID}</td>
+            <td>${ruvo.userID}</td>
+            <td>${ruvo.scoreSum}</td>
+            <td>${ruvo.date}</td>
+        </tr>
+</c:forEach>
 
 <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
 <script>
@@ -24,7 +34,5 @@ $( document ).ready(function() {
 	//});
 });
 </script>
-
-
 </body>
 </html>

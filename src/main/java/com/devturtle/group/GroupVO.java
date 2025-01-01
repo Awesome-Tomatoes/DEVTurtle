@@ -21,7 +21,7 @@ public class GroupVO {
 	private String createdAt;
 	private String updatedAt;
 	
-	private ArrayList<GroupUserVO> listfGroupUser;
+	private ArrayList<GroupUserVO> listOfGroupUser;
 	
 	// 그룹에 대한 정보
 	public GroupVO(long groupId, String name, String description, String category, String gPrivate, long totalScore,

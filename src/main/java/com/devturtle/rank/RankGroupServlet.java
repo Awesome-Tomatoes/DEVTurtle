@@ -1,13 +1,13 @@
 package com.devturtle.rank;
 
 import java.io.IOException;
+import java.util.ArrayList;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import com.devturtle.user.UserDAO;
 
 @WebServlet("/rankGroup")
 public class RankGroupServlet extends HttpServlet {
@@ -16,10 +16,13 @@ public class RankGroupServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 		
-		UserDAO udao = new UserDAO();
+		RankGroupDAO rgdao = new RankGroupDAO();
 		
+		ArrayList<RankGroupVO> rglist = rgdao.selectAllRankUserByGroupID(1);
+		request.setAttribute("RGLIST", rglist);
 		
 		response.getWriter().append("Served at: ").append(request.getContextPath());
+		request.getRequestDispatcher("/jsp/rank/rank_group.jsp").forward(request, response);
 	}
 
 
