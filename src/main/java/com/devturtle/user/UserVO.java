@@ -21,6 +21,7 @@ public class UserVO {
 	private int totalScore;
 	private int solvedScore;
 	private int gitScore;
+	private int rank;
 	
 	public UserVO(String userName, String loginID, String loginPW, String nickname, String solvedID, String gitID,
 			String userBio, int totalScore, int solvedScore, int gitScore) {

@@ -11,35 +11,31 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>UserRanking</title>
 <link rel="stylesheet" type="text/css"
 	href="${pageContext.request.contextPath}/css/rank/rank_user.css">
 </head>
 <body>
-
-<h1>사용자 랭킹 정보<br></h1>
-
-<c:forEach var="ruvo" items="${RULIST}">
-        <tr>
-            <td>랭크id${ruvo.rankUserID}<br></td>
-            <td>유저id${ruvo.userID}<br></td>
-            <td>총점${ruvo.scoreSum}<br></td>
-            <td>날짜${ruvo.date}<br><br></td>
-            
-        </tr>
-</c:forEach>
-<br><br>
-
-<h1>사용자 정보<br></h1>
-<c:forEach var="uvo" items="${ULIST}">
-        <tr>
-            <td>유저명${uvo.userName}<br></td>
-            <td>솔브드점수${uvo.solvedScore}<br></td>
-            <td>깃점수${uvo.gitScore}<br></td>
-            <td>유저소개${uvo.userBio}<br><br></td>
-        </tr>
-</c:forEach>
-
+    <h1>사용자 랭킹 정보</h1>
+    <div class="container">
+        <c:forEach var="uvo" items="${ULIST}">
+            <div class="card">
+                <div class="card-header">
+                    <h2> ${uvo.rank} ${uvo.userName}</h2>
+                    <button class="follow-btn">Follow</button>
+                </div>
+                <div class="card-content">
+                    <p><strong>솔브드 점수:</strong> ${uvo.solvedScore}</p>
+                    <p><strong>깃 점수:</strong> ${uvo.gitScore}</p>
+                    <p><strong>전체 점수:</strong> ${uvo.totalScore}</p>
+                    <p><strong>유저 소개:</strong> ${uvo.userBio}</p>
+                </div>
+                <div class="card-footer">
+                    <p><strong>POINT:</strong> ${uvo.totalScore}</p>
+                </div>
+            </div>
+        </c:forEach>
+    </div>
 <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
 <script>
 $( document ).ready(function() {
