@@ -15,6 +15,27 @@
 </head>
 <body>
 
+<h2>[터틀니]팀의 달성한 과제</h2>
+
+<table border="1">
+    <thead>
+        <tr>
+            <th>Contents</th>
+            <th>Points</th>
+        </tr>
+    </thead>
+    <tbody>
+        <c:forEach var="mvo" items="${MLIST}">
+            <tr>
+                <td>${mvo.contents}</td>
+                <td>${mvo.points}</td>
+            </tr>
+        </c:forEach>
+    </tbody>
+</table>
+
+
+
 
 <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
 <script>
