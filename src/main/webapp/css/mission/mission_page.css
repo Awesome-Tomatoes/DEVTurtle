@@ -1,0 +1,80 @@
+@import "../common/color.css";
+@import "../common/reset.css";
+
+@font-face {
+  font-family: "DungGeunMo";
+  src: url("../../assets/DungGeunMo.ttf") format("truetype");
+}
+
+body {
+  font-family: "DungGeunMo";
+  color: var(--font-gray-color);
+  background-color: var(--back-color);
+  padding: 40px 60px; /* 축약형 사용 */
+}
+
+.table-container {
+  max-width: 800px;
+  margin: 30px auto;
+  padding: 20px;
+  background-color: var(--depth-first-color); /* CSS 변수로 변경 */
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse; /* 테두리 중첩 제거 */
+  margin: 0 auto;
+}
+
+th, td {
+  padding: 15px;
+  text-align: left;
+  font-size: 18px;
+  color: var(--font-gray-color);
+}
+
+th {
+  font-weight: bold;
+  border-bottom: 2px solid var(--depth-second-color); /* 헤더 구분선 색상 */
+}
+
+td {
+  border-bottom: 1px solid var(--depth-third-color); /* 행 구분선 색상 */
+}
+
+tr:nth-child(even) {
+  background-color: var(--depth-second-color); /* 짝수 행 배경 */
+}
+
+tr:nth-child(odd) {
+  background-color: var(--depth-first-color); /* 홀수 행 배경 */
+}
+
+/* 특정 텍스트 강조 */
+td span {
+  font-weight: bold;
+  color: var(--main-color); /* 강조 색 */
+}
+
+/* 제목 스타일 */
+.table-title {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 20px;
+  text-align: center;
+  color: var(--font-bright-color); /* 밝은 텍스트 색상 */
+}
+
+/* 테이블 번호 스타일 */
+.table-index {
+  font-weight: bold;
+  color: var(--main-color); /* 주요 강조 색상 */
+}
+
+/* 포인트 텍스트 스타일 */
+.table-points {
+  color: var(--main-color); /* 강조 텍스트 색상 */
+  font-weight: bold;
+}
