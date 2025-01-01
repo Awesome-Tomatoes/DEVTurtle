@@ -42,8 +42,12 @@ public class GroupDetailServlet extends HttpServlet {
 		
 		// 그룹 달성 업정정보
 		
+		// 동적으로 포함할 contentPage 경로 설정
+	    request.setAttribute("contentPage", "/jsp/group/group_detail.jsp");
+
+	    // layout.jsp로 포워딩
+	    request.getRequestDispatcher("/index.jsp").forward(request, response);
 		
-		request.getRequestDispatcher("/jsp/group/group_detail.jsp").forward(request, response);
 
 	}
 

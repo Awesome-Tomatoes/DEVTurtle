@@ -1,0 +1,110 @@
+/* 
+ 	color: var(--font-gray-color);
+  	background-color: var(--back-color) 
+*/
+
+
+
+h2,h1,p {
+  font-family: "DungGeunMo";
+}
+
+
+@font-face {
+  font-family: "DungGeunMo";
+  src: url("./assets/DungGeunMo.ttf") format("ttf");
+}
+
+#group_detail_container_div {
+    background-color: var(--depth-first-color);
+    display: flex;
+    height: 330px;
+    width: 100%;
+    margin: 20px auto;  /* 수평 가운데 정렬 */
+    align-items: center; /* 수직 가운데 정렬 */
+    justify-content: space-between; /* 자식 요소들 사이에 공간을 균등하게 배분 */
+    border-radius: 20px;  
+}
+
+#group_success_info_div {
+    width: 35%;
+    margin-right: 20px; 
+    margin-left: 3%; 
+    height: 80%; 
+    background-color: var(--depth-second-color);
+    border-radius: 20px;  
+}
+
+#group_detail_info_div {
+    width: 55%;
+    height: 80%; 
+    background-color: var(--depth-second-color);
+    margin-right: 3%;
+    border-radius: 20px;  
+}
+
+/*-----------------영역 나누기 관련 css ---------------------  */
+.group_info_container_div{
+	width: 100%;
+	height: 240px;
+	background-color: var(--depth-second-color);
+	border-radius: 20px; 
+	justify-content: space-between;
+	align-items: center;
+	margin: 0 auto; 
+	display: flex;
+	flex-direction :column; /*flex방향을 위에서 아래로*/
+	padding: 5px 0 5px 0;
+}
+
+.group_flex_div{
+	flex-direction :row; /*flex방향원본 : 왼->오*/
+	margin: 10px 0px 30px;	
+}
+
+.group_user_detail_info_div{
+	margin: 20px auto; 
+	height: 82%;
+	width: 23%;
+	background-color: var(--depth-third-color);
+	border-radius: 20px; 
+}
+
+.group_success_mission_detail{
+	height:inherit;
+	width: 90%;
+	background-color: var(--depth-third-color);
+	margin:10px auto;
+	border-radius: 20px; 
+	/*text-align: center;  div에서 text 센터로 */
+	
+	/*수평 수직 중앙정렬 grid / center*/
+	display: grid;
+	place-items: center;
+}
+
+/*----------------- 제목 및 더보기 버튼 css ---------------------  */
+
+
+.group_title_div{
+	display:flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.group_card_button{
+	width:5%
+}
+
+.group_main_title{
+}
+.group_sub_title{
+}
+.group_button{
+  padding-top: 5px;
+  padding-bottom: 5px;
+  color: var(--font-white-color);
+  background-color: var(--depth-second-color);
+  border: 1px solid var(--font-gray-color);
+  border-radius: 3px;
+}
