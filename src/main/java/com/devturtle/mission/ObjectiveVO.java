@@ -28,3 +28,4 @@ public class ObjectiveVO {
 	private String contents;
 	private int points;
 }
+

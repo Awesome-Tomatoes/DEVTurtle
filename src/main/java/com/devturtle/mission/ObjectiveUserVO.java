@@ -25,3 +25,4 @@ public class ObjectiveUserVO {
 	private int objectiveID;
 	private String successDate;
 }
+
