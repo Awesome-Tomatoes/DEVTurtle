@@ -40,6 +40,8 @@ public class MissionGroupServlet extends HttpServlet {
 		request.getRequestDispatcher("/jsp/mission/mission_detail_group.jsp").forward(request, response);
 		
 	}
+	
+	
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
