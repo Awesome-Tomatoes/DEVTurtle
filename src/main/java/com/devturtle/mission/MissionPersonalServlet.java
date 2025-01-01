@@ -1,8 +1,6 @@
 package com.devturtle.mission;
 
 import java.io.IOException;
-import java.util.ArrayList;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -29,15 +27,7 @@ public class MissionPersonalServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		MissionPersonalDAO mgd = new MissionPersonalDAO();
-		
-		ArrayList<ObjectiveVO> ulist = mgd.selectAll();
-		
-		System.out.println(ulist.get(0).getContents());
-		
-		request.setAttribute("ULIST", ulist);
-		
-		request.getRequestDispatcher("/jsp/mission/mission_detail_user.jsp").forward(request, response);
+		response.getWriter().append("Served at: ").append(request.getContextPath());
 	}
 
 	/**
