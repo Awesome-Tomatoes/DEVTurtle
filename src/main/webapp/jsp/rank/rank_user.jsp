@@ -6,7 +6,7 @@
 <%@ taglib prefix="fn" 	uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="x" 	uri="http://java.sun.com/jsp/jstl/xml" %>
 <%@ taglib prefix="sql" 	uri="http://java.sun.com/jsp/jstl/sql" %>    
-
+<%@ include file="/jsp/layout/header.jsp" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -15,14 +15,26 @@
 </head>
 <body>
 
-<h1>사용자 랭킹 정보</h1>
+<h1>사용자 랭킹 정보<br></h1>
 
 <c:forEach var="ruvo" items="${RULIST}">
         <tr>
             <td>${ruvo.rankUserID}</td>
             <td>${ruvo.userID}</td>
             <td>${ruvo.scoreSum}</td>
-            <td>${ruvo.date}</td>
+            <td>${ruvo.date}<br></td>
+            
+        </tr>
+</c:forEach>
+<br>
+
+<h1>사용자 정보<br></h1>
+<c:forEach var="uvo" items="${ULIST}">
+        <tr>
+            <td>${uvo.userName}</td>
+            <td>${uvo.solvedScore}</td>
+            <td>${uvo.gitScore}</td>
+            <td>${uvo.userBio}<br></td>
         </tr>
 </c:forEach>
 
@@ -34,5 +46,7 @@ $( document ).ready(function() {
 	//});
 });
 </script>
+<%@ include file="/jsp/layout/footer.jsp" %>
+
 </body>
 </html>

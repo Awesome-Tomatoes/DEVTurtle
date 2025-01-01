@@ -1,6 +1,3 @@
-/**
- * 
- */
 package com.devturtle.rank;
 
 import lombok.AllArgsConstructor;
