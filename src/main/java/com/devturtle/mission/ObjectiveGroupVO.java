@@ -26,3 +26,5 @@ public class ObjectiveGroupVO {
 	private int groupID;
 	private String successDate;
 }
+
+
