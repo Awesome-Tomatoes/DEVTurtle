@@ -15,6 +15,13 @@
 </head>
 <body>
 
+<h2>님의 달성한 과제</h2>
+
+<h2>님의 과제 히스토리</h2>
+
+<h2>님의 수행과제 통계</h2>
+
+
 
 <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
 <script>
