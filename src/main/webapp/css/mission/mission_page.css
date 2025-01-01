@@ -13,6 +13,15 @@ body {
   padding: 40px 60px; /* 축약형 사용 */
 }
 
+/* chart-table-wrapper: 차트와 테이블의 개별 스타일 */
+.chart-table-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 20px;
+    max-width: 100%;
+}
+
 .table-container {
   max-width: 800px;
   margin: 30px auto;
@@ -20,6 +29,22 @@ body {
   background-color: var(--depth-first-color); /* CSS 변수로 변경 */
   border-radius: 10px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+  overflow: hidden;
+}
+
+.table-mini {
+  max-width: 300px;
+  background-color: var(--depth-second-color); /* CSS 변수로 변경 */
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+  margin-left: auto; /* 우측 정렬 */
+	
+}
+
+#myPieChart {
+    flex: 1 1 300px;
+    max-width: 300px;
+    height: auto;
 }
 
 table {
