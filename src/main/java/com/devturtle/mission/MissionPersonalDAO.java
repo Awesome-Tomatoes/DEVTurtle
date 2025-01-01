@@ -32,6 +32,19 @@ public class MissionPersonalDAO {
 		
 		ArrayList<ObjectiveVO> ulist = new ArrayList<ObjectiveVO>();
 		
+		ObjectiveVO uov1 = new ObjectiveVO(1, "dsds", "dsdsd","파일 압축하고 풀기 100번 달성!", 100);
+	    ObjectiveVO uov2 = new ObjectiveVO(2, "sdsd", "saaaa","폴더 지웠다 다시 만들기 1000번 달성!", 1000);
+
+	    ulist.add(uov1);
+	    ulist.add(uov2);
+		
+		return ulist;
+	}
+	
+	public ArrayList<ObjectiveVO> selectAllMissionUser(int userid) {
+		
+		ArrayList<ObjectiveVO> ulist = new ArrayList<ObjectiveVO>();
+		
 		ObjectiveVO uov1 = new ObjectiveVO();
 		ObjectiveVO uov2 = new ObjectiveVO();
 		uov1.setContents("파일 압축하고 풀기 100번 달성!");
@@ -48,7 +61,7 @@ public class MissionPersonalDAO {
 		}
 		
 		return ulist;
-	}
+	}	
 	
 	public ObjectiveVO insert(String contents, int points) {
 		
