@@ -29,17 +29,20 @@ RankUserDAO rudao = new RankUserDAO();
 		// 날짜 기준으로 랭크 조회, 기본은 1달 기준
 		ArrayList<RankUserVO> rulist = rudao.selectRankUserAllByMonth("20241231");
 		
-		// 점수 기준으로 유저 리스트 조회해서 추가
+		int rank = 1;
+		// 점수 기준으로 유저 리스트 조회해서 랭킹대로 유저 가져오기
 		ArrayList<UserVO> ulist = new ArrayList<>();
 		for(var x : rulist) {
-			ulist.add(udao.selectUser(x.getUserID()));
+			UserVO tmpUser = udao.selectUser(x.getUserID());
+			tmpUser.setRank(rank++);
+			ulist.add(tmpUser);
 		}
 		
 		for(var x : ulist) {
 			System.out.println(x.toString());
 		}
 		
-		request.setAttribute("RULIST", rulist);
+//		request.setAttribute("RULIST", rulist);
 		request.setAttribute("ULIST", ulist);
 		
 		response.getWriter().append("Served at: ").append(request.getContextPath());
