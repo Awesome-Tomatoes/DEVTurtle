@@ -5,16 +5,28 @@ package com.devturtle.mission;
 
 import java.util.ArrayList;
 
+import com.devturtle.common.DBManager;
+import com.devturtle.common.OracleDBManager;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
 /**
  * Description : 클래스에 대한 설명을 입력해주세요.<br>
  * Date : 2024. 12. 31.<br>
  * History :<br>
- * - 작성자 : victo, 날짜 : 2024. 12. 31., 설명 : 최초작성<br>
+ * - 작성자 : sk-choi, 날짜 : 2024. 12. 31., 설명 : 최초작성<br>
  *
- * @author victo
+ * @author sk-choi
  * @version 1.0
  */
 public class MissionGroupDAO {
+	
+	Connection conn = null;
+	PreparedStatement pstmt = null;
+	ResultSet rs = null;
 	
 	
 	public ObjectiveVO select() { 
@@ -40,29 +52,69 @@ public class MissionGroupDAO {
 		return ulist;
 	}
 	
-	public ArrayList<ObjectiveVO> selectAllMissionGroup(int userid) {
+	
+	// 그룹별 미션 성취 여부를 조인을 통해 조회해서 mlist에 저장
+	public ArrayList<MissionJoinGroupVO> selectAllMissionGroup(int groupid) {
 		
-		ArrayList<ObjectiveVO> ulist = new ArrayList<ObjectiveVO>();
+		DBManager o = OracleDBManager.getInstance();
 		
-		ObjectiveVO uov1 = new ObjectiveVO();
-		ObjectiveVO uov2 = new ObjectiveVO();
-		uov1.setContents("파일 압축하고 풀기 100번 달성!");
-		uov1.setPoints(100);
-		uov2.setContents("폴더 지웠다 다시 만들기 1000번 달성!");
-		uov2.setPoints(1000);
+		ArrayList<MissionJoinGroupVO> mlist = new ArrayList<MissionJoinGroupVO>();
 		
-		ulist.add(uov1);
-		ulist.add(uov2);
+		String sql = "SELECT group_id, name, objective_id, success_date, contents, points, COUNT(contents) AS cnt\r\n"
+				+ "FROM (\r\n"
+				+ "    SELECT g.group_id, g.name, s.objective_id, s.success_date, s.contents, s.points\r\n"
+				+ "    FROM (\r\n"
+				+ "        SELECT og.group_id, og.success_date, o.objective_id, o.objective_query AS contents, o.points  \r\n"
+				+ "        FROM objective_group og\r\n"
+				+ "        JOIN objective o ON og.objective_id = o.objective_id\r\n"
+				+ "    ) s\r\n"
+				+ "    JOIN groups g ON s.group_id = g.group_id AND g.group_id = ?\r\n"
+				+ ")\r\n"
+				+ "GROUP BY group_id, name, objective_id, success_date, contents, points\r\n"
+				+ "ORDER BY cnt DESC\r\n";
 		
-		for (int i = 0; i < ulist.size(); i++) {
-			System.out.println(ulist.get(i).getContents());
-			System.out.println(ulist.get(i).getPoints());
+		try {
+			conn = o.connect();
+			pstmt = conn.prepareStatement(sql);		
+			pstmt.setInt(1, groupid);
+			rs = pstmt.executeQuery();
+			MissionJoinGroupVO mjgv = null;
+			
+			while (rs.next()) {
+				String gname = rs.getString("name");
+				String success_date = rs.getString("success_date");
+				String contents = rs.getString("contents"); // objective_query는 contents로 별칭이 변경됨
+				int group_id = rs.getInt("group_id");
+				int objective_id = rs.getInt("objective_id");
+				int points = rs.getInt("points");
+				int cnt = rs.getInt("cnt");
+				
+				mjgv = new MissionJoinGroupVO();
+				
+				mjgv.setContents(contents);
+				mjgv.setGroup_id(group_id);
+				mjgv.setObjective_id(objective_id);
+				mjgv.setGname(gname);
+				mjgv.setPoints(points);
+				mjgv.setSuccess_date(success_date);
+				mjgv.setCount(cnt);
+				
+				mlist.add(mjgv);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		o.close(conn, pstmt, rs);
+		
+		for (int i = 0; i < mlist.size(); i++) {
+			System.out.println(mlist.get(i).getContents());
+			System.out.println(mlist.get(i).getPoints());
 		}
 		
-		return ulist;
+		return mlist;
 	}	
 	
-	public ObjectiveVO insert(String contents, int points) {
+	public ObjectiveVO insert(String contents, int points) { //admin용
 		
 		ObjectiveVO uov = new ObjectiveVO();
 		
@@ -73,14 +125,14 @@ public class MissionGroupDAO {
 		
 	}
 	
-	public int update(String contents, int points) {
+	public int update(String contents, int points) { //admin용
 		
 		int row = 1;
 		
 		return row;
 	}
 	
-	public int delete(String contents, int points) {
+	public int delete(String contents, int points) { //admin용
 		
 		int row = 1;
 		
@@ -93,14 +145,10 @@ public class MissionGroupDAO {
 		
 		MissionGroupDAO mpd = new MissionGroupDAO();
 		
-		ObjectiveVO ddd = mpd.select();
+		ArrayList<MissionJoinGroupVO> mlist = mpd.selectAllMissionGroup(1);
 		
-		System.out.println(ddd.getContents() + " " + ddd.getPoints());
-		
-		ArrayList<ObjectiveVO> ulist = mpd.selectAll();
-		
-		System.out.println(ulist.get(0).getContents() + " " + ulist.get(0).getContents());
-		System.out.println(ulist.get(1).getContents() + " " + ulist.get(1).getContents());
+		System.out.println(mlist.get(0).getContents() + " " + mlist.get(0).getContents());
+		//System.out.println(mlist.get(1).getContents() + " " + mlist.get(1).getContents());
 		
 		
 		
