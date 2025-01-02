@@ -1,5 +1,6 @@
 @import "../common/reset.css";
 @import "../common/color.css";
+@import "../paging/paging.css";
 
 @font-face {
   font-family: "DungGeunMo";

@@ -44,8 +44,8 @@ public class RankUserServlet extends HttpServlet {
 		}
 		
 		int totRecord = rulist.size();
-		int blockCount = 2; 
-		int blockPage = 2;
+		int blockCount = 1; 
+		int blockPage = 4;
 		
 		PagingUtil pg = new PagingUtil("/DevTurtle/rankUser", currentPage, totRecord, blockCount, blockPage);
 		request.setAttribute("MY_KEY_PAGING_HTML", pg.getPagingHtml().toString());

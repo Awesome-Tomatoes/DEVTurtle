@@ -193,10 +193,7 @@ public ArrayList<UserVO> selectAllUserOrderByRankPaging(int startSeq , int endSe
 		}
 		return alist;
 	}
-	
-	
-	
-	
+
 	public boolean checkLoginIdExists(String loginid) {
 
 		DBManager dbm = OracleDBManager.getInstance();
