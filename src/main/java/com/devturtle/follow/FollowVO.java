@@ -10,8 +10,8 @@ import lombok.NoArgsConstructor;
 public class FollowVO {
 	
 	public int followID;
-	public int followed;
+	public int follower;
 	public int following;
-	public String status;
+	public String state;
 	
 }
