@@ -20,7 +20,7 @@
 	<div class="container">
 		<div class="logo" id="signup-logo">
 			<a href="/main"> 
-	<!-- 		<img src="${pageContext.request.contextPath}/assets/rabTuttle.webp" alt="로고 이미지">-->
+                <img src="${pageContext.request.contextPath}/assets/turtle_grade/pirates_turtle.png" alt="로고 이미지">
 				<h1>DEVTurtle</h1>
 			</a>
 		</div>
