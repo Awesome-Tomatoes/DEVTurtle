@@ -44,59 +44,62 @@ body {
 }
 
 /* 로그인 폼 */
-.login-form {
+.signup-form {
   display: inline-block;
   text-align: left;
   width: 380px; /* 길이 증가 */
 }
 
 .input-container {
-  position: relative;
+  position: relative; /* 내부 요소의 위치를 상대적으로 배치 */
+  width: 100%; /* 컨테이너 전체 너비 */
 }
 
-/* 텍스트 필드 스타일 */
 .input-container input {
-  width: 40%;
-  padding: 14px 40px 14px 14px;
-  border: 2px solid #304d5d;
+  width: 100%; /* 전체 너비 */
+  padding-right: 100px; /* 버튼 위치를 위한 오른쪽 여백 추가 */
+  padding-left: 14px; /* 기본 패딩 */
+  height: 40px; /* 높이 설정 */
+  border: 2px solid #304d5d; /* 테두리 */
   border-radius: 5px;
-  background-color: #01131f;
-  color: #304d5d;
+  background-color: #01131f; /* 배경색 */
+  color: #cccccc; /* 텍스트 색상 */
   font-size: 16px;
   font-family: "DungGeunMo", Arial, sans-serif;
-  box-sizing: border-box;
+  box-sizing: border-box; /* 패딩 포함 크기 계산 */
 }
 
-/* 중복 체크 버튼 스타일 */
 .check-btn {
-  position: absolute;
-  right: 10px; /* 버튼을 텍스트 필드의 오른쪽에 위치시킴 */
-  top: 25%;
-  transform: translateY(-50%); /* 세로 중앙 정렬 */
-  padding: 10px 5px;
-  background-color: #007bff; /* system blue 색상 */
+  position: absolute; /* 부모 요소(input-container) 기준으로 배치 */
+  top: 50%; /* 입력 필드 중앙에 맞춤 */
+  right: 10px; /* 입력 필드 오른쪽과 간격 */
+  transform: translateY(-133%); /* Y축 중앙 정렬 */
+  height: 30px; /* 버튼 높이를 입력 필드와 맞춤 */
+  padding: 10 14px; /* 좌우 여백 */
+  background-color: #007bff; /* 버튼 배경색 */
   border: none;
   border-radius: 5px;
   color: white;
   font-size: 14px;
-  cursor: pointer;
   font-family: "DungGeunMo", Arial, sans-serif;
+  cursor: pointer;
 }
 
 .check-btn:hover {
-  background-color: #0056b3; /* hover 시 더 어두운 파란색 */
+  background-color: #0056b3; /* hover 시 색상 변경 */
 }
+
 
 /*여기까지*/
 
-.login-form label {
+.signup-form label {
   display: block;
   font-size: 18px; /* 크기 증가 */
   margin-bottom: 10px; /* 간격 증가 */
   font-family: "DungGeunMo", Arial, sans-serif;
 }
 
-.login-form input {
+.signup-form input {
   width: 100%;
   padding: 14px; /* 크기 증가 */
   margin-bottom: 50px; /* 간격 수정 */
@@ -108,7 +111,7 @@ body {
   font-family: "DungGeunMo", Arial, sans-serif;
   box-sizing: border-box;
 }
-.login-btn {
+.signup-btn {
   width: 100%;
   padding: 14px;
   border: none;
@@ -123,7 +126,7 @@ body {
   margin-bottom: 50px;
 }
 
-.login-btn:hover {
+.signup-btn:hover {
   background: linear-gradient(to right, #6b9928, #b3ff43);
 }
 
