@@ -1,5 +1,11 @@
 package com.devturtle.group;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.ArrayList;
+
+import com.devturtle.common.DBManager;
+import com.devturtle.common.OracleDBManager;
 
 public class GroupDAO {
 
@@ -46,6 +52,7 @@ public class GroupDAO {
 	public GroupVO selectGroupDetail(int userId, int groupId) {	
 		// 상세보기 클릭 후 해당 그룹의 상세 정보들
 		// 
+	
 		
 		return new GroupVO(groupId,"멋쟁이그룹","설명","스터디","공개",50000,60,"2024-12-12","2024-12-12"); 
 	}
@@ -53,6 +60,50 @@ public class GroupDAO {
 	
 	
 	//-------------------------GROUP Create 메서드--------------------------------- 
+	public int createGroup(int userId) {
+
+		DBManager dbm = OracleDBManager.getInstance(); //new OracleDBManager();
+		Connection conn = dbm.connect();
+		PreparedStatement pstmt = null;
+        int rows = 0;
+        
+        
+        try {
+            conn.setAutoCommit(false);
+            
+            // GROUP 더미가 7개 들어가있음 : RANK_GROUP_SEQ.NEXTVAL+7 
+            
+            String sql = "INSERT INTO GROUPS ("
+            		+ "    GROUP_ID, \"NAME\", \"SIZE\", CONDITION,"
+            		+ "    \"DESCRIPTION\","
+            		+ "    \"CATEGORY\", "
+            		+ "    \"PRIVATE\", \"LOCATION\", "
+            		+ "		CREATED_AT, UPDATED_AT, TOTAL_SCORE, RANK_SCORE"
+            		+ ") VALUES ("
+            		+ "    GROUP_SEQ.NEXTVAL, ?, ?, ?, "
+            		+ "    ?, "
+					+ "    ?,"
+            		+ "    ?, ?, "
+            		+ "		SYSDATE, SYSDATE, 0, RANK_GROUP_SEQ.NEXTVAL+7"
+            		+ ")";
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setInt(1, userId);
+            rows = pstmt.executeUpdate();
+            if (rows == 1) {
+                conn.commit();
+            } else {
+                conn.rollback();
+            }
+        } catch (SQLException e) {
+
+            e.printStackTrace();
+        } finally {
+            dbm.close(conn, pstmt);
+        }
+
+        return rows;
+	}
+	
 	
 	
 	
