@@ -19,7 +19,7 @@
     <div class="container">
         <div class="logo">
             <a href="/main">
-                <!-- <img src="${pageContext.request.contextPath}/assets/rabTuttle.webp" alt="로고 이미지"> -->
+                <img src="${pageContext.request.contextPath}/assets/turtle_grade/pirates_turtle.png" alt="로고 이미지">
                 <h1>DEVTurtle</h1>
             </a>
         </div>
@@ -34,6 +34,16 @@
             <p>아직 회원이 아니신가요? <a href="${pageContext.request.contextPath}/signup">회원가입</a></p>
         </div>
     </div>
+    <%
+    String errorMessage = (String) request.getAttribute("errorMessage");
+    if (errorMessage != null) {
+	%>
+	<script>
+	    alert("<%= errorMessage %>");
+	</script>
+	<%
+	    }
+	%>
 </body>
 
 <script src="https://code.jquery.com/jquery-3.7.1.js"></script>

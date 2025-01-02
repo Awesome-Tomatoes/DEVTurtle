@@ -38,7 +38,7 @@ body {
 }
 
 .logo img {
-  width: 90px; /* 크기 증가 */
+  width: 40px; /* 크기 증가 */
   height: auto;
   margin-right: 20px; /* 간격 증가 */
 }
