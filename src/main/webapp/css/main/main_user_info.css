@@ -1,0 +1,153 @@
+@import "./common/color.css";
+
+#main-container {
+	width:100%;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 30px;
+}
+
+.contents__article {
+	display: flex;
+	gap: 30px;
+ 	background-color: var(--depth-first-color);
+ 	border-radius: 20px;
+ 	width:80%;
+ 	padding: 30px;
+}
+
+.contents__article--fragment {
+	background-color: var(--depth-second-color);
+	border-radius: 20px;
+	padding: 30px;
+}
+
+#contents__article--fragment-ranking {
+	width: 70%;
+}
+
+#user-ranking-info {
+	display: flex;
+	align-items: center;
+	gap: 30px;
+}
+
+#user-ranking-info__divs {
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+	gap: 20px;
+}
+
+#user-ranking-info__grade {
+	font-size: 24px;
+}
+
+.user-ranking-info__p {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+}
+
+#user-ranking-info__img {
+	width: 135px;
+	height: 180px;
+}
+
+.user-ranking-info__p--title {
+	width: 120px;
+	color: var(--main-color);
+}
+
+.user-ranking-info__p--desc {
+	border-bottom: 2px solid var(--depth-third-color);
+	width: 100%;
+}
+
+#user-basic-info {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+#user-basic-info__name {
+	font-size: 20px;
+	color: var(--main-color);
+}
+
+#user-ranking-info__point-bar {
+	width: 100%;
+}
+
+#next-point {
+	text-align: right;
+	margin-bottom: 10px;
+}
+
+#point-bar__fragment {
+	position: relative;
+}
+
+#point-bar__back {
+	background-color: var(--font-dark-color);
+	width: 100%;
+	height: 10px;
+	border-radius: 3px;
+}
+
+#point-bar__front{
+	background-color: var(--main-color);
+	position: absolute;
+	top:0;
+	width: 70%;
+	height: 10px;
+	border-radius: 3px;
+}
+
+#contents__article--fragment-basic {
+	width: 30%;
+	display: flex;
+	flex-direction: column;
+	gap: 20px;
+}
+
+#user-basic-info__group-header {
+	display: flex;
+	justify-content: space-between;
+}
+
+#user-basic-info__group-header-title {
+	font-size: 20px;
+}
+
+.see-more-btn{
+	background-color: var(--depth-third-color);
+	padding-top: 5px;
+	padding-bottom: 5px;
+	padding-left: 10px;
+	padding-right: 10px;
+	border:0;
+	border-radius: 5px;
+	color: var(--font-gray-color);
+}
+
+#user-basic-info__group-ul{
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+}
+
+.user-basic-info__group-li {
+	display: flex;
+	justify-content: space-between;	
+	align-items: center;
+}
+
+.user-basic-info__group-li-score {
+	display: flex;
+	gap: 5px;
+	align-items: center;
+}
+
+
