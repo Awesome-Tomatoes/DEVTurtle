@@ -6,6 +6,9 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import com.fasterxml.jackson.databind.JsonNode;
+
 import java.util.ArrayList;
 
 /**
@@ -29,12 +32,15 @@ public class MissionGroupServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		
+		//int groupid = Integer.parseInt(request.getParameter("groupid"));
+		
 		MissionGroupDAO mgd = new MissionGroupDAO();
 		
-		ArrayList<ObjectiveVO> mlist = mgd.selectAll();
+		ArrayList<MissionJoinGroupVO> mlist = mgd.selectAllMissionGroup(3); // 예시로 3 넣음
 		
 		System.out.println(mlist.get(0).getContents());
 		
+		request.setAttribute("gname", mlist.get(0).getGname());
 		request.setAttribute("MLIST", mlist);
 		
 		request.getRequestDispatcher("/jsp/mission/mission_detail_group.jsp").forward(request, response);
@@ -48,7 +54,16 @@ public class MissionGroupServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		//doGet(request, response);
+		// JSON 응답 처리
+        MissionGroupDAO mgd = new MissionGroupDAO();
+        ArrayList<MissionJoinGroupVO> mlist = mgd.selectAllMissionGroup(3); // 그룹 ID 예시로 3
+
+        // JSON 변환
+        JsonNode jsonData = new MissionJsonConverter().convertToJsonGroup(mlist);
+
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+        response.getWriter().write(jsonData.toString()); // JSON 응답 반환
 	}
 
 }
