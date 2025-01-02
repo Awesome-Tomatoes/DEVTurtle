@@ -15,7 +15,7 @@ h2,h1,p {
   src: url("./assets/DungGeunMo.ttf") format("ttf");
 }
 
-#group_detail_container_div {
+#group-detail-container-div {
     background-color: var(--depth-first-color);
     display: flex;
     height: 320px;
@@ -26,7 +26,7 @@ h2,h1,p {
     border-radius: 20px;  
 }
 
-#group_success_info_div {
+#group-success-info-div {
     width: 35%;
     margin-right: 20px; 
     margin-left: 3%; 
@@ -35,7 +35,7 @@ h2,h1,p {
     border-radius: 20px;  
 }
 
-#group_detail_info_div {
+#group-detail-info-div {
     width: 55%;
     height: 80%; 
     background-color: var(--depth-second-color);
@@ -44,7 +44,7 @@ h2,h1,p {
 }
 
 /*-----------------영역 나누기 관련 css ---------------------  */
-.group_info_container_div{
+.group-info-container-div{
 	width: 100%;
 	height: 240px;
 	background-color: var(--depth-second-color);
@@ -57,12 +57,12 @@ h2,h1,p {
 	padding: 5px 0 5px 0;
 }
 
-.group_flex_div{
+.group-flex-div{
 	flex-direction :row; /*flex방향원본 : 왼->오*/
 
 }
 
-.group_user_detail_info_div{
+.group-user-detail-info-div{
 	margin: 20px auto; 
 	height: 82%;
 	width: 23%;
@@ -70,7 +70,7 @@ h2,h1,p {
 	border-radius: 20px; 
 }
 
-.group_success_mission_detail{
+.group-success-mission-detail{
 	height:inherit;
 	width: 90%;
 	background-color: var(--depth-third-color);
@@ -86,21 +86,21 @@ h2,h1,p {
 /*----------------- 제목 및 더보기 버튼 css ---------------------  */
 
 
-.group_title_div{
+.group-title-div{
 	display:flex;
 	justify-content: space-between;
 	align-items: center;
 }
 
-.group_card_button{
+.group-card-button{
 	width:5%
 }
 
-.group_main_title{
+.group-main-title{
 }
-.group_sub_title{
+.group-sub-title{
 }
-.group_button{
+.group-button{
   padding-top: 5px;
   padding-bottom: 5px;
   color: var(--font-white-color);
@@ -109,7 +109,7 @@ h2,h1,p {
   border-radius: 3px;
 }
 
-#group_detail_contents{
+#group-detail-contents{
 	width:90%;
 	margin: 0px auto;
 }

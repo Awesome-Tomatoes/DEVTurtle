@@ -25,39 +25,25 @@ public class SignupServlet extends HttpServlet {protected void doGet(HttpServlet
 
 
 protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
     String loginid = request.getParameter("loginid");
     String password = request.getParameter("password");
     String username = request.getParameter("username");
     String nickname = request.getParameter("nickname");
     String gitname = request.getParameter("gitname");
     String sorname = request.getParameter("sorname");
-    
-    System.out.println(loginid);
-    System.out.println(password);
-    System.out.println(username);
-    System.out.println(nickname);
-    System.out.println(gitname);
-    System.out.println(sorname);
+
     UserDAO dao = new UserDAO();
 
-    UserVO uvo = new UserVO(username, loginid, password, nickname, sorname, gitname, "", 0, 0, 0);
-
-	response.sendRedirect("/signup");
-	
-    if(loginid.equals("") || password.equals("") || username.equals("") || nickname.equals("") ) {
-    	System.out.println("빈곳 존재");
-    	response.sendRedirect("/signup");
-    } else {
-    	dao.insertUser(uvo);
-
-    	System.out.println(dao.selectUserByLoginID(loginid).toString());
-    	System.out.println("회원가입 완료");
-    	response.sendRedirect("/login");
-    	
+    // 중복체크
+    if (dao.checkLoginIdExists(loginid)) {
+        request.setAttribute("errorMessage", "아이디가 이미 존재합니다.");
+        request.getRequestDispatcher("/jsp/user/user_signup.jsp").forward(request, response);
+        return;
     }
     
-    
-	
+    UserVO uvo = new UserVO(username, loginid, password, nickname, sorname, gitname, "", 0, 0, 0);
+    dao.insertUser(uvo);
+
+    response.sendRedirect("/login");
 }
 }

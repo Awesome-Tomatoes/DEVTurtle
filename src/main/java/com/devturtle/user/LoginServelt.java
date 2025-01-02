@@ -41,15 +41,21 @@ public class LoginServelt extends HttpServlet {
         
 		System.out.println(loginid + password);
         UserDAO dao = new UserDAO();
+        GroupDAO gdao = new GroupDAO();
         UserVO uvo = dao.selectUserByLoginID(loginid);
+        ArrayList<GroupVO> glist = gdao.selectAllJoinGroup(uvo.getUserID());
+    	ArrayList<Integer> list = new ArrayList<Integer>();
+        for (GroupVO gvo : glist) {
+        	list.add((int)gvo.getGroupId());
+        }
         if(uvo.getUserID() == 0) {
-        	System.out.println("아이디 틀림");
-        	response.sendRedirect("/login");
+            request.setAttribute("errorMessage", "아이디를 입력해주세요");
+            request.getRequestDispatcher("/jsp/user/user_login.jsp").forward(request, response);
+            return;
         } else if (!uvo.getLoginPW().equals(password)) {
-        	System.out.println("비밀번호 틀림");
-        	response.sendRedirect("/login");
+            request.setAttribute("errorMessage", "아이디 혹은 비밀번호가 일치하지 않습니다");
+            request.getRequestDispatcher("/jsp/user/user_login.jsp").forward(request, response);
         } else {
-        	ArrayList<Integer> list = new ArrayList<Integer>();
     		
     		HttpSession session = request.getSession();
             session.setAttribute("SESS_USER_ID", uvo.getUserID());

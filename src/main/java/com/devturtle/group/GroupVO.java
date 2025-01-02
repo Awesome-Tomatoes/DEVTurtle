@@ -20,11 +20,12 @@ public class GroupVO {
 	private long rankScore;
 	private String createdAt;
 	private String updatedAt;
+	private int rank;
 	
 	private ArrayList<GroupUserVO> listOfGroupUser;
 	
 	// 그룹에 대한 정보
-	public GroupVO(long groupId, String name, String description, String category, String gPrivate, long totalScore,
+	public GroupVO(int groupId, String name, String description, String category, String gPrivate, long totalScore,
 			long rankScore, String createdAt, String updatedAt) {
 		super();
 		this.groupId = groupId;

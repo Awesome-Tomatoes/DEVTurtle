@@ -28,6 +28,16 @@ public class GroupCreateServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		response.getWriter().append("Served at: ").append(request.getContextPath());
+
+		
+		
+		
+		// ----------------------페이지 -------------------------
+		// 동적으로 포함할 contentPage 경로 설정
+	    request.setAttribute("contentPage", "/jsp/group/group_create.jsp");
+
+	    // layout.jsp로 포워딩
+	    request.getRequestDispatcher("/index.jsp").forward(request, response);
 	}
 
 	/**
