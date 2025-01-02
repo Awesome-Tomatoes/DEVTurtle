@@ -10,6 +10,9 @@ import java.net.*;
 import java.util.List;
 
 import com.devturtle.user.UserDAO;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
@@ -39,11 +42,13 @@ public class SolvedManager {
 
 	    HttpResponse<String> response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
 
-	    // JSON 데이터를 객체로 변환
-	    Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
-        // JSON 데이터를 ApiResponse 객체로 변환
-        ApiResponse apiResponse = gson.fromJson(response.body(), ApiResponse.class);
+		ObjectMapper objectMapper = new ObjectMapper();
+		objectMapper.enable(SerializationFeature.INDENT_OUTPUT); // Pretty printing 설정
+		
+		// JSON 데이터를 ApiResponse 객체로 변환
+		ApiResponse apiResponse = objectMapper.readValue(response.body(), ApiResponse.class);
+
 
         SolvedVO svo = new SolvedVO();
         
@@ -152,6 +157,7 @@ class ApiResponse {
         this.items = items;
     }
 
+    @JsonIgnoreProperties(ignoreUnknown = true)
     public static class Item {
         private String handle;
         private double rating;

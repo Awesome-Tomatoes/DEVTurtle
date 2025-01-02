@@ -14,7 +14,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>회원가입 페이지</title>
 <link rel="stylesheet" type="text/css"
-	href="${pageContext.request.contextPath}/css/user/user_login.css">
+	href="${pageContext.request.contextPath}/css/user/user_signup.css">
 </head>
 <body>
 	<div class="container">
@@ -48,13 +48,49 @@
 </body>
 <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
 <script>
-	$(document).ready(function() {
-		$("#signup-btn").click(function() {
-			$("#signup-form").attr("method", "post");
-			$("#signup-form").attr("action", "/signup");
-			$("#signup-form").submit();
-		});
-	});
+    $(document).ready(function () {
+        let isDuplicateChecked = false; // 중복 체크 여부
+
+        // 중복체크 버튼 클릭 이벤트
+        $("#check-loginid").click(function () {
+            const loginid = $("#loginid").val();
+
+            if (!loginid) {
+                alert("아이디를 입력하세요.");
+                return;
+            }
+
+            $.ajax({
+                url: "/checkLoginId",
+                type: "POST",
+                data: { loginid: loginid },
+                success: function (response) {
+                    if (response.isDuplicate) {
+                        alert("아이디가 이미 존재합니다.");
+                        isDuplicateChecked = false;
+                    } else {
+                        alert("사용 가능한 아이디입니다.");
+                        isDuplicateChecked = true;
+                    }
+                },
+                error: function () {
+                    alert("중복체크 중 오류가 발생했습니다.");
+                },
+            });
+        });
+
+        // 회원가입 버튼 클릭 시 중복 체크 여부 확인
+        $("#signup-btn").click(function () {
+            if (!isDuplicateChecked) {
+                alert("아이디 중복체크를 해주세요.");
+                return;
+            }
+
+            $("#signup-form").attr("method", "post");
+            $("#signup-form").attr("action", "/signup");
+            $("#signup-form").submit();
+        });
+    });
 </script>
 
 </html>

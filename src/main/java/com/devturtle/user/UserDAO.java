@@ -153,6 +153,28 @@ public class UserDAO {
 		return ulist;
 	}
 
+	
+	public boolean checkLoginIdExists(String loginid) {
+
+		DBManager dbm = OracleDBManager.getInstance();
+		
+        String query = "SELECT COUNT(*) FROM users WHERE login_id = ?";
+        try (Connection conn = dbm.connect();
+             PreparedStatement pstmt = conn.prepareStatement(query)) {
+            
+            pstmt.setString(1, loginid);
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getInt(1) > 0; // 중복이면 true 반환
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+	
+	
 	public int insertUser(UserVO uvo) {
 		DBManager dbm = OracleDBManager.getInstance(); //new OracleDBManager();
 		Connection conn = dbm.connect();
