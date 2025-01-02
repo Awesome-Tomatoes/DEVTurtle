@@ -40,14 +40,7 @@ protected void doPost(HttpServletRequest request, HttpServletResponse response) 
         request.getRequestDispatcher("/jsp/user/user_signup.jsp").forward(request, response);
         return;
     }
-
-    // 회원가입 처리
-    if (loginid.isEmpty() || password.isEmpty() || username.isEmpty() || nickname.isEmpty()) {
-        request.setAttribute("errorMessage", "필수 입력란이 비어있습니다.");
-        request.getRequestDispatcher("/jsp/user/user_signup.jsp").forward(request, response);
-        return;
-    }
-
+    
     UserVO uvo = new UserVO(username, loginid, password, nickname, sorname, gitname, "", 0, 0, 0);
     dao.insertUser(uvo);
 
