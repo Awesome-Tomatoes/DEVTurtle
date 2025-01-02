@@ -1,6 +1,7 @@
 package com.devturtle.group;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
@@ -58,6 +59,48 @@ public class GroupDAO {
 	}
 	
 	
+	//------------------------- 전체 그룹 랭킹 조회 메서드--------------------------------- 
+	public ArrayList<GroupVO> selectAllGroupByMonthOrderByRankPaging(String date, int startSeq , int endSeq) {
+		
+		ArrayList<GroupVO> alist = new ArrayList<GroupVO>();
+		
+		DBManager dbm = OracleDBManager.getInstance();  	//new OracleDBManager();
+		Connection conn = dbm.connect();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		try {
+		
+			// 202501
+			String sql = "select s.*, TO_CHAR(UPDATED_AT, 'YYYYMM') from\r\n"
+					+ "(select GROUPS.*, (ROW_NUMBER() OVER(order by TOTAL_SCORE desc, GROUP_ID)) as rnum from GROUPS) s\r\n"
+			        + "where TO_CHAR(UPDATED_AT, 'YYYYMM') = ? and rnum between ? and ?";
+			
+			pstmt =  conn.prepareStatement(sql);
+			pstmt.setString(1, date);
+			pstmt.setInt(2, startSeq);
+			pstmt.setInt(3, endSeq);
+//			
+			rs = pstmt.executeQuery();  
+			while(rs.next()) {
+				GroupVO uvo = new GroupVO();
+				uvo.setGroupId(rs.getLong("GROUP_ID"));
+				uvo.setName(rs.getString("NAME"));
+				uvo.setDescription(rs.getString("DESCRIPTION"));
+				uvo.setCategory(rs.getString("CATEGORY"));
+				uvo.setGPrivate(rs.getString("PRIVATE"));
+				uvo.setUpdatedAt(rs.getString("UPDATED_AT"));
+				uvo.setTotalScore(rs.getLong("TOTAL_SCORE"));
+				uvo.setRank(rs.getInt("RNUM"));
+				alist.add(uvo);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}	finally {
+				dbm.close(conn, pstmt, rs);
+		}
+		return alist;
+	}
+	
 	
 	//-------------------------GROUP Create 메서드--------------------------------- 
 	public int createGroup(int userId) {
@@ -104,9 +147,6 @@ public class GroupDAO {
         return rows;
 	}
 	
-	
-	
-	
 	//-------------------------GROUP Join 관련 메서드--------------------------------- 
 	
 	// 그룹 가입신청 / 그룹초대하기 / 대기 / 승인 / 탈퇴  GroupUser의 status = [ accept , reject / approve]
@@ -138,6 +178,13 @@ public class GroupDAO {
 		
 		int count = 10000;
 		return count;
+	}
+	
+	public static void main(String[] argv) {
+		GroupDAO gdao = new GroupDAO();
+		ArrayList<GroupVO> arr = gdao.selectAllGroupByMonthOrderByRankPaging("202501", 1, 6);
+		System.out.println(arr.size());
+		for(var x : arr) System.out.println(x.toString());
 	}
 	
 }

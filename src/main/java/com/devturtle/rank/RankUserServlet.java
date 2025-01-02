@@ -52,7 +52,7 @@ public class RankUserServlet extends HttpServlet {
 		
 		
 //		request.setAttribute("RULIST", rulist);
-		ArrayList<UserVO> ulist = udao.selectAllUserOrderByRankPaging( pg.getStartSeq(), pg.getEndSeq());
+		ArrayList<UserVO> ulist = udao.selectAllUserByMonthOrderByRankPaging("20241231", pg.getStartSeq(), pg.getEndSeq());
 		request.setAttribute("ULIST", ulist);
 		request.getRequestDispatcher("/jsp/rank/rank_user.jsp").forward(request, response);
 		
