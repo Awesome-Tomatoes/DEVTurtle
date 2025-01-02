@@ -154,7 +154,7 @@ public class UserDAO {
 		return ulist;
 	}
 
-public ArrayList<UserVO> selectAllUserOrderByRankPaging(int startSeq , int endSeq) {
+public ArrayList<UserVO> selectAllUserByMonthOrderByRankPaging(String date, int startSeq , int endSeq) {
 		
 		ArrayList<UserVO> alist = new ArrayList<UserVO>();
 		
@@ -166,10 +166,11 @@ public ArrayList<UserVO> selectAllUserOrderByRankPaging(int startSeq , int endSe
 		
 			String sql = "select s.* from\r\n"
 					+ "(select users.*, (ROW_NUMBER() OVER(order by TOTAL_SCORE desc, USER_ID)) as rnum from users) s\r\n"
-					+ "where  rnum between ? and ?";
+					+ "where TO_CHAR(UPDATED_AT, 'YYYYMM') = TO_CHAR(TO_DATE(?), 'YYYYMM') and rnum between ? and ?";
 			pstmt =  conn.prepareStatement(sql);
-			pstmt.setInt(1, startSeq);
-			pstmt.setInt(2, endSeq);
+			pstmt.setString(1, date);
+			pstmt.setInt(2, startSeq);
+			pstmt.setInt(3, endSeq);
 			rs = pstmt.executeQuery();  
 			while(rs.next()) {
 				UserVO uvo = new UserVO();
