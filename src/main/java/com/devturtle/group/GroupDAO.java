@@ -212,11 +212,11 @@ public int selectAllGroupSize() {
 		return count;
 	}
 	
-	public static void main(String[] argv) {
-		GroupDAO gdao = new GroupDAO();
-		ArrayList<GroupVO> arr = gdao.selectAllGroupByMonthOrderByRankPaging("20250102", 1, 6);
-		System.out.println(arr.size());
-		for(var x : arr) System.out.println(x.toString());
-	}
+//	public static void main(String[] argv) {
+//		GroupDAO gdao = new GroupDAO();
+//		ArrayList<GroupVO> arr = gdao.selectAllGroupByMonthOrderByRankPaging("20250102", 1, 6);
+//		System.out.println(arr.size());
+//		for(var x : arr) System.out.println(x.toString());
+//	}
 	
 }

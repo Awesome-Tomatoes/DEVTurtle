@@ -26,6 +26,8 @@ public class RankGroupServlet extends HttpServlet {
 			currentPage = Integer.parseInt(currentPageStr);
 		}
 		
+//		System.out.println("현재 가져올 그룹 크기 : " +  gdao.selectAllGroupSize());
+		
 		int totRecord = gdao.selectAllGroupSize();
 		int blockCount = 4; 
 		int blockPage = 4;
@@ -33,7 +35,12 @@ public class RankGroupServlet extends HttpServlet {
 		PagingUtil pg = new PagingUtil("/DevTurtle/rankGroup", currentPage, totRecord, blockCount, blockPage);
 		request.setAttribute("MY_KEY_PAGING_HTML", pg.getPagingHtml().toString());
 		
-		ArrayList<GroupVO> glist = gdao.selectAllGroupByMonthOrderByRankPaging("20241231", pg.getStartSeq(), pg.getEndSeq());
+		ArrayList<GroupVO> glist = gdao.selectAllGroupByMonthOrderByRankPaging("20250102", pg.getStartSeq(), pg.getEndSeq());
+		
+		for(var x : glist) {
+			System.out.println(glist.toString());
+		}
+		
 		request.setAttribute("GLIST", glist);
 		request.getRequestDispatcher("/jsp/rank/rank_group.jsp").forward(request, response);
 	}
