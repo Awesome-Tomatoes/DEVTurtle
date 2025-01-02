@@ -153,6 +153,56 @@ public class UserDAO {
 		return ulist;
 	}
 
+public ArrayList<UserVO> selectAllUserOrderByRankPaging(int startSeq , int endSeq) {
+		
+		ArrayList<UserVO> alist = new ArrayList<UserVO>();
+		
+		DBManager dbm = OracleDBManager.getInstance();  	//new OracleDBManager();
+		Connection conn = dbm.connect();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		try {
+			
+//			select  ss.*
+//			from (
+//			    select  rownum as rnum, s.*
+//			    from (select * from myboard order by regdate desc ) s
+//			) ss
+//			where rnum between 3 and 6;
+			String sql = "select s.*  \r\n"
+						+ "from   \r\n"
+						+ "  (select users.*, (ROW_NUMBER() OVER(order by regdate desc)) as rnum \r\n"
+						+ "  from myboard) s  \r\n"
+						+ "where  rnum between ? and ?";
+			pstmt =  conn.prepareStatement(sql);
+			pstmt.setInt(1, startSeq);
+			pstmt.setInt(2, endSeq);
+			UserVO uvo = new UserVO();
+			rs = pstmt.executeQuery();  
+			if(rs.next()) {
+				uvo.setUserID(rs.getInt("USER_ID"));
+				uvo.setUserName(rs.getString("USER_NAME"));
+				uvo.setLoginID(rs.getString("LOGIN_ID"));
+				uvo.setLoginPW(rs.getString("LOGIN_PW"));
+				uvo.setNickname(rs.getString("NICKNAME"));
+				uvo.setGitID(rs.getString("GIT_ID"));
+				uvo.setSolvedID(rs.getString("SOLVED_ID"));
+				uvo.setUserBio(rs.getString("USER_BIO"));
+				uvo.setTotalScore(rs.getInt("TOTAL_SCORE"));
+				uvo.setSolvedScore(rs.getInt("SOLVED_SCORE"));
+				uvo.setGitScore(rs.getInt("GIT_SCORE"));
+				uvo.setRank(rs.getInt("rnum"));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}	finally {
+				dbm.close(conn, pstmt, rs);
+		}
+		return alist;
+	}
+	
+	
+	
 	
 	public boolean checkLoginIdExists(String loginid) {
 
@@ -204,7 +254,6 @@ public class UserDAO {
 				conn.rollback();
 			}
 		} catch (SQLException e) {
-
 			e.printStackTrace();
 		} finally {
 			dbm.close(conn, pstmt);
@@ -300,5 +349,11 @@ public class UserDAO {
 		}
 		return rows;
 	}	
+	
+	public static void main() {
+		UserDAO udao = new UserDAO();
+		ArrayList<UserVO> arr = udao.selectAllUserOrderByRankPaging(1, 3);
+		for(var x : arr) System.out.println(x.toString());
+	}
 	
 }

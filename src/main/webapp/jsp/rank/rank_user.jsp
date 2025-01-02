@@ -36,6 +36,11 @@
             </div>
         </c:forEach>
     </div>
+    
+${MY_KEY_PAGING_HTML}
+
+<%@ include file="/jsp/layout/footer.jsp" %>
+
 <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
 <script>
 $( document ).ready(function() {
@@ -44,7 +49,6 @@ $( document ).ready(function() {
 	//});
 });
 </script>
-<%@ include file="/jsp/layout/footer.jsp" %>
 
 </body>
 </html>
