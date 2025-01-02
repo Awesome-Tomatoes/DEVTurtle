@@ -23,9 +23,8 @@ public class RankUserServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
    		String pageGubun = request.getParameter("pageGubun");
 		UserDAO udao = new UserDAO();
-		response.getWriter().append("Served at: ").append(request.getContextPath());
-RankUserDAO rudao = new RankUserDAO();
-		
+		RankUserDAO rudao = new RankUserDAO();
+
 		// 날짜 기준으로 랭크 조회, 기본은 1달 기준
 		ArrayList<RankUserVO> rulist = rudao.selectRankUserAllByMonth("20241231");
 		
@@ -56,6 +55,7 @@ RankUserDAO rudao = new RankUserDAO();
 		ArrayList<UserVO> ulist = udao.selectAllUserOrderByRankPaging( pg.getStartSeq(), pg.getEndSeq());
 		request.setAttribute("ULIST", ulist);
 		request.getRequestDispatcher("/jsp/rank/rank_user.jsp").forward(request, response);
+		
 	}
 
 
