@@ -8,6 +8,7 @@ import java.util.ArrayList;
 
 import com.devturtle.common.DBManager;
 import com.devturtle.common.OracleDBManager;
+import com.devturtle.git.GitManager;
 import com.devturtle.solved.SolvedDAO;
 import com.devturtle.solved.SolvedManager;
 
@@ -219,7 +220,8 @@ public ArrayList<UserVO> selectAllUserOrderByRankPaging(int startSeq , int endSe
 		DBManager dbm = OracleDBManager.getInstance(); //new OracleDBManager();
 		Connection conn = dbm.connect();
 		PreparedStatement pstmt = null;
-		SolvedManager mgr = new SolvedManager();
+		SolvedManager smgr = new SolvedManager();
+		GitManager gmgr = new GitManager();
 		int rows = 0;
 		try {
 			conn.setAutoCommit(false);
@@ -250,34 +252,15 @@ public ArrayList<UserVO> selectAllUserOrderByRankPaging(int startSeq , int endSe
 		}
 		
 		UserVO uservo = selectUserByLoginID(uvo.getLoginID());
-		mgr.insertSolvedData(uservo.getUserID());
-		updateUserSolvedScore(uservo.getUserID(), mgr.selectUserSolvedData(uservo.getUserID()).getRating());
+		smgr.insertSolvedData(uservo.getUserID());
+		gmgr.insertGitData(uservo.getUserID());
+		updateUserSolvedScore(uservo.getUserID(), smgr.selectUserSolvedData(uservo.getUserID()).getRating());
+		updateUserGitScore(uservo.getUserID(), gmgr.selectUserGitData(uservo.getUserID()).getRating());
 		
 		return rows;
 	}
 
-	public int updateUserGitScore(int userid, int gitScore) {
-		DBManager dbm = OracleDBManager.getInstance(); //new OracleDBManager();
-		Connection conn = dbm.connect();
-		PreparedStatement pstmt = null;
-		UserVO uvo = selectUser(userid);
-		int rows = 0;
-		try {
-			String sql = "update users set total_score=?, git_score = ?, updated_at = sysdate where user_id=?";
-			pstmt = conn.prepareStatement(sql);
-			pstmt.setInt(1, uvo.getSolvedScore() + gitScore); //------파라미터를 1번째?에 바인딩
-			pstmt.setInt(2, gitScore);
-			pstmt.setInt(3, userid);
-			rows = pstmt.executeUpdate();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			dbm.close(conn, pstmt);
-		}
-		return rows;
-	}
-	
-	public int updateUserSolvedScore(int userid, int solvedScore) {
+	public int updateUserSolvedScore(int userid, int solvedRating) {
 		DBManager dbm = OracleDBManager.getInstance(); //new OracleDBManager();
 		Connection conn = dbm.connect();
 		PreparedStatement pstmt = null;
@@ -286,8 +269,8 @@ public ArrayList<UserVO> selectAllUserOrderByRankPaging(int startSeq , int endSe
 		try {
 			String sql = "update users set total_score=?, solved_score = ?, updated_at = sysdate where user_id=?";
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setInt(1, uvo.getGitScore() + solvedScore); //------파라미터를 1번째?에 바인딩
-			pstmt.setInt(2, solvedScore);
+			pstmt.setInt(1, uvo.getGitScore() + solvedRating); //------파라미터를 1번째?에 바인딩
+			pstmt.setInt(2, solvedRating);
 			pstmt.setInt(3, userid);
 			rows = pstmt.executeUpdate();
 		} catch (SQLException e) {
@@ -299,6 +282,27 @@ public ArrayList<UserVO> selectAllUserOrderByRankPaging(int startSeq , int endSe
 		return rows;
 	}
 	
+	public int updateUserGitScore(int userid, int gitRating) {
+		DBManager dbm = OracleDBManager.getInstance(); //new OracleDBManager();
+		Connection conn = dbm.connect();
+		PreparedStatement pstmt = null;
+		UserVO uvo = selectUser(userid);
+		int rows = 0;
+		try {
+			String sql = "update users set total_score=?, git_score = ?, updated_at = sysdate where user_id=?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, uvo.getSolvedScore() + gitRating); //------파라미터를 1번째?에 바인딩
+			pstmt.setInt(2, gitRating);
+			pstmt.setInt(3, userid);
+			rows = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			dbm.close(conn, pstmt);
+		}
+		
+		return rows;
+	}
 	public int updateUserData(int userid, String nickname, String userBio) {
 		DBManager dbm = OracleDBManager.getInstance(); //new OracleDBManager();
 		Connection conn = dbm.connect();

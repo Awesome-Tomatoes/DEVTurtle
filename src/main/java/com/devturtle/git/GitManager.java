@@ -1,6 +1,7 @@
 package com.devturtle.git;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -23,7 +24,7 @@ public class GitManager {
 	Properties props = new Properties();
 
     // username만 받아서 전체 데이터를 반환하는 통합 메서드
-    public GitVO insertGit(int userid) {
+    public GitVO insertGitData(int userid) {
     	UserDAO udao = new UserDAO();
     	GitDAO gdao = new GitDAO();
 
@@ -31,7 +32,7 @@ public class GitManager {
 		try {
 			
 			UserVO uvo = udao.selectUser(userid);
-    		GitHubStats stat = getStats(uvo.getGitID());
+    		GitHubStats stat = gitAPIRequest(uvo.getGitID());
 
 	    	gvo.setRating(stat.getRating());
 	    	gvo.setUserid(uvo.getUserID());
@@ -44,8 +45,49 @@ public class GitManager {
     	
     	return gvo;
     }
+
+	public GitVO selectUserGitData(int userid) {
+		GitDAO dao = new GitDAO();
+		GitVO gvo = dao.select(userid);
+		return gvo;
+	}
     
-    public GitHubStats getStats(String gitName) throws Exception {
+
+	
+	// userid 로 solvedData 가져오기
+	public GitVO selectUserSolvedData(int userid) {
+		GitDAO dao = new GitDAO();
+		GitVO gvo = dao.select(userid);
+		return gvo;
+	}
+
+	// 전체 solvedData 가져오기
+	public ArrayList<GitVO> selectUsersSolvedData() {
+		GitDAO dao = new GitDAO();
+		ArrayList<GitVO> alist = dao.select();
+		return alist;
+	}
+
+	
+	// 전체 solvedData 수정 (1일 1회 수행)
+	public void updateSolvedAllData() {
+		GitDAO dao = new GitDAO();
+		ArrayList<GitVO> alist = dao.select();
+		UserDAO udao = new UserDAO();
+		try {
+			for(GitVO gvo : alist) {
+				gvo.setRating(gitAPIRequest(udao.selectUser(gvo.getUserid()).getGitID()).getRating());
+				dao.update(gvo);
+				udao.updateUserSolvedScore(gvo.getUserid(), gvo.getRating());
+			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} 
+
+	}
+    
+    public GitHubStats gitAPIRequest(String gitName) throws Exception {
         int userCommits = 0;
         int userPRs = 0;
         int userIssues = 0;
@@ -275,16 +317,6 @@ public class GitManager {
             throw new Exception("GitHub API 호출 실패. 응답 코드: " + responseCode + " - " + conn.getResponseMessage());
         }
     }
-    
-    public static void main(String[] args) {
-		GitManager mgr = new GitManager();
-		try {
-			System.out.println(mgr.getStats("sir-Crab").toString());
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
 }
 
 // GitHubStats 결과 객체

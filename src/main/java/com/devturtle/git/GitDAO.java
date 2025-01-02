@@ -96,7 +96,7 @@ ArrayList<GitVO> alist = new ArrayList<GitVO>();
 		
 		int rows = 0;
 		//TODO
-		String sql = "insert into git(git_id, rating, created_at, updated_at, user_id) values(solved_ac_seq.nextval, ?, sysdate, sysdate, ?)";
+		String sql = "insert into git(git_id, rating, created_at, updated_at, user_id) values(git_seq.nextval, ?, sysdate, sysdate, ?)";
 		
 		try {
 			conn = o.connect();

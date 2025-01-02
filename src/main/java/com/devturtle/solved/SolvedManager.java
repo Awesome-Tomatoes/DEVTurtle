@@ -76,24 +76,6 @@ public class SolvedManager {
 		return alist;
 	}
 
-	// 유저 1명 solvedData 수정
-	public void updateSolvedData(int userid) {
-		SolvedDAO dao = new SolvedDAO();
-		SolvedVO svo;
-		UserDAO udao = new UserDAO();
-		try {
-			svo = solvedacAPIRequest(userid);
-			dao.update(svo);
-			udao.updateUserSolvedScore(svo.getUserid(), svo.getRating());
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-	}
 	
 	// 전체 solvedData 수정 (1일 1회 수행)
 	public void updateSolvedAllData() {
