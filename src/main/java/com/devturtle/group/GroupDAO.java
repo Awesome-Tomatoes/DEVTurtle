@@ -24,6 +24,38 @@ public class GroupDAO {
 		return alist;
 	}
 	
+public int selectAllGroupSize() {
+		
+		ArrayList<GroupVO> alist = new ArrayList<GroupVO>();
+		
+		DBManager dbm = OracleDBManager.getInstance();  	//new OracleDBManager();
+		Connection conn = dbm.connect();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		try {
+		
+			// 202501
+			String sql = "select GROUP_ID from GROUPS";
+			
+			pstmt =  conn.prepareStatement(sql);
+	
+//			
+			rs = pstmt.executeQuery();  
+			while(rs.next()) {
+				GroupVO uvo = new GroupVO();
+				uvo.setGroupId(rs.getLong("GROUP_ID"));
+				alist.add(uvo);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}	finally {
+				dbm.close(conn, pstmt, rs);
+		}
+		return alist.size();
+	}
+	
+	
+	
 	// 자신의 그룹이름 검색 대한 그룹정보 리스트
 	public ArrayList<GroupVO> selectGroupBySearhName(int userId, int groupId, String groupName ) {	
 		
@@ -73,7 +105,7 @@ public class GroupDAO {
 			// 202501
 			String sql = "select s.*, TO_CHAR(UPDATED_AT, 'YYYYMM') from\r\n"
 					+ "(select GROUPS.*, (ROW_NUMBER() OVER(order by TOTAL_SCORE desc, GROUP_ID)) as rnum from GROUPS) s\r\n"
-			        + "where TO_CHAR(UPDATED_AT, 'YYYYMM') = ? and rnum between ? and ?";
+			        + "where TO_CHAR(UPDATED_AT, 'YYYYMM') = TO_CHAR(TO_DATE(?), 'YYYYMM') and rnum between ? and ?";
 			
 			pstmt =  conn.prepareStatement(sql);
 			pstmt.setString(1, date);
@@ -182,7 +214,7 @@ public class GroupDAO {
 	
 	public static void main(String[] argv) {
 		GroupDAO gdao = new GroupDAO();
-		ArrayList<GroupVO> arr = gdao.selectAllGroupByMonthOrderByRankPaging("202501", 1, 6);
+		ArrayList<GroupVO> arr = gdao.selectAllGroupByMonthOrderByRankPaging("20250102", 1, 6);
 		System.out.println(arr.size());
 		for(var x : arr) System.out.println(x.toString());
 	}

@@ -13,38 +13,21 @@ import com.devturtle.user.UserDAO;
 import com.devturtle.user.UserVO;
 import com.devturtle.common.PagingUtil;
 
-/**
- * Servlet implementation class RankUserServlet
- */
 @WebServlet("/rankUser")
 public class RankUserServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-   		String pageGubun = request.getParameter("pageGubun");
+		
 		UserDAO udao = new UserDAO();
-		RankUserDAO rudao = new RankUserDAO();
-
-		// 날짜 기준으로 랭크 조회, 기본은 1달 기준
-		ArrayList<RankUserVO> rulist = rudao.selectRankUserAllByMonth("20241231");
-		
-//		int rank = 1;
-//		// 점수 기준으로 유저 리스트 조회해서 랭킹대로 유저 가져오기
-//		ArrayList<UserVO> userlist = new ArrayList<>();
-//		for(var x : rulist) {
-//			UserVO tmpUser = udao.selectUser(x.getUserID());
-//			tmpUser.setRank(rank++);
-//			userlist.add(tmpUser);
-//		}
-		
 		int currentPage = 1;
 		String currentPageStr = request.getParameter("currentPage");
 		if(currentPageStr != null && !currentPageStr.equals(""))  {
 			currentPage = Integer.parseInt(currentPageStr);
 		}
 		
-		int totRecord = rulist.size();
-		int blockCount = 1; 
+		int totRecord =  udao.selectAllUser().size();
+		int blockCount = 6; 
 		int blockPage = 4;
 		
 		PagingUtil pg = new PagingUtil("/DevTurtle/rankUser", currentPage, totRecord, blockCount, blockPage);
