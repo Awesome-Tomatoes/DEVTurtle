@@ -23,8 +23,11 @@ import lombok.Data;
 public class MissionJoinUserVO {
 	// Objective와 Users를 join한 정보를 담는 VO
 	private int user_id;
+	private int objective_id;
+	private String uname;
 	private String contents;
 	private String success_date;
 	private int points;
+	private int count;
 	
 }
