@@ -12,7 +12,7 @@
     <p>DevTurtle</p>
   </div>
   <div id="header-search">
-    <input type="text" placeholder="사용자 또는 그룹을 검색해보세요!" />
+    <input type="text" id="search" placeholder="사용자 또는 그룹을 검색해보세요!" />
     <img src="${pageContext.request.contextPath}/assets/layout/search.svg" />
   </div>
   <div id="header-auth">
