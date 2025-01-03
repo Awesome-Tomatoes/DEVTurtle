@@ -257,6 +257,46 @@ public class GroupDAO {
 		return alist;
 	}
 
+	// ------------------------- 특정 그룹 VO + 랭킹 조회 메서드---------------------------------
+	public GroupVO selectGroupByIDWithRank(int groupID) {
+
+		GroupVO gvo = new GroupVO();
+
+		DBManager dbm = OracleDBManager.getInstance(); // new OracleDBManager();
+		Connection conn = dbm.connect();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		try {
+
+			// 202501
+			String sql = "select g.* from\r\n"
+					+ "(select groups.*, (ROW_NUMBER() OVER(order by TOTAL_SCORE desc, group_id)) as rnum from groups) g\r\n"
+					+ "where g.group_id = ?";
+
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, groupID);
+
+			rs = pstmt.executeQuery();
+			if (rs.next()) {
+				gvo.setGroupId(rs.getInt("GROUP_ID"));
+				gvo.setName(rs.getString("NAME"));
+				gvo.setDescription(rs.getString("DESCRIPTION"));
+				gvo.setCategory(rs.getString("CATEGORY"));
+				gvo.setGPrivate(rs.getString("PRIVATE"));
+				gvo.setUpdatedAt(rs.getString("UPDATED_AT"));
+				gvo.setTotalScore(rs.getInt("TOTAL_SCORE"));
+				gvo.setRank(rs.getInt("RNUM"));
+				gvo.setSize(rs.getInt("SIZES"));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			dbm.close(conn, pstmt, rs);
+		}
+		return gvo;
+	}
+	
+	
 	// -------------------------GROUP Create 메서드---------------------------------
 	public int createGroup(int userId, GroupVO gvo) {
 

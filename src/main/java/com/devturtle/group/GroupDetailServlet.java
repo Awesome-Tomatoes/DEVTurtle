@@ -14,17 +14,6 @@ import javax.servlet.http.HttpServletResponse;
 public class GroupDetailServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public GroupDetailServlet() {
-        super();
-        // TODO Auto-generated constructor stub
-    }
-
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		// session 가짜 데이터
@@ -37,7 +26,11 @@ public class GroupDetailServlet extends HttpServlet {
 		request.setAttribute("GROUP_DETAIL", groupDetail);
 		
 		// 그룹 랭킹 정보
-		
+		GroupVO gRankVO = gdao.selectGroupByIDWithRank(groupId);
+		int gRank = gRankVO.getRank(); //현재 그룹 랭크
+		int allGroupSize = gdao.selectAllGroupSize(); // 전체 그룹 갯수
+		request.setAttribute("GROUP_RANK", gRank);
+		request.setAttribute("GROUP_SIZE", allGroupSize);
 		
 		
 		// 그룹 달성 업정정보
