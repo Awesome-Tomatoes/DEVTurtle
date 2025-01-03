@@ -54,15 +54,8 @@ public class GitManager {
     
 
 	
-	// userid 로 solvedData 가져오기
-	public GitVO selectUserSolvedData(int userid) {
-		GitDAO dao = new GitDAO();
-		GitVO gvo = dao.select(userid);
-		return gvo;
-	}
-
 	// 전체 solvedData 가져오기
-	public ArrayList<GitVO> selectUsersSolvedData() {
+	public ArrayList<GitVO> selectUsersGitData() {
 		GitDAO dao = new GitDAO();
 		ArrayList<GitVO> alist = dao.select();
 		return alist;
@@ -70,7 +63,7 @@ public class GitManager {
 
 	
 	// 전체 solvedData 수정 (1일 1회 수행)
-	public void updateSolvedAllData() {
+	public void updateGitAllData() {
 		GitDAO dao = new GitDAO();
 		ArrayList<GitVO> alist = dao.select();
 		UserDAO udao = new UserDAO();

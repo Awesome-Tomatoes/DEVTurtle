@@ -74,6 +74,18 @@ public class OracleDBManager implements DBManager {
 			e.printStackTrace();
 		}
 	}
+
+	@Override
+	public void close(Connection conn) {
+		// TODO Auto-generated method stub
+		  if (conn != null) {
+	            try {
+	                conn.close(); // 연결 종료
+	            } catch (SQLException e) {
+	                e.printStackTrace();
+	            }
+	        }
+	}
 	
 
 }

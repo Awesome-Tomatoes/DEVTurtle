@@ -154,7 +154,7 @@ public class UserDAO {
 		return ulist;
 	}
 
-public ArrayList<UserVO> selectAllUserByMonthOrderByRankPaging(String date, int startSeq , int endSeq) {
+	public ArrayList<UserVO> selectAllUserByMonthOrderByRankPaging(String date, int startSeq , int endSeq) {
 		
 		ArrayList<UserVO> alist = new ArrayList<UserVO>();
 		
@@ -196,6 +196,45 @@ public ArrayList<UserVO> selectAllUserByMonthOrderByRankPaging(String date, int 
 		return alist;
 	}
 
+	// 특정 유저 등수, vo 뽑기
+	public UserVO selectUserByIDWithRank(int userID) {
+	
+		UserVO uvo = new UserVO();
+		
+		DBManager dbm = OracleDBManager.getInstance();  	
+		Connection conn = dbm.connect();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		try {
+		
+			String sql = "select s.* from\r\n"
+					+ "(select users.*, (ROW_NUMBER() OVER(order by TOTAL_SCORE desc, USER_ID)) as rnum from users) s\r\n"
+					+ "where s.user_id = ?";
+			pstmt =  conn.prepareStatement(sql);
+			pstmt.setInt(1, userID);
+			rs = pstmt.executeQuery();  
+			if(rs.next()) {
+				uvo.setUserID(rs.getInt("USER_ID"));
+				uvo.setUserName(rs.getString("USER_NAME"));
+				uvo.setLoginID(rs.getString("LOGIN_ID"));
+				uvo.setLoginPW(rs.getString("LOGIN_PW"));
+				uvo.setNickname(rs.getString("NICKNAME"));
+				uvo.setGitID(rs.getString("GIT_ID"));
+				uvo.setSolvedID(rs.getString("SOLVED_ID"));
+				uvo.setUserBio(rs.getString("USER_BIO"));
+				uvo.setTotalScore(rs.getInt("TOTAL_SCORE"));
+				uvo.setSolvedScore(rs.getInt("SOLVED_SCORE"));
+				uvo.setGitScore(rs.getInt("GIT_SCORE"));
+				uvo.setRank(rs.getInt("rnum"));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}	finally {
+				dbm.close(conn, pstmt, rs);
+		}
+		return uvo;
+	}
+
 	public boolean checkLoginIdExists(String loginid) {
 
 		DBManager dbm = OracleDBManager.getInstance();
@@ -215,7 +254,6 @@ public ArrayList<UserVO> selectAllUserByMonthOrderByRankPaging(String date, int 
         }
         return false;
     }
-	
 	
 	public int insertUser(UserVO uvo) {
 		DBManager dbm = OracleDBManager.getInstance(); //new OracleDBManager();
@@ -304,6 +342,7 @@ public ArrayList<UserVO> selectAllUserByMonthOrderByRankPaging(String date, int 
 		
 		return rows;
 	}
+	
 	public int updateUserData(int userid, String nickname, String userBio) {
 		DBManager dbm = OracleDBManager.getInstance(); //new OracleDBManager();
 		Connection conn = dbm.connect();
@@ -345,4 +384,9 @@ public ArrayList<UserVO> selectAllUserByMonthOrderByRankPaging(String date, int 
 		return rows;
 	}	
 	
+//	public static void main(String[] argv) {
+//		UserDAO udao = new UserDAO();
+//		UserVO uvo = udao.selectUserByIDWithRank(15);
+//		System.out.println(uvo.toString());
+//	}
 }

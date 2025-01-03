@@ -11,13 +11,13 @@ import javax.servlet.http.HttpServletResponse;
  * Servlet implementation class GroupInfoServlet
  */
 @WebServlet("/GroupInfoServlet")
-public class GroupInfoServlet extends HttpServlet {
+public class GroupListServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public GroupInfoServlet() {
+    public GroupListServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -27,7 +27,16 @@ public class GroupInfoServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		response.getWriter().append("Served at: ").append(request.getContextPath());
+	
+		
+		
+		
+		// 동적으로 포함할 contentPage 경로 설정
+	    request.setAttribute("contentPage", "/jsp/group/group_list.jsp");
+
+	    // layout.jsp로 포워딩
+	    request.getRequestDispatcher("/index.jsp").forward(request, response);
+		
 	}
 
 	/**

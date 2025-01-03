@@ -9,4 +9,6 @@ public interface DBManager {
 	public void close(Connection conn, PreparedStatement pstmt, ResultSet rs);
 	public void close(Connection conn, PreparedStatement pstmt);
 	
+	public void close(Connection conn);
+	
 }

@@ -1,0 +1,10 @@
+#ranking-point-chart__title {
+	font-size: 30px;
+	display: flex;
+	width: 94%;
+	justify-content: space-between;
+}
+
+#ranking-point-chart__title strong {
+	color: var(--main-color);
+}

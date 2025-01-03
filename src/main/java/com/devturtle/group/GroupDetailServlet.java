@@ -1,11 +1,16 @@
 package com.devturtle.group;
 
 import java.io.IOException;
+import java.util.ArrayList;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import com.devturtle.rank.RankGroupDAO;
+import com.devturtle.rank.RankGroupVO;
 
 /**
  * Servlet implementation class GroupDetailServlet
@@ -14,17 +19,6 @@ import javax.servlet.http.HttpServletResponse;
 public class GroupDetailServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public GroupDetailServlet() {
-        super();
-        // TODO Auto-generated constructor stub
-    }
-
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		// session 가짜 데이터
@@ -37,8 +31,16 @@ public class GroupDetailServlet extends HttpServlet {
 		request.setAttribute("GROUP_DETAIL", groupDetail);
 		
 		// 그룹 랭킹 정보
+		GroupVO gRankVO = gdao.selectGroupByIDWithRank(groupId);
+		int gRank = gRankVO.getRank(); //현재 그룹 랭크
+		int allGroupSize = gdao.selectAllGroupSize(); // 전체 그룹 갯수
+		request.setAttribute("GROUP_RANK", gRank);
+		request.setAttribute("GROUP_SIZE", allGroupSize);
 		
-		
+		// 특정 그룹 차트용 월간 랭킹 변동사항 데이터 groupID, YYYYMMDD 형태로 입력
+//		RankGroupDAO rudao = new RankGroupDAO();
+//		ArrayList<RankGroupVO> rglist = rudao.selectRankGroupAllByMonth(1, "20250101");
+//		request.setAttribute("MONTHLY_GROUP_RANK", rglist);
 		
 		// 그룹 달성 업정정보
 		
