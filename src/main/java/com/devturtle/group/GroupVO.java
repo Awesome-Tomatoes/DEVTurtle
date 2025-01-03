@@ -27,6 +27,19 @@ public class GroupVO {
 	
 	private ArrayList<GroupUserVO> listOfGroupUser;
 	
+	public GroupVO(String name, int size, int condition,
+					String description, String category,
+					String gPrivate, String location ) {
+		super();
+		this.name = name;
+		this.condition = condition;
+		this.description = description;
+		this.category = category;
+		this.location = location;
+		this.gPrivate = gPrivate;
+	}
+	
+	
 	// 그룹에 대한 정보
 	public GroupVO(int groupId, String name, String description, String category, String gPrivate, int totalScore,
 			int rankScore, String createdAt, String updatedAt) {
