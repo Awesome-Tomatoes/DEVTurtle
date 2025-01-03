@@ -35,7 +35,7 @@ public class RankUserDAO {
         try {
             conn.setAutoCommit(false);
 
-            String sql = "INSERT INTO Rank_User (RANK_USER_ID, USER_ID, SCORE_SUM, RANK_USER_DATE) VALUES (RANK_USER_SEQ.NEXTVAL, ?, ?, SYSDATE)";
+            String sql = "INSERT INTO RANK_USER (RANK_USER_ID, USER_ID, SCORE_SUM, RANK_USER_DATE) VALUES (RANK_USER_SEQ.NEXTVAL, ?, ?, SYSDATE)";
             pstmt = conn.prepareStatement(sql);
             pstmt.setInt(1, userID);
             pstmt.setInt(2, sumScore);

@@ -1,11 +1,16 @@
 package com.devturtle.group;
 
 import java.io.IOException;
+import java.util.ArrayList;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import com.devturtle.rank.RankGroupDAO;
+import com.devturtle.rank.RankGroupVO;
 
 /**
  * Servlet implementation class GroupDetailServlet
@@ -32,6 +37,10 @@ public class GroupDetailServlet extends HttpServlet {
 		request.setAttribute("GROUP_RANK", gRank);
 		request.setAttribute("GROUP_SIZE", allGroupSize);
 		
+		// 특정 그룹 차트용 월간 랭킹 변동사항 데이터 groupID, YYYYMMDD 형태로 입력
+//		RankGroupDAO rudao = new RankGroupDAO();
+//		ArrayList<RankGroupVO> rglist = rudao.selectRankGroupAllByMonth(1, "20250101");
+//		request.setAttribute("MONTHLY_GROUP_RANK", rglist);
 		
 		// 그룹 달성 업정정보
 		
