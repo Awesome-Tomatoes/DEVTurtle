@@ -30,13 +30,13 @@ public class MissionJsonConverter {
         return jsonResult;
 	}
 	
-	public String convertToJsonUser(ArrayList<MissionJoinUserVO> dataList) {
-        ObjectMapper objectMapper = new ObjectMapper();
-        String jsonResult = "";
+	public JsonNode convertToJsonUser(ArrayList<MissionJoinUserVO> dataList) {
+		ObjectMapper objectMapper = new ObjectMapper();
+        JsonNode jsonResult = null;
 
         try {
             // ArrayList를 JSON으로 변환
-            jsonResult = objectMapper.writeValueAsString(dataList);
+            jsonResult = objectMapper.valueToTree(dataList);
         } catch (Exception e) {
             e.printStackTrace();
         }
