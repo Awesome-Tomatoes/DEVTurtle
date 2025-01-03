@@ -99,7 +99,7 @@ public class FollowDAO {
 		ResultSet rs = null;
 		
 		try {
-			String sql = "select following from follow where follower = ?";
+			String sql = "select following from follow where follower = ? order by follow_id";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, userID);
 			rs = pstmt.executeQuery();  
@@ -149,7 +149,7 @@ public class FollowDAO {
 		ResultSet rs = null;
 		
 		try {
-			String sql = "select follower from follow where following = ?";
+			String sql = "select follower from follow where following = ? order by follow_id";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, userID);
 			rs = pstmt.executeQuery();  
