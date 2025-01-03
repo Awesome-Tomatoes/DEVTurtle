@@ -44,9 +44,8 @@
   height: 20px;
 }
 
-#header-auth {
-  font-family: "DungGeunMo";
-  font-size: 20px;
+#header-auth button {
+  font-size: 16px;
 }
 
 #header-auth-mypage {
