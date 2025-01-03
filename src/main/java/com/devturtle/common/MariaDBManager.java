@@ -74,6 +74,12 @@ public class MariaDBManager implements DBManager {
 			e.printStackTrace();
 		}
 	}
+
+	@Override
+	public void close(Connection conn) {
+		// TODO Auto-generated method stub
+		
+	}
 	
 
 }
