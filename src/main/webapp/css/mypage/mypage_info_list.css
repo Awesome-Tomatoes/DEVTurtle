@@ -1,0 +1,36 @@
+#user-info-list {
+	display: flex;
+	gap: 30px;
+	align-items:center;
+	justify-content: center;
+	width: 90%;
+}
+
+.user-info-list__btn {
+	background-color: var(--depth-second-color);
+	width:	25%;
+	border:none;
+	color: var(--font-white-color);
+	font-size: 20px;
+	padding-top:20px;
+	padding-bottom:20px;
+	border-radius:20px;
+}
+
+.user-info-list__title {
+	display: flex;
+	gap:10px;
+	flex-direction: column;
+	align-items:center;
+	justify-content: center;
+	margin-bottom:10px;
+	color: var(--font-gray-color);
+}
+
+.user-info-list__title img {
+	width: 70px;
+}
+
+#user-info-list__ranking-desc {
+	color: #99911D;
+}
