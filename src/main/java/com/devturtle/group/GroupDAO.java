@@ -43,7 +43,7 @@ public int selectAllGroupSize() {
 			rs = pstmt.executeQuery();  
 			while(rs.next()) {
 				GroupVO uvo = new GroupVO();
-				uvo.setGroupId(rs.getLong("GROUP_ID"));
+				uvo.setGroupId(rs.getInt("GROUP_ID"));
 				alist.add(uvo);
 			}
 		} catch (SQLException e) {
@@ -90,6 +90,15 @@ public int selectAllGroupSize() {
 		return new GroupVO(groupId,"멋쟁이그룹","설명","스터디","공개",50000,60,"2024-12-12","2024-12-12"); 
 	}
 	
+	public int updateGroupDetail(int userId, int groupId) {
+	
+		return 1;
+	}
+	
+	public int deleteJoinGroup(int userId, int groupId) {
+		
+		return 1;
+	}
 	
 	//------------------------- 전체 그룹 랭킹 조회 메서드--------------------------------- 
 	public ArrayList<GroupVO> selectAllGroupByMonthOrderByRankPaging(String date, int startSeq , int endSeq) {
@@ -115,13 +124,13 @@ public int selectAllGroupSize() {
 			rs = pstmt.executeQuery();  
 			while(rs.next()) {
 				GroupVO uvo = new GroupVO();
-				uvo.setGroupId(rs.getLong("GROUP_ID"));
+				uvo.setGroupId(rs.getInt("GROUP_ID"));
 				uvo.setName(rs.getString("NAME"));
 				uvo.setDescription(rs.getString("DESCRIPTION"));
 				uvo.setCategory(rs.getString("CATEGORY"));
 				uvo.setGPrivate(rs.getString("PRIVATE"));
 				uvo.setUpdatedAt(rs.getString("UPDATED_AT"));
-				uvo.setTotalScore(rs.getLong("TOTAL_SCORE"));
+				uvo.setTotalScore(rs.getInt("TOTAL_SCORE"));
 				uvo.setRank(rs.getInt("RNUM"));
 				alist.add(uvo);
 			}
@@ -135,7 +144,7 @@ public int selectAllGroupSize() {
 	
 	
 	//-------------------------GROUP Create 메서드--------------------------------- 
-	public int createGroup(int userId) {
+	public int createGroup(int userId,GroupVO gvo) {
 
 		DBManager dbm = OracleDBManager.getInstance(); //new OracleDBManager();
 		Connection conn = dbm.connect();
@@ -149,22 +158,32 @@ public int selectAllGroupSize() {
             // GROUP 더미가 7개 들어가있음 : RANK_GROUP_SEQ.NEXTVAL+7 
             
             String sql = "INSERT INTO GROUPS ("
-            		+ "    GROUP_ID, \"NAME\", \"SIZE\", CONDITION,"
+            		+ "    GROUP_ID, "
+            		+ "		\"NAME\", \"SIZE\", CONDITION,"
             		+ "    \"DESCRIPTION\","
             		+ "    \"CATEGORY\", "
             		+ "    \"PRIVATE\", \"LOCATION\", "
             		+ "		CREATED_AT, UPDATED_AT, TOTAL_SCORE, RANK_SCORE"
             		+ ") VALUES ("
-            		+ "    GROUP_SEQ.NEXTVAL, ?, ?, ?, "
-            		+ "    ?, "
-					+ "    ?,"
-            		+ "    ?, ?, "
+            		+ "    GROUP_SEQ.NEXTVAL, "
+            		+ "		?, ?, ?, "
+            		+ "    	?, "
+					+ "    	?,"
+            		+ "    	?, ?, "
             		+ "		SYSDATE, SYSDATE, 0, RANK_GROUP_SEQ.NEXTVAL+7"
             		+ ")";
             pstmt = conn.prepareStatement(sql);
-            pstmt.setInt(1, userId);
+            pstmt.setString(1, gvo.getName()); //------파라미터를 1번째?에 바인딩
+			pstmt.setInt(2, gvo.getSize());
+			pstmt.setInt(3, gvo.getCondition());
+			pstmt.setString(4, gvo.getDescription());
+			pstmt.setString(5, gvo.getCategory());
+			pstmt.setString(6, gvo.getGPrivate());
+			pstmt.setString(7, gvo.getLocation());
+            
             rows = pstmt.executeUpdate();
             if (rows == 1) {
+            	
                 conn.commit();
             } else {
                 conn.rollback();
@@ -199,11 +218,7 @@ public int selectAllGroupSize() {
 		return result;
 	}
 	
-	// 그룹 신청 대기
-	
 	//-------------------------다른 api---------------------------
-	
-	// 그룹 신청 대기
 	
 	// 로그인한 유저가 참여중인 그룹수
 	public int getNumberOfJoinGroup() {
