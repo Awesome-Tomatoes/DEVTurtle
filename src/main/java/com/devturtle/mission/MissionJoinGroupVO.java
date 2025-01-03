@@ -28,8 +28,10 @@ public class MissionJoinGroupVO {
 	private String gname;
 	private String contents;
 	private String success_date;
+	private String badgeLink;
 	private int points;
 	private int count;
+	
 	
 
 }
