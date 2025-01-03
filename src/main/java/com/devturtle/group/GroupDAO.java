@@ -214,10 +214,6 @@ public class GroupDAO {
 		return rows;
 	}
 
-	public int deleteJoinGroup(int userId, int groupId) {
-		
-		return 1;
-	}
 
 	// ------------------------- 전체 그룹 랭킹 조회 메서드---------------------------------
 	public ArrayList<GroupVO> selectAllGroupByMonthOrderByRankPaging(String date, int startSeq, int endSeq) {
@@ -385,8 +381,8 @@ public class GroupDAO {
 		return rows;
 	}
 
-	// 그룹원 탈퇴하기
-	public int deleteGroupUser(int groupId, int userId) {
+	// 유저가 그룹 탈퇴하기
+	public int deleteGroupByUser(int groupId, int userId) {
 
 		DBManager dbm = OracleDBManager.getInstance(); // new OracleDBManager();
 		Connection conn = dbm.connect();
@@ -417,6 +413,120 @@ public class GroupDAO {
 		}
 
 		return rows;
+	}
+	
+	public int deleteGroupByLeader(int groupId, int userId, int deleteUserId) {
+
+		DBManager dbm = OracleDBManager.getInstance(); // new OracleDBManager();
+		Connection conn = dbm.connect();
+		PreparedStatement pstmt = null;
+		int rows = 0;
+
+		try {
+			conn.setAutoCommit(false);
+			String sql = "DELETE FROM group_user\r\n"
+						+ "WHERE group_id = ?	\r\n"
+						+ "  AND user_id = ?	\r\n"
+						+ "  AND EXISTS (		\r\n"
+						+ "      SELECT 1		\r\n"
+						+ "      FROM group_user		\r\n"
+						+ "      WHERE group_id = ?		\r\n"
+						+ "        AND user_id = ?		\r\n"
+						+ "        AND role = 'LEADER'	\r\n"
+						+ "  )";
+
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, groupId); // groupId
+			pstmt.setInt(2, deleteUserId); // userId
+			pstmt.setInt(3, groupId);
+			pstmt.setInt(4, userId);
+			
+			rows = pstmt.executeUpdate();
+			if (rows == 1) {
+
+				conn.commit();
+
+			} else {
+				conn.rollback();
+			}
+		} catch (SQLException e) {
+
+			e.printStackTrace();
+		} finally {
+			dbm.close(conn, pstmt);
+		}
+
+		return rows;
+	}
+	
+	// 리더 변경하기
+	public int grantGroupLeaderByLeader(int groupId,int currentLeaderId,int newLeaderId) {
+
+		    DBManager dbm = OracleDBManager.getInstance(); // DB 연결 객체
+		    Connection conn = dbm.connect(); // DB 연결
+		    PreparedStatement pstmt = null;
+		    int rows = 0;
+
+		    try {
+		        conn.setAutoCommit(false); // 트랜잭션 수동 관리
+
+		        // 첫 번째 UPDATE: 현재 리더를 MEMBER로 변경
+		        String sqlUpdateCurrentLeader = "UPDATE group_user "
+		                                      + "SET role = 'MEMBER' "
+		                                      + "WHERE group_id = ? "
+		                                      + "AND user_id = ? "
+		                                      + "AND role = 'LEADER'";
+
+		        pstmt = conn.prepareStatement(sqlUpdateCurrentLeader);
+		        pstmt.setInt(1, groupId);
+		        pstmt.setInt(2, currentLeaderId); // 현재 리더의 user_id
+
+		        rows = pstmt.executeUpdate();
+
+		        if (rows == 1) {
+		            // 두 번째 UPDATE: 새로운 리더를 LEADER로 설정
+		            String sqlUpdateNewLeader = "UPDATE group_user "
+		                                       + "SET role = 'LEADER' "
+		                                       + "WHERE group_id = ? "
+		                                       + "AND user_id = ? "
+		                                       + "AND role != 'LEADER'";
+
+			        try (PreparedStatement pstmtSecondUpdate = conn.prepareStatement(sqlUpdateNewLeader)) {
+			        	pstmtSecondUpdate.setInt(1, groupId);
+			        	pstmtSecondUpdate.setInt(2, newLeaderId); // 새로운 리더의 user_id
+
+				            rows = pstmtSecondUpdate.executeUpdate();
+
+			            System.out.println("Rows inserted: " + rows);
+			            if (rows == 1) {
+			            	conn.commit(); 
+			            } else {
+			                System.out.println("update leader 임명 error>>>>>>>>");
+			                conn.rollback(); 
+			            }
+			        } catch (SQLException e) {
+			            System.out.println("PreparedStatement 생성 오류>>>>>>>>");
+			            e.printStackTrace();
+			            conn.rollback(); 
+			        }
+		        } else {
+		            conn.rollback(); // 첫 번째 업데이트가 실패하면 롤백
+		        }
+
+		    } catch (SQLException e) {
+		        e.printStackTrace(); // 예외 발생 시 출력
+		        try {
+		            if (conn != null) {
+		                conn.rollback(); // 예외 발생 시 롤백
+		            }
+		        } catch (SQLException rollbackEx) {
+		            rollbackEx.printStackTrace();
+		        }
+		    } finally {
+		        dbm.close(conn, pstmt); // 리소스 정리
+		    }
+
+		    return rows; // 수정된 행 수 반환
 	}
 	// -------------------------GROUP 신청관련 메서드---------------------------------
 
@@ -481,6 +591,7 @@ public class GroupDAO {
 		GroupVO gvoTest = new GroupVO(0, "개발자 그룹", "개발을 좋아하는 사람들", "기술", "Y", 100, 200, "2025-01-02", "2025-01-02", 1,
 				5, 1, "서울", null);
 
+//		System.out.println( "리더 임명 test>>>"+ gdao.grantGroupLeaderByLeader(1, 1, 2));
 //		int testInsert = gdao.createGroup(2, gvoTest);
 //		System.out.println("testInsert" + testInsert);
 //		
