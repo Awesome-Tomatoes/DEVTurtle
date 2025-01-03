@@ -36,12 +36,13 @@ public class MissionGroupServlet extends HttpServlet {
 		
 		MissionGroupDAO mgd = new MissionGroupDAO();
 		
-		ArrayList<MissionJoinGroupVO> mlist = mgd.selectAllMissionGroup(3); // 예시로 3 넣음
-		
-		System.out.println(mlist.get(0).getContents());
+		ArrayList<MissionJoinGroupVO> mlist = mgd.selectMissionGroup(3); // 예시로 3 넣음
+		ArrayList<MissionJoinGroupVO> blist = mgd.selectMissionGroupBadge(3);	
+		//System.out.println(mlist.get(0).getContents());
 		
 		request.setAttribute("gname", mlist.get(0).getGname());
 		request.setAttribute("MLIST", mlist);
+		request.setAttribute("BLIST", blist);
 		
 		request.getRequestDispatcher("/jsp/mission/mission_detail_group.jsp").forward(request, response);
 		
@@ -55,15 +56,37 @@ public class MissionGroupServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		// JSON 응답 처리
-        MissionGroupDAO mgd = new MissionGroupDAO();
-        ArrayList<MissionJoinGroupVO> mlist = mgd.selectAllMissionGroup(3); // 그룹 ID 예시로 3
-
-        // JSON 변환
-        JsonNode jsonData = new MissionJsonConverter().convertToJsonGroup(mlist);
-
-        response.setContentType("application/json");
-        response.setCharacterEncoding("UTF-8");
-        response.getWriter().write(jsonData.toString()); // JSON 응답 반환
+		
+		String action = request.getParameter("action");
+		
+		if (action.equals("chart")) {
+	        MissionGroupDAO mgd = new MissionGroupDAO();
+	        ArrayList<MissionJoinGroupVO> mlist = mgd.selectMissionGroupChart(3); // 그룹 ID 예시로 3
+	
+	        // JSON 변환
+	        JsonNode jsonData = new MissionJsonConverter().convertToJsonGroup(mlist);
+	
+	        response.setContentType("application/json");
+	        response.setCharacterEncoding("UTF-8");
+	        response.getWriter().write(jsonData.toString()); // JSON 응답 반환
+	        
+	        System.out.println(jsonData.toString());
+		} 
+		
+		if (action.equals("history")) {
+			MissionGroupDAO mgd = new MissionGroupDAO();
+			ArrayList<MissionJoinGroupVO> mlist = mgd.selectMissionGroupHistory(3);
+			
+			JsonNode jsonData = new MissionJsonConverter().convertToJsonGroup(mlist);
+			
+			response.setContentType("application/json");
+			response.setCharacterEncoding("UTF-8");
+			response.getWriter().write(jsonData.toString());
+			
+			System.out.println(jsonData.toString());
+		}
+		
+		
 	}
 
 }
