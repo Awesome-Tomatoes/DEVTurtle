@@ -98,10 +98,36 @@ td span {
   color: var(--main-color); /* 주요 강조 색상 */
 }
 
+svg {
+    width: 100%; /* 컨테이너에 맞게 SVG 크기 조정 */
+    height: auto; /* 비율 유지 */
+  }
+
 /* 포인트 텍스트 스타일 */
 .table-points {
   color: var(--main-color); /* 강조 텍스트 색상 */
   font-weight: bold;
 }
 
+/* 전체 캘린더 레이아웃 */
+.day {
+    stroke: #ccc;
+    stroke-width: 1px;
+}
+        
+.month {
+   	font-size: 12px;
+    text-anchor: middle;
+}
 
+#tooltip {
+    position: absolute; /* 화면에 정확한 위치 설정 */
+    background-color: white; /* 배경색 추가 */
+    border: 1px solid black; /* 테두리 추가 */
+    padding: 5px; /* 여백 추가 */
+    border-radius: 5px; /* 둥근 모서리 */
+    pointer-events: none; /* 마우스 이벤트 무시 */
+    opacity: 0; /* 기본적으로 숨김 */
+    transition: opacity 0.2s; /* 부드럽게 표시 */
+    z-index: 1000; /* 다른 요소 위로 표시 */
+}
