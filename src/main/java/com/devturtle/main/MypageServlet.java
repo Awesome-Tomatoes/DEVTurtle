@@ -1,6 +1,7 @@
 package com.devturtle.main;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -10,6 +11,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.devturtle.follow.FollowDAO;
 import com.devturtle.group.GroupDAO;
+import com.devturtle.rank.RankUserDAO;
+import com.devturtle.rank.RankUserVO;
 import com.devturtle.user.UserDAO;
 import com.devturtle.user.UserVO;
 
@@ -49,8 +52,9 @@ protected void doGet(HttpServletRequest request, HttpServletResponse response) t
 	int numberOfJoinGroup = gdao.getNumberOfJoinGroup();
 	request.setAttribute("NUMBER_OF_JOIN_GROUP", numberOfJoinGroup);
 	
-	//차트
-//	 ArrayList<Integer> chartRankList = udao.selectChartRank("userid");
+	//차트 userID, 뽑아올 달 yyyymmdd 문자열로 입력
+//	RankUserDAO rudao = new RankUserDAO();
+//	ArrayList<RankUserVO> arr = rudao.selectRankUserAllByMonth(9, "20250101");
 //	 request.setAttribute("CHART_RANK_LIST", chartRankList);
 	 
 	

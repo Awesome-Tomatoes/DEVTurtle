@@ -89,8 +89,8 @@ public class RankUserDAO {
         return rulist;
     }
 	
-	// 월별 유저 랭킹 조회
-	public ArrayList<RankUserVO> selectRankUserAllByMonth(String date) {
+	// 월별 유저 랭킹 변동사항 조회 - 차트용
+	public ArrayList<RankUserVO> selectRankUserAllByMonth(int uID, String date) {
 	    ArrayList<RankUserVO> rulist = new ArrayList<>();
 	    DBManager dbm = OracleDBManager.getInstance();
 	    Connection conn = dbm.connect();
@@ -98,12 +98,13 @@ public class RankUserDAO {
 	    ResultSet rs = null;
 
 	    try {
-	        String sql = "SELECT RANK_USER_ID, USER_ID, SCORE_SUM, TO_CHAR(RANK_USER_DATE, 'YYYYMMDD') AS RANK_USER_DATE " +
-	                     "FROM Rank_User " +
-	                     "WHERE TRUNC(RANK_USER_DATE, 'MM') = TRUNC(TO_DATE(?, 'YYYYMMDD'), 'MM') " +
-	                     "ORDER BY SCORE_SUM DESC, RANK_USER_ID";
+	        String sql = "select * \r\n"
+	        		+ "from rank_user \r\n"
+	        		+ "WHERE USER_ID = ? AND TO_CHAR(RANK_USER_DATE, 'YYYYMM') LIKE  TO_CHAR(TO_DATE(?), 'YYYYMM') \r\n"
+	        		+ "ORDER BY RANK_USER_DATE";
 	        pstmt = conn.prepareStatement(sql);
-	        pstmt.setString(1, date);
+	        pstmt.setInt(1, uID);
+	        pstmt.setString(2, date);
 	        rs = pstmt.executeQuery();
 
 	        while (rs.next()) {
@@ -111,7 +112,6 @@ public class RankUserDAO {
 	            int userID = rs.getInt("USER_ID");
 	            int scoreSum = rs.getInt("SCORE_SUM");
 	            String rankUserDate = rs.getString("RANK_USER_DATE");
-
 	            rulist.add(new RankUserVO(rankUserID, userID, scoreSum, rankUserDate));
 	        }
 	    } catch (SQLException e) {
@@ -119,16 +119,14 @@ public class RankUserDAO {
 	    } finally {
 	        dbm.close(conn, pstmt, rs);
 	    }
-
 	    return rulist;
 	}
+
 	
-	public static void main(String[] argv) {
-		RankUserDAO rudao = new RankUserDAO();
-//		rudao.insertRankUser(15, 2400);
-//		ArrayList<RankUserVO> arr = rudao.selectRankUserAllByDay("20241231");
-		ArrayList<RankUserVO> arr = rudao.selectRankUserAllByMonth("20241231");
-		for(var x : arr) System.out.println(x.toString());
-	}
+//	public static void main(String[] argv) {
+//		RankUserDAO rudao = new RankUserDAO();
+//		ArrayList<RankUserVO> arr = rudao.selectRankUserAllByMonth(9, "20250101");
+//		for(var x : arr) System.out.println(x.toString());
+//	}
 	
 }
