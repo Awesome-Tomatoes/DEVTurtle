@@ -25,16 +25,13 @@ protected void doGet(HttpServletRequest request, HttpServletResponse response) t
 
 	
 	
-	//상단 유저정보	
-	UserDAO udao = new UserDAO();
-	UserVO uvo = udao.selectUser(1);
-	request.setAttribute("USER_INFO_VO", uvo);
-	
-	
-	//랭킹 :
-//	RankDAO rdao = new RankDAO();
-//	int userRank = rdao.selectRank("userid");
-//	request.setAttribute("USER_RANK", userRank);
+//	//상단 유저정보	+ 유저 랭킹, 인자로 userID 넣을것
+//	UserDAO udao = new UserDAO();
+//	UserVO uvo = udao.selectUserByIDWithRank(15);
+//	//총 유저 수, 전체 유저중에 몇등일지 쓸때 필요함
+//	int totalUser = udao.selectAllUser().size();
+//	request.setAttribute("USER_INFO_VO", uvo);
+//	request.setAttribute("USER_COUNT", totalUser);
 	
 	//미션 : 
 //	int userMissionPoint = udao.selectUserMissionPoint("userid");
