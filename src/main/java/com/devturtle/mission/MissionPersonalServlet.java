@@ -9,6 +9,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.fasterxml.jackson.databind.JsonNode;
+
 /**
  * Servlet implementation class MissionPersonalServlet
  */
@@ -29,12 +31,11 @@ public class MissionPersonalServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		MissionPersonalDAO mgd = new MissionPersonalDAO();
+		MissionPersonalDAO mpd = new MissionPersonalDAO();
 		
-		ArrayList<ObjectiveVO> ulist = mgd.selectAll();
+		ArrayList<MissionJoinUserVO> ulist = mpd.selectMissionUser(5);
 		
-		System.out.println(ulist.get(0).getContents());
-		
+		request.setAttribute("uname", ulist.get(0).getNickname());
 		request.setAttribute("ULIST", ulist);
 		
 		request.getRequestDispatcher("/jsp/mission/mission_detail_user.jsp").forward(request, response);		
@@ -45,7 +46,34 @@ public class MissionPersonalServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		doGet(request, response);
+		String action = request.getParameter("action");
+		
+		if (action.equals("chart")) {
+			MissionPersonalDAO mpd = new MissionPersonalDAO();
+	        ArrayList<MissionJoinUserVO> ulist = mpd.selectMissionUserChart(5); // 그룹 ID 예시로 3
+	
+	        // JSON 변환
+	        JsonNode jsonData = new MissionJsonConverter().convertToJsonUser(ulist);
+	
+	        response.setContentType("application/json");
+	        response.setCharacterEncoding("UTF-8");
+	        response.getWriter().write(jsonData.toString()); // JSON 응답 반환
+	        
+	        System.out.println(jsonData.toString());
+		}
+		
+		if (action.equals("history")) {
+			MissionPersonalDAO mpd = new MissionPersonalDAO();
+			ArrayList<MissionJoinUserVO> ulist = mpd.selectMissionUserHistory(5);
+			
+			JsonNode jsonData = new MissionJsonConverter().convertToJsonUser(ulist);
+			
+			response.setContentType("application/json");
+			response.setCharacterEncoding("UTF-8");
+			response.getWriter().write(jsonData.toString());
+			
+			System.out.println(jsonData.toString());
+		}
 	}
 
 }
