@@ -32,7 +32,7 @@
                 const query = $(this).val();
                 console.log(query);
 
-                if (query === '') {
+                if (query == null) {
                     $('#user-results ul').empty();
                     $('#group-results ul').empty();
                     return;
@@ -40,11 +40,12 @@
 
                 else{
                 	$.ajax({
-                        url: 'DevTurtle/search/search',
+                        url: '/DevTurtle/search',
                         method: 'GET',
                         data: "query=" + query ,
                         dataType: 'json', // JSON으로 파싱 설정
-                            console.log(response); // 서버 응답 확인용
+                        success 	: function(response) {
+                        	console.log(response); // 서버 응답 확인용
                             $('#user-results ul').empty();
                             $('#group-results ul').empty();
 
