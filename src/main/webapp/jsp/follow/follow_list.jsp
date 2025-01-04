@@ -22,10 +22,6 @@
 			
 			<div id="follow-mylist-main-title"> 님의 가입한 follow LIST</div>
 		</div>
-		<div class="follow-mylist-sub-title">
-			follow 생성하기	
-			<button class="follow-yes-btn">CREATE</button>
-		</div>
 	</div>
 
 
