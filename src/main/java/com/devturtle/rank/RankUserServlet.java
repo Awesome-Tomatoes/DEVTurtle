@@ -30,15 +30,17 @@ public class RankUserServlet extends HttpServlet {
 		int blockCount = 6; 
 		int blockPage = 4;
 		
-		PagingUtil pg = new PagingUtil("/rankUser", currentPage, totRecord, blockCount, blockPage);
+		PagingUtil pg = new PagingUtil(request.getContextPath() + "/rankUser", currentPage, totRecord, blockCount, blockPage);
 		request.setAttribute("MY_KEY_PAGING_HTML", pg.getPagingHtml().toString());
 		
 		
 //		request.setAttribute("RULIST", rulist);
 		ArrayList<UserVO> ulist = udao.selectAllUserByMonthOrderByRankPaging("20241231", pg.getStartSeq(), pg.getEndSeq());
 		request.setAttribute("ULIST", ulist);
-		request.getRequestDispatcher(request.getContextPath() + "/jsp/rank/rank_user.jsp").forward(request, response);
 		
+		request.setAttribute("contentPage", "/jsp/rank/rank_user.jsp");
+		
+	    request.getRequestDispatcher("/index.jsp").forward(request, response);		
 	}
 
 
