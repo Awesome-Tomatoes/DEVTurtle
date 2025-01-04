@@ -165,8 +165,10 @@ public class UserDAO {
 		try {
 		
 			String sql = "select s.* from\r\n"
-					+ "(select users.*, (ROW_NUMBER() OVER(order by TOTAL_SCORE desc, USER_ID)) as rnum from users) s\r\n"
-					+ "where TO_CHAR(UPDATED_AT, 'YYYYMM') = TO_CHAR(TO_DATE(?), 'YYYYMM') and rnum between ? and ?";
+					+ "(select users.*, (ROW_NUMBER() OVER(order by TOTAL_SCORE desc, USER_ID)) as rnum from users\r\n"
+					+ "where TO_CHAR(UPDATED_AT, 'YYYYMM') = TO_CHAR(TO_DATE(?), 'YYYYMM')) s\r\n"
+					+ "where rnum between ? and ?";
+			
 			pstmt =  conn.prepareStatement(sql);
 			pstmt.setString(1, date);
 			pstmt.setInt(2, startSeq);
