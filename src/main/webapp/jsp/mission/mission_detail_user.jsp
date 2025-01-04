@@ -76,7 +76,7 @@
 $(document).ready(function () {
     // AJAX로 JSON 데이터 가져오기
     $.ajax({
-        url: '/DevTurtle/missionPersonal', // JSON 데이터를 반환하는 Servlet의 URL
+        url: '/missionPersonal', // JSON 데이터를 반환하는 Servlet의 URL
         method: 'POST',
         data: {action: 'chart'},
         dataType: 'json',
@@ -134,14 +134,16 @@ $(document).ready(function () {
     });
     
     $.ajax({
-    	 url: '/DevTurtle/missionPersonal', // JSON 데이터를 반환하는 Servlet의 URL
+    	 url: '/missionPersonal', // JSON 데이터를 반환하는 Servlet의 URL
          method: 'POST',
          data: {action: 'history'},
          dataType: 'json',
          success: function (data) {
         	 console.log("Received data:", data);
         	 const datetime = data.map(data => data.success_date)
+        	 const counts = data.map(data => data.count)
         	 console.log("ddd:", datetime);
+        	 console.log("ccc:", counts);
         	 const highlightedDates = data;
         	 
         	 const svg = d3.select("svg");
@@ -156,9 +158,14 @@ $(document).ready(function () {
                  .attr("fill", function () {
                      // JSON 데이터에서 해당 날짜의 색상을 가져오기
                      const date = d3.select(this).attr("data-date");
-                     const match = highlightedDates.find(h => h.success_date === datetime);
-                     return match ? match.color : "#b3ff43"; // JSON의 색상 또는 기본 색상
-                 });
+                     const match = highlightedDates.find(h => h.success_date === date);
+                     return match ? "#b3ff43" : d3.select(this).attr("fill");
+                 })
+                 .attr("count", function () {
+                	 const date = d3.select(this).attr("data-date");
+                     const match = highlightedDates.find(h => h.success_date === date);
+                     return match ? match.count : d3.select(this).attr("count");
+                 })
          },
          error: function (err) {
              console.error("Error fetching data:", err);
@@ -234,6 +241,7 @@ svg.selectAll(".day")
     .attr("height", cellSize)
     .attr("fill", d => [0, 6].includes(d.getDay()) ? weekendColor : defaultColor) // 주말 강조
     .attr("data-date", d => d.toISOString().replace("T00:00:00.000Z", " 00:00:00")) // ISO 형식으로 날짜 저장
+    .attr("count", 0)
     
     
     
