@@ -44,7 +44,9 @@ public class MissionGroupServlet extends HttpServlet {
 		request.setAttribute("MLIST", mlist);
 		request.setAttribute("BLIST", blist);
 		
-		request.getRequestDispatcher("/jsp/mission/mission_detail_group.jsp").forward(request, response);
+		String contextPath = request.getContextPath();
+		request.getRequestDispatcher(contextPath+"/jsp/mission/mission_detail_group.jsp").forward(request, response);
+		//request.getRequestDispatcher("/jsp/mission/mission_detail_group.jsp").forward(request, response);
 		
 	}
 	
