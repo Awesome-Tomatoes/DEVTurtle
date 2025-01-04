@@ -17,6 +17,16 @@
  	padding: 30px;
 }
 
+#login-induce {
+	font-size: 20px;
+	width: 100%;
+	text-align: center;
+}
+
+#login-induce strong {
+	color: var(--main-color);
+}
+
 .contents__article--fragment {
 	background-color: var(--depth-second-color);
 	border-radius: 20px;
@@ -100,7 +110,6 @@
 	background-color: var(--main-color);
 	position: absolute;
 	top:0;
-	width: 70%;
 	height: 10px;
 	border-radius: 3px;
 }
@@ -130,6 +139,7 @@
 	border:0;
 	border-radius: 5px;
 	color: var(--font-gray-color);
+	text-decoration: none;
 }
 
 #user-basic-info__group-ul{
