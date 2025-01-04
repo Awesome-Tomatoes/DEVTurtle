@@ -73,10 +73,13 @@
     </div>
 </div>
 <script>
+
+const userId = new URLSearchParams(window.location.search).get("userid");
+
 $(document).ready(function () {
     // AJAX로 JSON 데이터 가져오기
     $.ajax({
-        url: '/missionPersonal', // JSON 데이터를 반환하는 Servlet의 URL
+    	url: '/missionPersonal?userid=' + userId, // JSON 데이터를 반환하는 Servlet의 URL
         method: 'POST',
         data: {action: 'chart'},
         dataType: 'json',
@@ -134,43 +137,41 @@ $(document).ready(function () {
     });
     
     $.ajax({
-    	 url: '/missionPersonal', // JSON 데이터를 반환하는 Servlet의 URL
-         method: 'POST',
-         data: {action: 'history'},
-         dataType: 'json',
-         success: function (data) {
-        	 console.log("Received data:", data);
-        	 const datetime = data.map(data => data.success_date)
-        	 const counts = data.map(data => data.count)
-        	 console.log("ddd:", datetime);
-        	 console.log("ccc:", counts);
-        	 const highlightedDates = data;
-        	 
-        	 const svg = d3.select("svg");
-        	 
-        	// 날짜별 블록 업데이트
-             svg.selectAll(".day")
-                 .filter(function () {
-                     // data-date와 JSON 데이터 비교
-                     const date = d3.select(this).attr("data-date");
-                     return highlightedDates.some(h => h.success_date === date);
-                 })
-                 .attr("fill", function () {
-                     // JSON 데이터에서 해당 날짜의 색상을 가져오기
-                     const date = d3.select(this).attr("data-date");
-                     const match = highlightedDates.find(h => h.success_date === date);
-                     return match ? "#b3ff43" : d3.select(this).attr("fill");
-                 })
-                 .attr("count", function () {
-                	 const date = d3.select(this).attr("data-date");
-                     const match = highlightedDates.find(h => h.success_date === date);
-                     return match ? match.count : d3.select(this).attr("count");
-                 })
-         },
-         error: function (err) {
-             console.error("Error fetching data:", err);
-         }
-     });
+    	url: '/missionPersonal?userid=' + userId, // JSON 데이터를 반환하는 Servlet의 URL
+        method: 'POST',
+        data: {action: 'history'},
+        dataType: 'json',
+        success: function (data) {
+       	 console.log("Received data:", data);
+       	 const datetime = data.map(data => data.success_date)
+       	 console.log("ddd:", datetime);
+       	 const highlightedDates = data;
+       	 
+       	 const svg = d3.select("svg");
+       	 
+       	// 날짜별 블록 업데이트
+           svg.selectAll(".day")
+                .filter(function () {
+                    // data-date와 JSON 데이터 비교
+                    const date = d3.select(this).attr("data-date");
+                    return highlightedDates.some(h => h.success_date === date);
+                })
+                .attr("fill", function () {
+                    // JSON 데이터에서 해당 날짜의 색상을 가져오기
+                    const date = d3.select(this).attr("data-date");
+                    const match = highlightedDates.find(h => h.success_date === date);
+                    return match ? "#b3ff43" : d3.select(this).attr("fill");
+                })
+                .attr("count", function () {
+               	 const date = d3.select(this).attr("data-date");
+                    const match = highlightedDates.find(h => h.success_date === date);
+                    return match ? match.count : d3.select(this).attr("count");
+                })
+        },
+        error: function (err) {
+            console.error("Error fetching data:", err);
+        }
+    });
 });
 
 </script>
@@ -178,7 +179,7 @@ $(document).ready(function () {
 <script>
 
 const cellSize = 15; // 블록 크기
-const margin = { top: 30, right: 20, bottom: 20, left: 50 };
+const margin = { top: 10, right: 0, bottom: 10, left: 0 };
 
 // 특정기간
 const generateCalendar = (startDate, endDate) => {
@@ -221,36 +222,79 @@ const yScale = d3.scaleBand()
 const svg = d3.select("#calendar")
     .append("svg")
     .attr("width", width + margin.left + margin.right)
-    .attr("height", height + margin.top + margin.bottom)
+    .attr("height", height + margin.top + margin.bottom + 30)
     .append("g")
-    .attr("transform", `translate(${margin.left},${margin.top})`);
+    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
 // 색상 설정
 const defaultColor = "#CEE3F6"; // 기본 색상: 밝은 하늘색
 const weekendColor = "#CEE3F6"; // 주말 색상: 밝은 하늘색
 
+var Tooltip = d3.select("body")
+.append("div")
+.style("opacity", 0)
+.attr("class", "tooltip")
+.style("position", "absolute")
+.style("background-color", "white")
+.style("border", "solid")
+.style("border-width", "2px")
+.style("border-radius", "5px")
+.style("padding", "5px")
+
+var mouseover = function(event, d) {
+	const date = d3.select(this).attr("data-date");
+    const count = d3.select(this).attr("count");
+    Tooltip
+        .style("opacity", 1)
+        .html("날짜 : " + date + "<br>" +
+        	"count:" + count); // count가 없으면 기본 메시지
+    d3.select(this)
+        .style("stroke", "black")
+        .style("stroke-width", "2px")
+    	.attr("shape-rendering", "crispEdges")
+        .style("opacity", 1);
+};
+
+var mousemove = function(event, d) {
+    //const [x, y] = d3.pointer(event);
+    Tooltip
+    	.style("left", (event.pageX + 20) + "px") // 브라우저 기준 오른쪽 20px
+    	.style("top", (event.pageY + 20) + "px"); // 브라우저 기준 아래 20px
+};
+
+var mouseleave = function(event, d) {
+    Tooltip
+        .style("opacity", 0); // 툴팁 숨기기
+    d3.select(this)
+        .style("stroke", "#ccc")
+        .style("stroke-width", "1px")
+        .style("opacity", 1);
+};
+
 // 날짜별 블록 추가
-svg.selectAll(".day")
-    .data(calendarData)
-    .enter()
-    .append("rect")
-    .attr("class", "day")
-    .attr("x", d => xScale(d3.timeSunday.floor(d).toString()))
-    .attr("y", d => yScale(weekDays[d.getDay()]))
-    .attr("width", cellSize)
-    .attr("height", cellSize)
-    .attr("fill", d => [0, 6].includes(d.getDay()) ? weekendColor : defaultColor) // 주말 강조
-    .attr("data-date", d => d.toISOString().replace("T00:00:00.000Z", " 00:00:00")) // ISO 형식으로 날짜 저장
-    .attr("count", 0)
-    
-    
-    
-// 월 레이블 추가
+svg.selectAll()
+	.data(calendarData)
+	.enter()
+	.append("rect")
+	.attr("class", "day")
+	.attr("x", d => xScale(d3.timeSunday.floor(d).toString()))
+	.attr("y", d => yScale(weekDays[d.getDay()]))
+	.attr("width", cellSize)
+	.attr("height", cellSize)
+	.attr("fill", d => [0, 6].includes(d.getDay()) ? weekendColor : defaultColor) // 주말 강조
+	.attr("data-date", d => d.toISOString().replace("T00:00:00.000Z", " 00:00:00")) // ISO 형식으로 날짜 저장
+	.attr("count", 0)
+	.on("mouseover", mouseover)
+	.on("mousemove", mousemove)
+	.on("mouseleave", mouseleave)
+
+// 월 데이터 구분
 const months = d3.timeMonths(
     d3.timeMonth.floor(d3.min(calendarData)), 
     d3.timeMonth.ceil(d3.max(calendarData))
-);
-
+);	
+	
+// 월 라벨 생성
 svg.selectAll(".month-label")
     .data(months)
     .enter()
@@ -260,11 +304,11 @@ svg.selectAll(".month-label")
         const firstDayOfMonth = d3.timeSunday.floor(d); // 월의 첫 번째 주 일요일
         return xScale(firstDayOfMonth.toString()) + cellSize / 2; // 월 시작 위치
     })
-    .attr("y", height + 15) // y축 위에 배치
+    .attr("y", height + 25)// y축 위에 배치
     .text(d => d3.timeFormat("%b")(d)) // "Jan", "Feb" 등으로 출력
     .attr("text-anchor", "start") // 시작점 기준 정렬
     .attr("fill", defaultColor);
-    
+
 </script>
 
 <%@ include file="/jsp/layout/footer.jsp" %>
