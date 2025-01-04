@@ -18,39 +18,121 @@
 
 <div id="follow-list-container">
 	<div class="follow-mylist-title-div">
-		<div class="follow-mylist-main-title">
-			
-			<div id="follow-mylist-main-title"> 님의 가입한 follow LIST</div>
+		<div class="follow-mylist-main-title">		
+			<div id="follow-mylist-main-title">${USER_NICK} 님의 FOLLOWER 목록</div>
 		</div>
 	</div>
-
-
 	<div class= "follow-mylist-container-div">
-			<div id="follow-mylist-search-div">
-				<p  class="follow-search-p" >follow LIST</p>
-				<div>
-					<input class="follow-search-input" type="text"  placeholder="친구 이름을 입력하세요">
-					<button class="follow-search-btn">검색</button> 
-				</div>
-			</div>
-			<div class="follow-mylist-join-info-div">
-				<div id="follow-mylist-per-div">
-					<div id="follow-mylist-image">
-						img
+       <!-- 팔로워 리스트 출력 -->
+       <div class="follow-list-section">
+           <div id="follow-mylist-container-div">
+				<div id="follow-mylist-search-div">
+					<p  class="follow-search-p" >${USER_NICK}님의 FOLLOWER 목록</p>
+					<div>
+						<input class="follow-search-input" type="text"  placeholder="친구 이름을 입력하세요">
+						<button class="follow-search-btn">검색</button> 
 					</div>
-					<div id="follow-detail-simple-info-div">
-						<p>1-1. follow title</p>	
-						<p>1-2. follow point</p>					
-					</div>
+				
 				</div>
-				<div class="follow-mylist-btn-div">
-					<button class="follow-no-btn">삭제</button> 
-				</div>
-			</div>
-			<div id="follow-mylist-container-div" class="follow-mylist-join-info-div" >
-			
-			</div>
+            	<c:forEach var="user" items="${FOLLOWER_LIST}"> 
+					<div class="follow-mylist-join-info-div">
+	                    <div id="follow-mylist-per-div">
+	                        <div id="follow-mylist-image">
+	                            <img src="/path/to/user/image/${user.userID}.jpg" alt="${user.nickname}">
+	                        </div>
+	                        <div id="follow-detail-simple-info-div">
+	                            <p class="follow_p_margin">${user.nickname}</p> <!-- user nickname -->
+	                            <p class="follow_p_margin">점수: ${user.totalScore}</p> <!-- user total score -->
+	                        </div>
+	                    </div>
+	                    <div class="follow-mylist-btn-div">
+	                        <button class="follow-no-btn">삭제</button>
+	                    </div>
+        			</div>
+        		</c:forEach>
+       		</div>
+   		</div>
 	</div>
+	<!-- -------------------------------------------------------- -->
+	
+	<div class="follow-mylist-title-div">
+		<div class="follow-mylist-main-title">		
+			<div id="follow-mylist-main-title">${USER_NICK} 님의 FOLLOWER 목록</div>
+		</div>
+	</div>
+	<div class= "follow-mylist-container-div">
+       <!-- 팔로워 리스트 출력 -->
+       <div class="follow-list-section">
+           <div id="follow-mylist-container-div">
+				<div id="follow-mylist-search-div">
+					<p  class="follow-search-p" >${USER_NICK}님의 FOLLOWING 목록</p>
+					<div>
+						<input class="follow-search-input" type="text"  placeholder="친구 이름을 입력하세요">
+						<button class="follow-search-btn">검색</button> 
+					</div>
+				
+				</div>
+	            <c:forEach var="user" items="${FOLLOWING_LIST}">
+	                <div class="follow-mylist-join-info-div">
+	                    <div id="follow-mylist-per-div">
+	                        <div id="follow-mylist-image">
+	                            <img src="/path/to/user/image/${user.userID}.jpg" alt="${user.nickname}">
+	                        </div>
+	                        <div id="follow-detail-simple-info-div">
+	                            <p>${user.nickname}</p>
+	                            <p>점수: ${user.totalScore}</p>
+	                        </div>
+	                    </div>
+	                    <div class="follow-mylist-btn-div">
+	                        <button class="follow-no-btn">삭제</button>
+	                    </div>
+	                </div>
+	            </c:forEach>
+       		</div>
+   		</div>
+	</div>
+	<!-- -------------------------------------------------------- -->
+	<div class="follow-mylist-title-div">
+		<div class="follow-mylist-main-title">		
+			<div id="follow-mylist-main-title">${USER_NICK}님의 대기 목록</div>
+		</div>
+	</div>
+	<div class= "follow-mylist-container-div">
+       <!-- 팔로워 리스트 출력 -->
+       <div class="follow-list-section">
+           <div id="follow-mylist-container-div">
+				<div id="follow-mylist-search-div">
+					<p  class="follow-search-p" >${USER_NICK}님의 대기 목록</p>
+					<div>
+						<input class="follow-search-input" type="text"  placeholder="친구 이름을 입력하세요">
+						<button class="follow-search-btn">검색</button> 
+					</div>
+				
+				</div>
+            	<c:forEach var="user" items="${WAIT_LIST}">
+					<div id="follow-mylist-container-div" class="follow-mylist-join-info-div" >
+
+		                <div class="follow-mylist-join-info-div">
+		                    <div id="follow-mylist-per-div">
+		                        <div id="follow-mylist-image">
+		                            <img src="/path/to/user/image/${user.userID}.jpg" alt="${user.nickname}">
+		                        </div>
+		                        <div id="follow-detail-simple-info-div">
+		                            <p>${user.nickname}</p>
+		                            <p>점수: ${user.totalScore}</p>
+		                        </div>
+		                    </div>
+		                    <div class="follow-mylist-btn-div">
+		                        <button class="follow-no-btn">삭제</button>
+		                    </div>
+		                </div>
+		              </div>
+		         </c:forEach>
+       		</div>
+   		</div>
+	</div>
+	<!-- -------------------------------------------------------- -->
+	
 
 </div>
 

@@ -4,7 +4,7 @@
 	width: 80%;
 	margin: 0 auto;  
 }
-.follow-mylist-container-div{
+#follow-mylist-container-div{
 	width: 100%;
 	height: 100%;
 	background-color: var(--depth-second-color);
@@ -39,9 +39,18 @@
 	align-items: center;
 	font-size:18px;
 }
-#follow-mylist-per-div{
-	display:flex;
-	
+#follow-mylist-per-div {
+    display: flex;
+    justify-content: flex-start;  /* 왼쪽 정렬 */
+    align-items: center;
+}
+
+#follow-detail-simple-info-div{
+	width: 100%;
+	margin: 0 10px;
+}
+.follow_p_margin{
+	margin : 5px;
 }
 #follow-mylist-image{
 	width: 100px;
