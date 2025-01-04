@@ -31,16 +31,27 @@ public class MissionPersonalServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		MissionPersonalDAO mpd = new MissionPersonalDAO();
 		
-		ArrayList<MissionJoinUserVO> ulist = mpd.selectMissionUser(5);
+		String userid = request.getParameter("userid");
+		System.out.println(userid);
 		
-		request.setAttribute("uname", ulist.get(0).getNickname());
-		request.setAttribute("ULIST", ulist);
+		if (userid == null || userid.isEmpty()) {
+            System.out.println("error");
+        }
+		else {
+			int userId = Integer.parseInt(userid);
 		
-		String contextPath = request.getContextPath();
-		request.getRequestDispatcher(contextPath+"/jsp/mission/mission_detail_user.jsp").forward(request, response);
-		//request.getRequestDispatcher("/jsp/mission/mission_detail_user.jsp").forward(request, response);		
+			MissionPersonalDAO mpd = new MissionPersonalDAO();
+			
+			ArrayList<MissionJoinUserVO> ulist = mpd.selectMissionUser(userId);
+			
+			request.setAttribute("uname", ulist.get(0).getNickname());
+			request.setAttribute("ULIST", ulist);
+			
+			String contextPath = request.getContextPath();
+			request.getRequestDispatcher(contextPath+"/jsp/mission/mission_detail_user.jsp").forward(request, response);
+			//request.getRequestDispatcher("/jsp/mission/mission_detail_user.jsp").forward(request, response);	
+		}
 	}
 
 	/**
@@ -48,35 +59,43 @@ public class MissionPersonalServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		String action = request.getParameter("action");
+		String userid = request.getParameter("userid");
+		System.out.println(userid);
 		
-		if (action.equals("chart")) {
-			MissionPersonalDAO mpd = new MissionPersonalDAO();
-	        ArrayList<MissionJoinUserVO> ulist = mpd.selectMissionUserChart(5); // 그룹 ID 예시로 3
-	
-	        // JSON 변환
-	        JsonNode jsonData = new MissionJsonConverter().convertToJsonUser(ulist);
-	
-	        response.setContentType("application/json");
-	        response.setCharacterEncoding("UTF-8");
-	        response.getWriter().write(jsonData.toString()); // JSON 응답 반환
-	        
-	        System.out.println(jsonData.toString());
-		}
+		if (userid == null || userid.isEmpty()) {
+            System.out.println("error");
+        }
+		else {
+			int userId = Integer.parseInt(userid);
+			String action = request.getParameter("action");
 		
-		if (action.equals("history")) {
-			MissionPersonalDAO mpd = new MissionPersonalDAO();
-			ArrayList<MissionJoinUserVO> ulist = mpd.selectMissionUserHistory(5);
+			if (action.equals("chart")) {
+				MissionPersonalDAO mpd = new MissionPersonalDAO();
+		        ArrayList<MissionJoinUserVO> ulist = mpd.selectMissionUserChart(userId); // 그룹 ID 예시로 3
+		
+		        // JSON 변환
+		        JsonNode jsonData = new MissionJsonConverter().convertToJsonUser(ulist);
+		
+		        response.setContentType("application/json");
+		        response.setCharacterEncoding("UTF-8");
+		        response.getWriter().write(jsonData.toString()); // JSON 응답 반환
+		        
+		        System.out.println(jsonData.toString());
+			}
 			
-			JsonNode jsonData = new MissionJsonConverter().convertToJsonUser(ulist);
-			
-			response.setContentType("application/json");
-			response.setCharacterEncoding("UTF-8");
-			response.getWriter().write(jsonData.toString());
-			
-			System.out.println(jsonData.toString());
-		}
+			if (action.equals("history")) {
+				MissionPersonalDAO mpd = new MissionPersonalDAO();
+				ArrayList<MissionJoinUserVO> ulist = mpd.selectMissionUserHistory(userId);
+				
+				JsonNode jsonData = new MissionJsonConverter().convertToJsonUser(ulist);
+				
+				response.setContentType("application/json");
+				response.setCharacterEncoding("UTF-8");
+				response.getWriter().write(jsonData.toString());
+				
+				System.out.println(jsonData.toString());
+			}
+		}	
 	}
-
 }
 
