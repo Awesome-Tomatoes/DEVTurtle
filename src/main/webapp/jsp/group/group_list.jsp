@@ -52,54 +52,8 @@
 					<button class="group-no-btn">탈퇴</button> 
 				</div>
 			</div>
-			<div class="group-mylist-join-info-div">
-				<div id="group-mylist-per-div">
-					<div id="group-mylist-image">
-						img
-					</div>
-					<div id="group-detail-simple-info-div">
-						<p>1-1. group title</p>	
-						<p>1-2. group point</p>					
-					</div>
-				</div>
-				<div class="group-mylist-btn-div">
-					
-					<button class="group-yes-btn">이동</button> 
-					<button class="group-no-btn">탈퇴</button> 
-				</div>
-			</div>
-			<div class="group-mylist-join-info-div">
-				<div id="group-mylist-per-div">
-					<div id="group-mylist-image">
-						img
-					</div>
-					<div id="group-detail-simple-info-div">
-						
-						<p>1-1. group title</p>	
-						<p>1-2. group point</p> 				
-					</div>
-				</div>
-				<div class="group-mylist-btn-div">
-					
-					<button class="group-yes-btn">이동</button> 
-					<button class="group-no-btn">탈퇴</button> 
-				</div>
-			</div>
-			<div class="group-mylist-join-info-div">
-				<div id="group-mylist-per-div">
-					<div id="group-mylist-image">
-						img
-					</div>
-					<div id="group-detail-simple-info-div">
-						<p>1-1. group title</p>	
-						<p>1-2. group point</p>					
-					</div>
-				</div>
-				<div class="group-mylist-btn-div">
-					
-					<button class="group-yes-btn">이동</button> 
-					<button class="group-no-btn">탈퇴</button> 
-				</div>
+			<div id="group-mylist-container-div" class="group-mylist-join-info-div" >
+			
 			</div>
 	</div>
 
@@ -111,8 +65,48 @@
 <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
 <script>
 $( document ).ready(function() {
-	//$("#btn").click( function() {  
-	//    	$("#input").val();
-	//});
+	loadGroupList(); 
 });
+
+function loadGroupList() {
+	 $.ajax({
+	        type: "GET",  // 서버로 GET 방식으로 요청
+	        url: "/grouplist",  // 그룹 목록을 가져오는 서버 URL
+	        data: { type: "json" },  // 요청에 type="json" 파라미터 추가
+	        dataType: "json",  // 응답 형식은 JSON
+	        success: function(response) {
+	            if (response) {
+	                $('#group-list-container').empty(); // 기존 목록 초기화
+
+	                // 서버에서 받은 그룹 목록으로 동적 div 생성
+	                response.forEach(function(group) {
+	                    var groupDiv = 
+	                    	`
+		                        <div class="group-mylist-join-info-div" id="group-${group.id}">
+		                            <div id="group-mylist-per-div">
+		                                <div id="group-mylist-image">img</div>
+		                                <div id="group-detail-simple-info-div">
+		                                    <p>${group.name}</p>
+		                                    <p>${group.totalScore} ${group.rankScore}</p>
+		                                </div>
+		                            </div>
+		                            <div class="group-mylist-btn-div">
+		                                <button class="group-yes-btn">이동</button>
+		                                <button class="group-no-btn" onclick="leaveGroup('${group.id}')">탈퇴</button>
+		                            </div>
+		                        </div>
+		                    `;
+	                    $('#group-list-container').append(groupDiv);  // div 추가
+	                });
+	            } else {
+	                alert("그룹 목록을 불러오는 데 실패했습니다.");
+	            }
+	        },
+	        error: function(xhr, status, error) {
+	            console.error("에러 발생: " + error);
+	            alert("서버 요청에 실패했습니다.");
+	        }
+	    });   
+}
+
 </script>
