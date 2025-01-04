@@ -11,10 +11,17 @@
 			<p>DevTurtle</p>
 		</button>
 	</a>
-	<div id="header-search">
-		<input type="text" placeholder="사용자 또는 그룹을 검색해보세요!" /> <img
-			src="${pageContext.request.contextPath}/assets/layout/search.svg" />
-	</div>
+	<form id="header-search">
+		<input type="text" id = "searchForm" placeholder="사용자 또는 그룹을 검색해보세요!" /> 
+		<input type="hidden" id="query" name="query" />
+		<button id="searchBtn" style="background: none; border: none; cursor: pointer;">
+		    <img 
+		        src="${pageContext.request.contextPath}/assets/layout/search.svg" 
+		        alt="Search" 
+		        style="width: 22px; height: 22px;"
+		    />
+		</button>
+	</form>
 	<div id="header-auth">
 		<%
         Integer userId = (Integer) session.getAttribute("SESS_USER_ID");
