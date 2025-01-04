@@ -101,8 +101,6 @@ public class SearchServlet extends HttpServlet {
             response.getWriter().write(objectMapper.writeValueAsString(resultMap));
             System.out.println(resultMap.toString());
         }
-        
-
     }
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

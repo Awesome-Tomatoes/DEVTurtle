@@ -8,6 +8,9 @@
 #header-logo {
   display: flex;
   gap: 10px;
+  background-color: transparent;
+  text-decoration: none;
+  border:none;
 }
 
 #header-logo img {
@@ -44,22 +47,22 @@
   height: 20px;
 }
 
-#header-auth button {
+
+#header-auth a {
   font-size: 16px;
+  padding: 5px;
+  text-decoration: none;
 }
 
-#header-auth-mypage {
+.header-auth-a {
   width: fit-content;
   background-color: var(--main-color);
   border-radius: 3px;
   color: var(--back-color);
-  padding-top: 5px;
-  padding-bottom: 5px;
 }
 
+
 #header-auth-logout {
-  padding-top: 5px;
-  padding-bottom: 5px;
   color: var(--main-color);
   background-color: transparent;
   border: 2px solid var(--main-color);

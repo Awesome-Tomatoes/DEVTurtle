@@ -1,0 +1,124 @@
+@charset "UTF-8";
+
+#follow-list-container{
+	width: 80%;
+	margin: 0 auto;  
+}
+.follow-mylist-container-div{
+	width: 100%;
+	height: 100%;
+	background-color: var(--depth-second-color);
+	border-radius: 20px; 
+	justify-content: space-between;
+	align-items: center;
+	margin: 10px 0px 30px; 
+	display: flex;
+	flex-direction :column; /*flex방향을 위에서 아래로*/
+	padding: 10px 0 10px 0;
+}
+
+.follow-mylist-title-div{
+	display:flex;
+	justify-content: space-between;
+	align-items: center;
+	
+}
+
+.follow-mylist-join-info-div{
+	
+	width: 90%;
+	background-color: var(--depth-third-color);
+	margin:13px auto;
+	border-radius: 10px;
+	padding:10px; 
+	/*text-align: center;  div에서 text 센터로 */
+	
+	/*수평 수직 중앙정렬 grid / center*/
+	display:flex;
+	justify-content: space-between;
+	align-items: center;
+	font-size:18px;
+}
+#follow-mylist-per-div{
+	display:flex;
+	
+}
+#follow-mylist-image{
+	width: 100px;
+	background-color: white;
+}
+
+#follow-mylist-main-title{
+	font-size:21px;
+	padding:10px;
+}
+
+#follow-mylist-search-div{
+	display: flex;               /* 플렉스 박스로 요소들을 배치 */
+    justify-content: space-between; /* 요소들을 양옆으로 배치 */
+    align-items: center;   
+    width: 90%;   
+	margin:10px 10px 0 10px ;
+	font-size:16px;
+}
+
+.follow-search-p{
+	font-size:20px;
+}
+.follow-search-input{
+	font-size:14px; 
+	background-color: var(--depth-third-color);
+	padding: 8px;
+}
+
+
+.follow-yes-btn{
+
+    background: linear-gradient(to bottom, #B3FF43, #6B9928); /* 위쪽은 B3FF43, 아래쪽은 6B9928로 그라데이션 */
+    color: var(--font-white-color);           /* 텍스트 색상 */
+    border: none;           /* 테두리 없앰 */
+    padding: 8px 18px;     /* 패딩 */
+    font-size: 14px;        /* 폰트 크기 */
+    cursor: pointer;       /* 마우스 커서를 버튼으로 */
+    border-radius: 5px;     /* 둥근 모서리 */
+    transition: background 0.3s ease;  
+
+}
+
+.follow-yes-btn:hover {
+    background: linear-gradient(to bottom, #6B9928, #B3FF43); /* 호버 시 그라데이션 반전 */
+}
+
+
+.follow-no-btn{
+
+    background: linear-gradient(to bottom, #FF4343, #992828); /* 위쪽은 #FF4343, 아래쪽은 #992828로 그라데이션 */
+    color: var(--font-white-color);           /* 텍스트 색상 */
+    border: none;           /* 테두리 없앰 */
+    padding: 8px 18px;     /* 패딩 */
+    font-size: 14px;        /* 폰트 크기 */
+    cursor: pointer;       /* 마우스 커서를 버튼으로 */
+    border-radius: 5px;     /* 둥근 모서리 */
+    transition: background 0.3s ease;  
+
+}
+
+
+.follow-no-btn:hover {
+    background: linear-gradient(to bottom, #992828, #FF4343); /* 호버 시 그라데이션 반전 */
+}
+
+.follow-search-btn{
+	background: linear-gradient(to bottom,  #2a4a58, #163142);
+	color: var(--font-white-color);           /* 텍스트 색상 */
+    border: none;           /* 테두리 없앰 */
+    padding: 8px 18px;     /* 패딩 */
+    font-size: 14px;        /* 폰트 크기 */
+    cursor: pointer;       /* 마우스 커서를 버튼으로 */
+    border-radius: 5px;     /* 둥근 모서리 */
+    transition: background 0.3s ease;  
+}
+
+.follow-search-btn:hover {
+    background: linear-gradient(to bottom, #163142,#2a4a58 ); /* 호버 시 그라데이션 반전 */
+}

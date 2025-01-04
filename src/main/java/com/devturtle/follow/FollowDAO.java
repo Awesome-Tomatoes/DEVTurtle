@@ -149,7 +149,57 @@ public class FollowDAO {
 		ResultSet rs = null;
 		
 		try {
-			String sql = "select follower from follow where following = ? order by follow_id";
+			String sql = "select follower from follow where following = ? and state = 'accept' order by follow_id";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, userID);
+			rs = pstmt.executeQuery();  
+			
+			while(rs.next()) {
+				list.add(rs.getInt("follower"));
+			}
+			
+			for(int uid : list) {
+			sql = "select * from users where user_id = ?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, uid);
+			rs = pstmt.executeQuery();
+
+			UserVO uvo = new UserVO();
+			
+				while(rs.next()) {
+					uvo.setUserID(  rs.getInt("USER_ID")     );
+					uvo.setUserName(  rs.getString("USER_NAME")  );
+					uvo.setLoginID(  rs.getString("LOGIN_ID")  );
+					uvo.setLoginPW(  rs.getString("LOGIN_PW")  );
+					uvo.setNickname(  rs.getString("NICKNAME")  );
+					uvo.setGitID(  rs.getString("GIT_ID")  );
+					uvo.setSolvedID(  rs.getString("SOLVED_ID")  );
+					uvo.setUserBio(  rs.getString("USER_BIO")  );
+					uvo.setTotalScore(  rs.getInt("TOTAL_SCORE")  );
+					uvo.setSolvedScore(  rs.getInt("SOLVED_SCORE")  );
+					uvo.setGitScore(  rs.getInt("GIT_SCORE")  );
+					ulist.add(uvo);
+				}	
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}	finally {
+				dbm.close(conn, pstmt, rs);
+		}
+		return ulist;
+	}
+	
+	public ArrayList<UserVO> selectWaitFollowing(int userID){
+		ArrayList<Integer> list = new ArrayList<Integer>();
+		ArrayList<UserVO> ulist = new ArrayList<UserVO>();
+		
+		DBManager dbm = OracleDBManager.getInstance(); 
+		Connection conn = dbm.connect();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
+		try {
+			String sql = "select follower from follow where following = ? and state = 'wait' order by follow_id";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, userID);
 			rs = pstmt.executeQuery();  

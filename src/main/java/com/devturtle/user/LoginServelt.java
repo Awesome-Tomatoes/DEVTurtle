@@ -29,8 +29,8 @@ public class LoginServelt extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-		response.getWriter().append("Served at: ").append(request.getContextPath());
-		request.getRequestDispatcher("/jsp/user/user_login.jsp").forward(request, response);
+        String contextPath = request.getContextPath();
+		request.getRequestDispatcher(contextPath+"/jsp/user/user_login.jsp").forward(request, response);
 	}
 
 
@@ -39,6 +39,10 @@ public class LoginServelt extends HttpServlet {
         String loginid = request.getParameter("loginid");
         String password = request.getParameter("password");
         
+        
+        String contextPath = request.getContextPath();
+
+
 		System.out.println(loginid + password);
         UserDAO dao = new UserDAO();
         GroupDAO gdao = new GroupDAO();
@@ -50,11 +54,11 @@ public class LoginServelt extends HttpServlet {
         }
         if(uvo.getUserID() == 0) {
             request.setAttribute("errorMessage", "아이디를 입력해주세요");
-            request.getRequestDispatcher("/jsp/user/user_login.jsp").forward(request, response);
+            request.getRequestDispatcher(contextPath+"/jsp/user/user_login.jsp").forward(request, response);
             return;
         } else if (!uvo.getLoginPW().equals(password)) {
             request.setAttribute("errorMessage", "아이디 혹은 비밀번호가 일치하지 않습니다");
-            request.getRequestDispatcher("/jsp/user/user_login.jsp").forward(request, response);
+            request.getRequestDispatcher(contextPath+"/jsp/user/user_login.jsp").forward(request, response);
         } else {
     		
     		HttpSession session = request.getSession();
@@ -62,7 +66,8 @@ public class LoginServelt extends HttpServlet {
             session.setAttribute("SESS_ROLE", "user");
             session.setAttribute("SESS_GROUP", list);
 
-        	request.getRequestDispatcher("/main").forward(request, response);
+            
+            response.sendRedirect(contextPath + "/main");
         	
         }
         

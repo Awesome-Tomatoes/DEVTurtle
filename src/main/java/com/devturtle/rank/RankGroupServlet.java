@@ -32,17 +32,17 @@ public class RankGroupServlet extends HttpServlet {
 		int blockCount = 4; 
 		int blockPage = 4;
 		
-		PagingUtil pg = new PagingUtil("/DevTurtle/rankGroup", currentPage, totRecord, blockCount, blockPage);
+		PagingUtil pg = new PagingUtil("/rankGroup", currentPage, totRecord, blockCount, blockPage);
 		request.setAttribute("MY_KEY_PAGING_HTML", pg.getPagingHtml().toString());
 		
 		ArrayList<GroupVO> glist = gdao.selectAllGroupByMonthOrderByRankPaging("20250102", pg.getStartSeq(), pg.getEndSeq());
 		
-		for(var x : glist) {
-			System.out.println(glist.toString());
-		}
+//		for(var x : glist) {
+//			System.out.println(glist.toString());
+//		}
 		
 		request.setAttribute("GLIST", glist);
-		request.getRequestDispatcher("/jsp/rank/rank_group.jsp").forward(request, response);
+		request.getRequestDispatcher(request.getContextPath() + "/jsp/rank/rank_group.jsp").forward(request, response);
 	}
 
 
