@@ -66,7 +66,8 @@ public class LoginServelt extends HttpServlet {
             session.setAttribute("SESS_ROLE", "user");
             session.setAttribute("SESS_GROUP", list);
 
-            response.sendRedirect(contextPath + "/follow");
+            
+            response.sendRedirect(contextPath + "/main");
         	
         }
         
