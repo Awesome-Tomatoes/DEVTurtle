@@ -24,6 +24,7 @@ public class GroupVO {
 	private int size;
 	private int condition;
 	private String location;
+	private String mainPng;
 	
 	private ArrayList<GroupUserVO> listOfGroupUser;
 	

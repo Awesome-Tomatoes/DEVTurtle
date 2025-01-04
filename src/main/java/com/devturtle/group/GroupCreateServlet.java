@@ -43,6 +43,7 @@ public class GroupCreateServlet extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
+		System.out.println("요청 들어옴");
 		String name = request.getParameter("group-name");
 	    String category = request.getParameter("group-category");
 	    int size = Integer.parseInt(request.getParameter("group-size"));
@@ -52,12 +53,22 @@ public class GroupCreateServlet extends HttpServlet {
 	    String description = request.getParameter("group-description");
 	    String location = "서울";
 	    GroupDAO gdao = new GroupDAO();
-	    int userId = 1; 
+	    int userId = 25; 
 	    GroupVO gvo = new GroupVO(name,size, condition,
 				description, category,
 				gprivate,location);
 	    
-	    gdao.createGroup(userId,gvo);
+	    int tmp = gdao.createGroup(userId,gvo);
+	    if(tmp > 0) {
+	    	//그룹이 정상적으로 생성되었으면 그룹 리더를 추가
+			UserDAO udao = new UserDAO();
+			UserVO uvo = udao.selectUser(userId);
+			int userScore = uvo.getTotalScore();
+			int gid = gdao.selectGroupIDByName(name);
+			if(gid > 0) {
+				gdao.initGroupScore(gid, userScore);
+			}
+	    }
 
 	    response.sendRedirect("/groupcreate");
 	}
