@@ -6,7 +6,7 @@
 <%@ taglib prefix="fn" 	uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="x" 	uri="http://java.sun.com/jsp/jstl/xml" %>
 <%@ taglib prefix="sql" 	uri="http://java.sun.com/jsp/jstl/sql" %>    
-<%@ include file="/jsp/layout/header.jsp" %>
+<%-- <%@ include file="/jsp/layout/header.jsp" %> --%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -39,7 +39,7 @@
     
 ${MY_KEY_PAGING_HTML}
 
-<%@ include file="/jsp/layout/footer.jsp" %>
+<%-- <%@ include file="/jsp/layout/footer.jsp" %> --%>
 
 <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
 <script>

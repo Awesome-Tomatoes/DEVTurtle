@@ -43,6 +43,7 @@ public class GroupCreateServlet extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
+		System.out.println("요청 들어옴");
 		String name = request.getParameter("group-name");
 	    String category = request.getParameter("group-category");
 	    int size = Integer.parseInt(request.getParameter("group-size"));

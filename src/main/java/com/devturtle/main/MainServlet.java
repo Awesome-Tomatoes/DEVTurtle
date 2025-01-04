@@ -8,6 +8,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.devturtle.group.GroupDAO;
 import com.devturtle.group.GroupVO;
@@ -26,6 +27,10 @@ protected void doGet(HttpServletRequest request, HttpServletResponse response) t
 	UserDAO udao = new UserDAO();
 //	ArrayList<UserVO> ulist = udao.selectUser(1);
 //	request.setAttribute("ULIST", ulist);
+	
+	HttpSession session = request.getSession();
+	System.out.println(session.getAttribute("SESS_USER_ID"));
+//    session.setAttribute("SESS_USER_ID", uvo.getUserID());
 	
 	
 	GroupDAO gdao  = new GroupDAO();

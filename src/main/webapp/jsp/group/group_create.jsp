@@ -135,7 +135,7 @@
 										$("#group-create-form").attr("method",
 												"post");
 										$("#group-create-form").attr("action",
-												"/groupcreate");
+												"/DevTurtle/groupcreate");
 										$("#group-create-form").submit();
 									});
 				});

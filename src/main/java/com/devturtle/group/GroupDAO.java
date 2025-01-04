@@ -325,14 +325,14 @@ public class GroupDAO {
 	                + "    \"DESCRIPTION\"," 
 	                + "    \"CATEGORY\", " 
 	                + "    \"PRIVATE\", \"LOCATION\", " 
-	                + "    CREATED_AT, UPDATED_AT, TOTAL_SCORE, RANK_SCORE" 
+	                + "    CREATED_AT, UPDATED_AT, TOTAL_SCORE" 
 	                + ") VALUES (" 
 	                + "    ?, " 
 	                + "    ?, ?, ?, " 
 	                + "    ?, " 
 	                + "    ?, " 
 	                + "    ?, ?, " 
-	                + "    SYSDATE, SYSDATE, 0, RANK_GROUP_SEQ.NEXTVAL + 7" // 원래대로 RANK_GROUP_SEQ.NEXTVAL + 7 사용
+	                + "    SYSDATE, SYSDATE, 0" // 원래대로 RANK_GROUP_SEQ.NEXTVAL + 7 사용
 	                + ")";
 
 	        try (PreparedStatement pstmtInsert = conn.prepareStatement(sqlInsert)) {
