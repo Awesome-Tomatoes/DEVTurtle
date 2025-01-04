@@ -30,17 +30,19 @@ public class LoginServelt extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         String contextPath = request.getContextPath();
-		response.getWriter().append("Served at: ").append(contextPath);
 		request.getRequestDispatcher(contextPath+"/jsp/user/user_login.jsp").forward(request, response);
 	}
 
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        String contextPath = request.getContextPath();
         String loginid = request.getParameter("loginid");
         String password = request.getParameter("password");
         
+        
+        String contextPath = request.getContextPath();
+
+
 		System.out.println(loginid + password);
         UserDAO dao = new UserDAO();
         GroupDAO gdao = new GroupDAO();

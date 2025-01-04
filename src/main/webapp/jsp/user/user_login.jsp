@@ -51,7 +51,7 @@
 $( document ).ready(function() {
 	$("#login-btn").click( function() {  
     	$("#login-form").attr("method", "post");
-    	$("#login-form").attr("action", "/login");
+    	$("#login-form").attr("action", "${pageContext.request.contextPath}/login");
     	$("#login-form").submit();
     } );  
 });
