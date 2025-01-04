@@ -80,6 +80,7 @@ public class GroupDAO {
 		try {
 			// GROUP 더미가 7개 들어가있음 : RANK_GROUP_SEQ.NEXTVAL+7
 
+			
 			String sql =
 					"SELECT G.*, GU.* 		\r\n"
 					+ "FROM GROUPS G		\r\n"
@@ -628,8 +629,7 @@ public class GroupDAO {
 
 	public static void main(String[] argv) {
 		GroupDAO gdao = new GroupDAO();
-		GroupVO gvoTest = new GroupVO(0, "개발자 그룹", "개발을 좋아하는 사람들", "기술", "Y", 100, 200, "2025-01-02", "2025-01-02", 1,
-				5, 1, "서울", null);
+	
 
 //		System.out.println( "리더 임명 test>>>"+ gdao.grantGroupLeaderByLeader(1, 1, 2));
 //		int testInsert = gdao.createGroup(2, gvoTest);
