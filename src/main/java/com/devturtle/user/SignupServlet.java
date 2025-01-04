@@ -45,6 +45,9 @@ protected void doPost(HttpServletRequest request, HttpServletResponse response) 
     
     UserVO uvo = new UserVO(username, loginid, password, nickname, sorname, gitname, "", 0, 0, 0);
     dao.insertUser(uvo);
+    UserVO userVO = dao.selectUserByLoginID(uvo.getLoginID());
+    RankUserDAO rudao = new RankUserDAO();
+    rudao.insertRankUser(userVO.getUserID(), userVO.getTotalScore());
 
     response.sendRedirect(contextPath+"/login");
 }
