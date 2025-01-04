@@ -2,7 +2,6 @@
     pageEncoding="UTF-8"%>
     
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ include file="/jsp/layout/header.jsp" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -13,6 +12,37 @@
 <body>
 
     <h1>검색 페이지</h1>
+    
+    <div class="container">
+        <c:forEach var="uvo" items="${ULIST}">
+            <div class="card">
+                <div class="card-header">
+                    <h2> ${uvo.userName}</h2>
+                    <button class="follow-btn">Follow</button>
+                </div>
+                <div class="card-content">
+                    <p><strong>전체 점수:</strong> ${uvo.totalScore}</p>
+                </div>
+            </div>
+        </c:forEach>
+    </div>
+    
+    <div class="container">
+        <c:forEach var="gvo" items="${GLIST}">
+            <div class="card">
+                <div class="card-header">
+                    <h2>  ${gvo.name}</h2>
+                    <button class="follow-btn">Join</button>
+                </div>
+                <div class="card-content">
+                    <p><strong>전체 점수:</strong> ${gvo.totalScore}</p>
+                </div>
+            </div>
+        </c:forEach>
+    </div>
+    
+    
+    
     <div class="results">
         <div id="user-results">
             <h2>Users</h2>
