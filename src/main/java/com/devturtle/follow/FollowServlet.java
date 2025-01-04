@@ -1,28 +1,59 @@
 package com.devturtle.follow;
 
 import java.io.IOException;
+import java.util.ArrayList;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+import com.devturtle.user.UserDAO;
+import com.devturtle.user.UserVO;
 
 /**
  * Servlet implementation class FollowServlet
  */
 @WebServlet("/follow")
 public class FollowServlet extends HttpServlet {
-	private static final long serialVersionUID = 1L;
        
   
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		response.getWriter().append("Served at: ").append(request.getContextPath());
-		// 동적으로 포함할 contentPage 경로 설정
-	    request.setAttribute("contentPage", "/jsp/follow/follow_list.jsp");
+		String contextPath = request.getContextPath();
+		
+		HttpSession session=request.getSession();
 
+		FollowDAO fdao = new FollowDAO();
+		UserDAO udao = new UserDAO();
+		
+		int userid = (int) session.getAttribute("SESS_USER_ID");
+		
+		ArrayList<UserVO> followedlist = fdao.selectAllFollowed(userid);
+		ArrayList<UserVO> followinglist = fdao.selectAllFollowing(userid);
+		ArrayList<UserVO> waitlist = fdao.selectWaitFollowing(userid);
+		
+		request.setAttribute("FOLLOWER_LIST", followedlist);
+		request.setAttribute("FOLLOWING_LIST", followinglist);
+		request.setAttribute("WAIT_LIST", waitlist);
+		System.out.println("followed");
+		for(UserVO uvo : followedlist) {
+			System.out.println(uvo.toString());
+		}
+		System.out.println("following");
+		for(UserVO uvo : followinglist) {
+			System.out.println(uvo.toString());
+		}
+		System.out.println("wait");
+		for(UserVO uvo : waitlist) {
+			System.out.println(uvo.toString());
+		}
+		
+		request.setAttribute("USER_NICK", udao.selectUser(userid).getNickname());
 	    // layout.jsp로 포워딩
-	    request.getRequestDispatcher("/index.jsp").forward(request, response);
+	    request.getRequestDispatcher(contextPath+"/jsp/follow/follow_list.jsp").forward(request, response);
 		
 	}
 
