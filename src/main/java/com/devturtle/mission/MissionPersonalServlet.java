@@ -38,7 +38,9 @@ public class MissionPersonalServlet extends HttpServlet {
 		request.setAttribute("uname", ulist.get(0).getNickname());
 		request.setAttribute("ULIST", ulist);
 		
-		request.getRequestDispatcher("/jsp/mission/mission_detail_user.jsp").forward(request, response);		
+		String contextPath = request.getContextPath();
+		request.getRequestDispatcher(contextPath+"/jsp/mission/mission_detail_user.jsp").forward(request, response);
+		//request.getRequestDispatcher("/jsp/mission/mission_detail_user.jsp").forward(request, response);		
 	}
 
 	/**
