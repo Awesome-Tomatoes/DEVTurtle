@@ -19,8 +19,9 @@ import com.google.gson.Gson;
 @WebServlet("/signup")
 public class SignupServlet extends HttpServlet {protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-	response.getWriter().append("Served at: ").append(request.getContextPath());
-	request.getRequestDispatcher("/jsp/user/user_signup.jsp").forward(request, response);
+	String contextPath = request.getContextPath();
+	response.getWriter().append("Served at: ").append(contextPath);
+	request.getRequestDispatcher(contextPath + "/jsp/user/user_signup.jsp").forward(request, response);
 }
 
 
@@ -34,16 +35,17 @@ protected void doPost(HttpServletRequest request, HttpServletResponse response) 
 
     UserDAO dao = new UserDAO();
 
+	String contextPath = request.getContextPath();
     // 중복체크
     if (dao.checkLoginIdExists(loginid)) {
         request.setAttribute("errorMessage", "아이디가 이미 존재합니다.");
-        request.getRequestDispatcher("/jsp/user/user_signup.jsp").forward(request, response);
+        request.getRequestDispatcher(contextPath+"/jsp/user/user_signup.jsp").forward(request, response);
         return;
     }
     
     UserVO uvo = new UserVO(username, loginid, password, nickname, sorname, gitname, "", 0, 0, 0);
     dao.insertUser(uvo);
 
-    response.sendRedirect("/login");
+    response.sendRedirect(contextPath+"/login");
 }
 }

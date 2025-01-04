@@ -71,7 +71,7 @@ public class GitManager {
 			for(GitVO gvo : alist) {
 				gvo.setRating(gitAPIRequest(udao.selectUser(gvo.getUserid()).getGitID()).getRating());
 				dao.update(gvo);
-				udao.updateUserSolvedScore(gvo.getUserid(), gvo.getRating());
+				udao.updateUserGitScore(gvo.getUserid(), gvo.getRating());
 			}
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
