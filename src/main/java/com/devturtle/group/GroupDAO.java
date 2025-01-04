@@ -8,6 +8,8 @@ import java.util.ArrayList;
 
 import com.devturtle.common.DBManager;
 import com.devturtle.common.OracleDBManager;
+import com.devturtle.user.UserDAO;
+import com.devturtle.user.UserVO;
 
 public class GroupDAO {
 
@@ -22,6 +24,29 @@ public class GroupDAO {
 		alist.add(new GroupVO(4, "group4", "설명4", "스터디", "공개", 80000, 30, "2024-12-12", "2024-12-12"));
 
 		return alist;
+	}
+	
+	public int selectGroupIDByName(String name) {
+		DBManager dbm = OracleDBManager.getInstance();
+		Connection conn = dbm.connect();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		int res = 0;
+		try {
+			String sql = "select * from GROUPS where NAME=?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, name); //------파라미터를 1번째?에 바인딩
+
+			rs = pstmt.executeQuery();
+			if(rs.next()) {
+				res = rs.getInt("GROUP_ID");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			dbm.close(conn, pstmt, rs);
+		}
+		return res;
 	}
 
 	public int selectAllGroupSize() {
@@ -214,6 +239,39 @@ public class GroupDAO {
 		return rows;
 	}
 
+	//update groups set total_score = total_score - 500 where group_id = 22;
+	public int initGroupScore(int gid, int userScore) {
+
+		DBManager dbm = OracleDBManager.getInstance(); // new OracleDBManager();
+		Connection conn = dbm.connect();
+		PreparedStatement pstmt = null;
+		int rows = 0;
+
+		try {
+			conn.setAutoCommit(false);
+
+
+			String sql =
+					"update groups set total_score = total_score + ? where group_id = ?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, userScore);
+			pstmt.setInt(2, gid);
+			
+
+			rows = pstmt.executeUpdate();
+			if (rows == 1) {
+				conn.commit();
+			} else {
+				conn.rollback();
+			}
+		} catch (SQLException e) {
+
+			e.printStackTrace();
+		} finally {
+			dbm.close(conn, pstmt);
+		}
+		return rows;
+	}
 
 	// ------------------------- 전체 그룹 랭킹 조회 메서드---------------------------------
 	public ArrayList<GroupVO> selectAllGroupByMonthOrderByRankPaging(String date, int startSeq, int endSeq) {
@@ -311,17 +369,23 @@ public class GroupDAO {
 	        conn.setAutoCommit(false); // 트랜잭션 수동 관리
 
 	        // GROUP_SEQ.NEXTVAL을 가져오는 쿼리
-	        String sqlSeq = "SELECT GROUP_SEQ.NEXTVAL FROM DUAL";
-	        pstmt = conn.prepareStatement(sqlSeq);
-	        rs = pstmt.executeQuery();
-	        if (rs.next()) {
-	            createdGroupId = rs.getInt(1); // NEXTVAL 값 가져오기
+	        String sqlSeq = "SELECT GROUP_SEQ.NEXTVAL AS VAL FROM DUAL";
+	        try (PreparedStatement pstmtSeq = conn.prepareStatement(sqlSeq);
+	                ResultSet rsSeq = pstmtSeq.executeQuery()) {
+	               if (rsSeq.next()) {
+	                   createdGroupId = rsSeq.getInt("VAL"); // NEXTVAL 값 가져오기
+	               }
+	               System.out.println("createdGroupId >> "+createdGroupId);
+	           } catch (SQLException e) {
+	               System.out.println("GROUP_SEQ 쿼리 실행 오류");
+	               e.printStackTrace();
+	               conn.rollback();
+	               return 0;
 	        }
-	        System.out.println("createdGroupId >> "+createdGroupId);
 	        // GROUPS 테이블에 데이터를 삽입하는 SQL
 	        String sqlInsert = "INSERT INTO GROUPS (" 
 	                + "    GROUP_ID, " 
-	                + "    \"NAME\", \"SIZE\", CONDITION," 
+	                + "    \"NAME\", \"SIZES\", CONDITION," 
 	                + "    \"DESCRIPTION\"," 
 	                + "    \"CATEGORY\", " 
 	                + "    \"PRIVATE\", \"LOCATION\", " 
@@ -350,10 +414,20 @@ public class GroupDAO {
 	            System.out.println("Rows inserted: " + rows);
 	            if (rows == 1) {
 	            	conn.commit(); 
-	                addGroupUser(userId, createdGroupId, "LEADER");
+	                int tmp = addGroupUser(userId, createdGroupId, "LEADER");
+	                
+	                //그룹장 추가까지 성공하면 그룹 생성
+	                if(tmp > 0) {
+	                	conn.commit();
+	                }
+	                
+	                else {
+	                	System.out.println("그룹장 추가 실패");
+	                	conn.rollback();
+	                }
 	                // 성공적으로 삽입된 경우 커밋
 	            } else {
-	                System.out.println("Insert error>>>>>>>>");
+	                System.out.println("그룹 생성 에러");
 	                conn.rollback(); // 삽입 실패 시 롤백
 	            }
 	        } catch (SQLException e) {
@@ -364,17 +438,9 @@ public class GroupDAO {
 
 	    } catch (SQLException e) {
 	        e.printStackTrace();
-	        try {
-	            if (conn != null) {
-	                conn.rollback(); // 예외 발생 시 롤백
-	            }
-	        } catch (SQLException rollbackEx) {
-	            rollbackEx.printStackTrace();
-	        }
 	    } finally {
-	        dbm.close(conn); // 커넥션 닫기
+	    	 dbm.close(conn, pstmt, rs); 
 	    }
-
 	    return rows;
 	}
 
@@ -406,21 +472,31 @@ public class GroupDAO {
 			if (rows == 1) {
 
 				conn.commit();
+				dbm.close(conn, pstmt);
 
 			} else {
-				
 				conn.rollback();
+				dbm.close(conn, pstmt);
 			}
 		} catch (SQLException e) {
 
 			e.printStackTrace();
 		} finally {
-			dbm.close(conn, pstmt);
+			if (conn != null) {
+		        try {
+		            conn.close();
+		        } catch (SQLException e) {
+		            e.printStackTrace();
+		        }
+		    }
 		}
 
 		return rows;
 	}
 
+	
+	
+	
 	// 유저가 그룹 탈퇴하기
 	public int deleteGroupByUser(int groupId, int userId) {
 
