@@ -86,7 +86,7 @@
 $(document).ready(function () {
     // AJAX로 JSON 데이터 가져오기
     $.ajax({
-        url: '/DevTurtle/missionGroup', // JSON 데이터를 반환하는 Servlet의 URL
+        url: '/missionGroup', // JSON 데이터를 반환하는 Servlet의 URL
         method: 'POST',
         data: {action: 'chart'},
         dataType: 'json',
@@ -144,7 +144,7 @@ $(document).ready(function () {
     });
     
     $.ajax({
-    	 url: '/DevTurtle/missionGroup', // JSON 데이터를 반환하는 Servlet의 URL
+    	 url: '/missionGroup', // JSON 데이터를 반환하는 Servlet의 URL
          method: 'POST',
          data: {action: 'history'},
          dataType: 'json',
@@ -157,7 +157,7 @@ $(document).ready(function () {
         	 const svg = d3.select("svg");
         	 
         	// 날짜별 블록 업데이트
-             svg.selectAll(".day")
+            svg.selectAll(".day")
                  .filter(function () {
                      // data-date와 JSON 데이터 비교
                      const date = d3.select(this).attr("data-date");
@@ -166,9 +166,14 @@ $(document).ready(function () {
                  .attr("fill", function () {
                      // JSON 데이터에서 해당 날짜의 색상을 가져오기
                      const date = d3.select(this).attr("data-date");
-                     const match = highlightedDates.find(h => h.success_date === datetime);
-                     return match ? match.color : "#b3ff43"; // JSON의 색상 또는 기본 색상
-                 });
+                     const match = highlightedDates.find(h => h.success_date === date);
+                     return match ? "#b3ff43" : d3.select(this).attr("fill");
+                 })
+                 .attr("count", function () {
+                	 const date = d3.select(this).attr("data-date");
+                     const match = highlightedDates.find(h => h.success_date === date);
+                     return match ? match.count : d3.select(this).attr("count");
+                 })
          },
          error: function (err) {
              console.error("Error fetching data:", err);
