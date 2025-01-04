@@ -18,6 +18,12 @@ public class FollowServlet extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		response.getWriter().append("Served at: ").append(request.getContextPath());
+		// 동적으로 포함할 contentPage 경로 설정
+	    request.setAttribute("contentPage", "/jsp/follow/follow_list.jsp");
+
+	    // layout.jsp로 포워딩
+	    request.getRequestDispatcher("/index.jsp").forward(request, response);
+		
 	}
 
 
