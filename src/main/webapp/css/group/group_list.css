@@ -54,7 +54,12 @@
 #group-mylist-image{
 	width: 50px;
 	height: 50px;
-    background-color: white;
+	margin : 0 10px 0 5px;
+}
+.group-mylist-btn-div{
+	justify-content: space-between;
+	align-items: center;
+	gap:10px;
 }
 
 #group-mylist-main-title{
@@ -91,7 +96,7 @@
     cursor: pointer;       /* 마우스 커서를 버튼으로 */
     border-radius: 5px;     /* 둥근 모서리 */
     transition: background 0.3s ease;  
-
+	margin-right:10px;
 }
 
 .group-yes-btn:hover {
@@ -109,12 +114,13 @@
     cursor: pointer;       /* 마우스 커서를 버튼으로 */
     border-radius: 5px;     /* 둥근 모서리 */
     transition: background 0.3s ease;  
-
+	margin-right:5px;
 }
 
 
 .group-no-btn:hover {
     background: linear-gradient(to bottom, #992828, #FF4343); /* 호버 시 그라데이션 반전 */
+	
 }
 
 .group-search-btn{
@@ -126,6 +132,7 @@
     cursor: pointer;       /* 마우스 커서를 버튼으로 */
     border-radius: 5px;     /* 둥근 모서리 */
     transition: background 0.3s ease;  
+    
 }
 
 .group-search-btn:hover {
