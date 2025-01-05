@@ -108,16 +108,15 @@
   	align-items: flex-end;
 	width: 100%;
 	gap: 10px;
-	
 }
 
 .user-basic-info__form label{
-	width:10%;	
+	width:100px;
 	padding-bottom: 5px;
 }
 
 .user-basic-info__form input{
-	width: 83%;	
+	width: 100%;	
 	border-bottom: 2px solid var(--depth-third-color);
 	padding-bottom: 5px;
 	color: var(--font-white-color);

@@ -12,6 +12,10 @@
 <link rel="stylesheet" type="text/css"
 	href="${pageContext.request.contextPath}/css/mypage/mypage_ranking_point_chart.css" />
 
+<%
+    String userId = request.getParameter("userid");
+    boolean isUserIdPresent = (userId != null && !userId.isEmpty());
+%>
 
 <div id="mypage-container">
 	<article class="contents__article">
@@ -65,9 +69,11 @@
 			id="contents__article--fragment-basic">
 			<form class="user-basic-info__form" id="update-nickname-form">
 				<label>닉네임</label> 
-				<input type="text" value="${USER_INFO.nickname}" name="nickname" />
+				<input type="text" value="${USER_INFO.nickname}" name="nickname"  <%= isUserIdPresent ? "disabled" : "" %>/>
 				<input type="hidden" name="actionType" value="updateNickname" />
-				<button type="button" class="update-btn" id="update-nickname-btn">수정</button>
+				 <% if (!isUserIdPresent) { %>
+					<button type="button" class="update-btn" id="update-nickname-btn">수정</button>
+				 <% } %>
 			</form>
 			<form class="user-basic-info__form">
 				<label>Github</label> 
@@ -86,10 +92,12 @@
 			<form class="user-basic-info__bio" id="update-bio-form">
 				<div id="user-basic-info__bio-header">
 					<label>자기소개</label>
-					<button type="button" class="update-btn" id="update-bio-btn">수정</button>
+					<% if (!isUserIdPresent) { %>
+						<button type="button" class="update-btn" id="update-bio-btn">수정</button>
+					<% } %>
 					<input type="hidden" name="actionType" value="updateBio" />
 				</div>
-				<textarea name="bio">${USER_INFO.userBio}</textarea>
+				<textarea name="bio" <%= isUserIdPresent ? "disabled" : "" %>>${USER_INFO.userBio}</textarea>
 			</form>
 		</article>
 	</article>
