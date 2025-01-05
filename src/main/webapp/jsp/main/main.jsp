@@ -119,7 +119,7 @@
 							<span>${grlist.totalScore}p</span>
 						</p>
 					</div>
-					<button class="see-more-btn">상세</button>
+					<a href="${pageContext.request.contextPath}/groupdetail?groupId=${grlist.groupId}" class="see-more-btn">상세</a>
 				</li>
 			</c:forEach>
 		</ul>
@@ -143,7 +143,7 @@
 							<span>${urlist.totalScore}p</span>
 						</p>
 					</div>
-					<button class="see-more-btn">상세</button>
+					<a href="${pageContext.request.contextPath}/mypage?userid=${urlist.userID}" class="see-more-btn">상세</a>
 				</li>
 			</c:forEach>
 		</ul>
