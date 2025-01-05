@@ -67,7 +67,7 @@ public class GroupCreateServlet extends HttpServlet {
 	    
 	    int tmp = gdao.createGroup(userId,gvo);
 	    if(tmp > 0) {
-	    	//그룹이 정상적으로 생성되었으면 그룹 리더를 추가
+	    	//그룹이 정상적으로 생성 후 그룹 점수 업데이트
 			UserDAO udao = new UserDAO();
 			UserVO uvo = udao.selectUser(userId);
 			int userScore = uvo.getTotalScore();
