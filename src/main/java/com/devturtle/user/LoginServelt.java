@@ -62,18 +62,18 @@ public class LoginServelt extends HttpServlet {
         } else {
     		
     		HttpSession session = request.getSession();
-            session.setAttribute("SESS_USER_ID", uvo.getUserID());
+            
+    		session.setAttribute("SESS_USER_ID", uvo.getUserID());
             session.setAttribute("SESS_USER_NICKNAME", uvo.getNickname());
             session.setAttribute("SESS_ROLE", "user");
             session.setAttribute("SESS_GROUP", list);
-
             
+            LoginHistoryDAO hdao = new LoginHistoryDAO();
+            
+            hdao.insertLoginHistory(uvo.getUserID());
+
             response.sendRedirect(contextPath + "/main");
         	
         }
-        
-        
-		
 	}
-
 }

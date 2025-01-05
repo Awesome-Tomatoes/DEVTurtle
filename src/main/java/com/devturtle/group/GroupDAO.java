@@ -193,6 +193,47 @@ public class GroupDAO {
 		return gvo;
 	}
 
+	public GroupVO getGroupById(int groupId) {
+        GroupVO group = null;
+        DBManager dbm = OracleDBManager.getInstance(); // new OracleDBManager();
+		Connection conn = dbm.connect();
+		
+
+        String query = "SELECT GROUP_ID, NAME, SIZES, CONDITION, DESCRIPTION, CATEGORY, PRIVATE, LOCATION, "
+                     + "TO_CHAR(CREATED_AT, 'YYYY-MM-DD') AS CREATED_AT, "
+                     + "TO_CHAR(UPDATED_AT, 'YYYY-MM-DD') AS UPDATED_AT, "
+                     + "TOTAL_SCORE, RANK_SCORE "
+                     + "FROM GROUPS WHERE GROUP_ID = ?";
+
+        try (PreparedStatement pstmt = conn.prepareStatement(query)) {
+
+            pstmt.setInt(1, groupId);
+
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    group = new GroupVO();
+
+                    group.setGroupId(rs.getInt("GROUP_ID"));
+                    group.setName(rs.getString("NAME"));
+                    group.setSize(rs.getInt("SIZES"));
+                    group.setCondition(rs.getInt("CONDITION"));
+                    group.setDescription(rs.getString("DESCRIPTION"));
+                    group.setCategory(rs.getString("CATEGORY"));
+                    group.setGPrivate(rs.getString("PRIVATE"));
+                    group.setLocation(rs.getString("LOCATION"));
+                    group.setCreatedAt(rs.getString("CREATED_AT"));
+                    group.setUpdatedAt(rs.getString("UPDATED_AT"));
+                    group.setTotalScore(rs.getInt("TOTAL_SCORE"));
+                    group.setRankScore(rs.getInt("RANK_SCORE"));
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return group;
+    }
+
 	public int updateGroupDetail(int userId, GroupVO gvo) {
 
 		DBManager dbm = OracleDBManager.getInstance(); // new OracleDBManager();
@@ -212,7 +253,6 @@ public class GroupDAO {
 					+ "    \"SIZES\"= ?,\r\n"
 					+ "    \"CONDITION\" = ?,\r\n"
 					+ "    \"DESCRIPTION\" = ?,\r\n"
-					+ "    \"CATEGORY\" = ?, \r\n"
 					+ "    \"LOCATION\" = ?,\r\n"
 					+ "    UPDATED_AT = sysdate \r\n"
 					+ "where GROUP_ID = ?";
@@ -221,9 +261,8 @@ public class GroupDAO {
 			pstmt.setInt(2, gvo.getSize());
 			pstmt.setInt(3, gvo.getCondition());
 			pstmt.setString(4, gvo.getDescription());
-			pstmt.setString(5, gvo.getCategory());
-			pstmt.setString(6, gvo.getLocation());
-			pstmt.setInt(7, gvo.getGroupId());
+			pstmt.setString(5, gvo.getLocation());
+			pstmt.setInt(6, gvo.getGroupId());
 
 			rows = pstmt.executeUpdate();
 			if (rows == 1) {
@@ -706,7 +745,8 @@ public class GroupDAO {
 	public static void main(String[] argv) {
 		GroupDAO gdao = new GroupDAO();
 	
-
+		GroupVO gvo= gdao.getGroupById(1);
+		System.out.println(gvo.toString());
 //		System.out.println( "리더 임명 test>>>"+ gdao.grantGroupLeaderByLeader(1, 1, 2));
 //		int testInsert = gdao.createGroup(2, gvoTest);
 //		System.out.println("testInsert" + testInsert);

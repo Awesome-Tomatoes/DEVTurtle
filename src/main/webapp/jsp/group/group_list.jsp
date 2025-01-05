@@ -101,10 +101,12 @@ function loadGroupList() {
 	                    var groupDiv = 
 	                    	'<div class="group-mylist-join-info-div" id="group-' + group.groupId + '">' +
 	                        '<div id="group-mylist-per-div">' +
-	                            '<div id="group-mylist-image">img</div>' +
+	                        	'<img id="group-mylist-image"src="${pageContext.request.contextPath}/groupImage?groupid='+group.groupId+'" />'+
+	        					
 	                            '<div id="group-detail-simple-info-div">' +
-	                                '<p> '+'[ No. ' + group.rankScore +' ] ' + group.name + '</p>' +  <!-- group.name을 문자열로 결합 -->
-	                                '<p> Total Point ' + group.totalScore +'</p>' +
+	                                '<p> [ '+ group.name+' ]\'s GROUP'  + '</p>' +  <!-- group.name을 문자열로 결합 -->
+	                                
+	                                '<p> '+'No.   ' + group.rankScore + ' / '+ group.totalScore +'p ' +'</p>' +
 	                            '</div>' +
 	                        '</div>' +
 	                        '<div class="group-mylist-btn-div">' +

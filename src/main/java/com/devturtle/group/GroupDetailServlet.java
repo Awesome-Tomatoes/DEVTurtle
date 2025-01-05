@@ -8,6 +8,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.devturtle.rank.RankGroupDAO;
 import com.devturtle.rank.RankGroupVO;
@@ -24,13 +25,27 @@ public class GroupDetailServlet extends HttpServlet {
 		 // URL 파라미터로 groupId 받기
         String groupIdParam = request.getParameter("groupId");
 
+        Integer userId = null;
+        String userIdParam = request.getParameter("userid");
+        
+        if (userIdParam != null && !userIdParam.isEmpty()) {
+        	userId = Integer.parseInt(userIdParam);
+        } else {
+        	HttpSession session = request.getSession();
+            userId = (Integer) session.getAttribute("SESS_USER_ID");
+            if (userId == null) {
+                response.sendRedirect(request.getContextPath() + "/login");
+                return;
+            }
+        }
+        
         System.out.println("groupIdParam >>> "+groupIdParam);
         if (groupIdParam != null) {
             int groupId = Integer.parseInt(groupIdParam); // groupId를 정수로 변환
 
             // 그룹 전체 정보
             GroupDAO gdao = new GroupDAO();
-            GroupVO groupDetail = gdao.selectGroupDetail(1, groupId);  // 사용자 ID와 groupId로 그룹 정보 조회
+            GroupVO groupDetail = gdao.selectGroupDetail(userId, groupId);  // 사용자 ID와 groupId로 그룹 정보 조회
             request.setAttribute("GROUP_DETAIL", groupDetail);
 
             // 그룹 랭킹 정보
@@ -56,7 +71,34 @@ public class GroupDetailServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		doGet(request, response);
-	}
+		
+		HttpSession session = request.getSession();
+	        // 세션 ID 가져오기
+	    int userId = (Integer) session.getAttribute("SESS_USER_ID");
+	    int groupId =  Integer.parseInt(request.getParameter("groupId"));
+	    
+	    System.out.println("updaet 전 확인 >>>"+groupId);
+	    String name = request.getParameter("group-name");
+	    int size = Integer.parseInt(request.getParameter("group-size"));
+	    int condition = Integer.parseInt(request.getParameter("group-condition"));
+	    String description = request.getParameter("group-description");
+	    
+	    String location = "서울"; // 수정 x
+	    String rule = request.getParameter("group-rule"); // 수정 x
+	    String gprivate = request.getParameter("group-private"); // 수정 x
+	    String category = request.getParameter("group-category"); // 수정 x
+	    
+	    GroupVO gvo = new GroupVO(	groupId, name,	size, condition,
+									description, category,
+									gprivate,	location);
+	    
+	    System.out.println(gvo.toString());
+		
+		  GroupDAO gdao = new GroupDAO(); int result =
+		  gdao.updateGroupDetail(userId,gvo);
+		  System.out.println("updateGroupDetail 수정결과는?? >> " + result);
+		  response.sendRedirect("/groupdetail?groupId="+groupId);
+		 	
+	    }
 
 }

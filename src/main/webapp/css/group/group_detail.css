@@ -18,29 +18,45 @@ h2,h1,p {
 #group-detail-container-div {
     background-color: var(--depth-first-color);
     display: flex;
-    height: 320px;
+    
     width: 100%;
     margin: 20px auto;  /* 수평 가운데 정렬 */
     align-items: center; /* 수직 가운데 정렬 */
     justify-content: space-between; /* 자식 요소들 사이에 공간을 균등하게 배분 */
-    border-radius: 20px;  
+    border-radius: 20px;
+    min-height: 100%;  
 }
 
 #group-success-info-div {
     width: 35%;
-    margin-right: 20px; 
-    margin-left: 3%; 
-    height: 80%; 
+    margin : 3%; 
+    min-height:100%;
     background-color: var(--depth-second-color);
-    border-radius: 20px;  
+    border-radius: 20px; 
+    padding: 3%;
+    
+    height: 80%;
+	padding : 2.5% 3% 3% 3%;
+	display:flex;
+	flex-direction:column;
+	justify-content: center;
+	align-items: center;
 }
 
 #group-detail-info-div {
     width: 55%;
     height: 80%; 
     background-color: var(--depth-second-color);
-    margin-right: 3%;
+    margin: 3% ;
     border-radius: 20px;  
+    flex-grow: 1;
+    min-height:100%;
+	padding : 2.5% 3% 3% 3%;
+	
+	display:flex;
+	flex-direction:column;
+	justify-content: center;
+	align-items: center;
 }
 
 /*-----------------영역 나누기 관련 css ---------------------  */

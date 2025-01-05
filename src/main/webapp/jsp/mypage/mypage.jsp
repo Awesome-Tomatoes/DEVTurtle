@@ -12,6 +12,10 @@
 <link rel="stylesheet" type="text/css"
 	href="${pageContext.request.contextPath}/css/mypage/mypage_ranking_point_chart.css" />
 
+<%
+    String userId = request.getParameter("userid");
+    boolean isUserIdPresent = (userId != null && !userId.isEmpty());
+%>
 
 <div id="mypage-container">
 	<article class="contents__article">
@@ -63,29 +67,37 @@
 		</article>
 		<article class="contents__article--fragment"
 			id="contents__article--fragment-basic">
-			<form class="user-basic-info__form">
-				<label>닉네임</label> <input type="text" value="${USER_INFO.nickname}" />
-				<button class="update-btn">수정</button>
+			<form class="user-basic-info__form" id="update-nickname-form">
+				<label>닉네임</label> 
+				<input type="text" value="${USER_INFO.nickname}" name="nickname"  <%= isUserIdPresent ? "disabled" : "" %>/>
+				<input type="hidden" name="actionType" value="updateNickname" />
+				 <% if (!isUserIdPresent) { %>
+					<button type="button" class="update-btn" id="update-nickname-btn">수정</button>
+				 <% } %>
 			</form>
 			<form class="user-basic-info__form">
-				<label>Github</label> <input type="text" value="${USER_INFO.gitID}" /> 
+				<label>Github</label> 
+				<input type="text" value="${USER_INFO.gitID}" disabled/> 
 				<a href="https://github.com/${USER_INFO.gitID}" target="_blank">
 					<img src="${pageContext.request.contextPath}/assets/main/github.svg" />
 				</a>
 			</form>
 			<form class="user-basic-info__form">
-				<label>solved.ac</label> <input type="text" value="${USER_INFO.solvedID}" /> 
+				<label>solved.ac</label> 
+				<input type="text" value="${USER_INFO.solvedID}" disabled/> 
 				<a href="https://solved.ac/profile/${USER_INFO.solvedID}" target="_blank">
 					<img src="${pageContext.request.contextPath}/assets/main/solvedac.svg" />
 				</a>
 			</form>
-			<form class="user-basic-info__bio">
+			<form class="user-basic-info__bio" id="update-bio-form">
 				<div id="user-basic-info__bio-header">
 					<label>자기소개</label>
-					<button class="update-btn">수정</button>
-
+					<% if (!isUserIdPresent) { %>
+						<button type="button" class="update-btn" id="update-bio-btn">수정</button>
+					<% } %>
+					<input type="hidden" name="actionType" value="updateBio" />
 				</div>
-				<textarea>${USER_INFO.userBio}</textarea>
+				<textarea name="bio" <%= isUserIdPresent ? "disabled" : "" %>>${USER_INFO.userBio}</textarea>
 			</form>
 		</article>
 	</article>
@@ -111,7 +123,11 @@
 				<p>${USER_MISSON_SCORE}p</p>
 			</button>
 		</a>
-		<a class="user-info-list__btn" href="${pageContext.request.contextPath}/follow">
+		<% if (!isUserIdPresent) { %>
+			<a class="user-info-list__btn" href="${pageContext.request.contextPath}/follow">
+		<% } else {%>
+			<a class="user-info-list__btn" href="${pageContext.request.contextPath}/follow?userid=${USER_INFO.userID}">
+		<% } %>
 			<button>
 				<div class="user-info-list__title">
 					<img
@@ -141,7 +157,24 @@
 	<div id="my_dataviz"></div>
 </div>
 
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
 <script>
+	//-- 정보 수정 처리 로직 --
+	$(document).ready(function () {
+	    $("#update-nickname-btn").click(function () {
+	    	$("#update-nickname-form").attr("method", "post");
+	    	$("#update-nickname-form").attr("action", "${pageContext.request.contextPath}/mypage");
+	    	$("#update-nickname-form").submit();
+	    })
+	    $("#update-bio-btn").click(function () {
+	    	$("#update-bio-form").attr("method", "post");
+	    	$("#update-bio-form").attr("action", "${pageContext.request.contextPath}/mypage");
+	    	$("#update-bio-form").submit();
+	    })
+	});
+	
+	//-- 차트 처리 로직 --
 	const rankData = ${RANK_CHART_DATA};
 	
 	// D3.js를 위한 데이터 변환
