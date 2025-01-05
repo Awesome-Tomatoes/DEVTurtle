@@ -46,7 +46,15 @@
                     <h4>${gvo.name}</h4>
                     <p>그룹 Point: ${gvo.totalScore}</p>
                 </div>
-                <button class="join-btn">가입하기</button>
+                <c:choose>
+					<c:when test="${gvo.join}">
+						<button class="unjoin-btn">그룹 탈퇴</button>
+					</c:when>
+				    <c:otherwise>
+						<button class="join-btn">그룹 참여</button>
+				    </c:otherwise>
+				</c:choose>
+
             </li>
         </c:forEach>
     </ul>
