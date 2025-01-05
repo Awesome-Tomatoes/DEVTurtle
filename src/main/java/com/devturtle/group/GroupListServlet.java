@@ -37,12 +37,20 @@ public class GroupListServlet extends HttpServlet {
 			throws ServletException, IOException {
 		// TODO Auto-generated method stub
 
-
-		 // 세션 객체를 가져오기
-        HttpSession session = request.getSession();
-        // 세션 ID 가져오기
-        int userId = (Integer) session.getAttribute("SESS_USER_ID");
-        
+		String userIdParam = request.getParameter("userid");
+		Integer userId = null;
+	    
+		if (userIdParam != null && !userIdParam.isEmpty()) {
+        	userId = Integer.parseInt(userIdParam);
+        } else {
+        	HttpSession session = request.getSession();
+            userId = (Integer) session.getAttribute("SESS_USER_ID");
+            if (userId == null) {
+                response.sendRedirect(request.getContextPath() + "/login");
+                return;
+            }
+        }
+		
 		GroupDAO gdao = new GroupDAO();
 		ArrayList<GroupVO> groupList = gdao.selectAllJoinGroup(userId);
 

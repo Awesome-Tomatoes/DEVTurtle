@@ -212,7 +212,6 @@ public class GroupDAO {
 					+ "    \"SIZES\"= ?,\r\n"
 					+ "    \"CONDITION\" = ?,\r\n"
 					+ "    \"DESCRIPTION\" = ?,\r\n"
-					+ "    \"CATEGORY\" = ?, \r\n"
 					+ "    \"LOCATION\" = ?,\r\n"
 					+ "    UPDATED_AT = sysdate \r\n"
 					+ "where GROUP_ID = ?";
@@ -221,9 +220,8 @@ public class GroupDAO {
 			pstmt.setInt(2, gvo.getSize());
 			pstmt.setInt(3, gvo.getCondition());
 			pstmt.setString(4, gvo.getDescription());
-			pstmt.setString(5, gvo.getCategory());
-			pstmt.setString(6, gvo.getLocation());
-			pstmt.setInt(7, gvo.getGroupId());
+			pstmt.setString(5, gvo.getLocation());
+			pstmt.setInt(6, gvo.getGroupId());
 
 			rows = pstmt.executeUpdate();
 			if (rows == 1) {
