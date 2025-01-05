@@ -68,12 +68,16 @@
 				<button class="update-btn">수정</button>
 			</form>
 			<form class="user-basic-info__form">
-				<label>Github</label> <input type="text" value="${USER_INFO.gitID}" /> <a><img
-					src="${pageContext.request.contextPath}/assets/main/github.svg" /></a>
+				<label>Github</label> <input type="text" value="${USER_INFO.gitID}" /> 
+				<a href="https://github.com/${USER_INFO.gitID}" target="_blank">
+					<img src="${pageContext.request.contextPath}/assets/main/github.svg" />
+				</a>
 			</form>
 			<form class="user-basic-info__form">
-				<label>solved.ac</label> <input type="text" value="${USER_INFO.solvedID}" /> <a><img
-					src="${pageContext.request.contextPath}/assets/main/solvedac.svg" /></a>
+				<label>solved.ac</label> <input type="text" value="${USER_INFO.solvedID}" /> 
+				<a href="https://solved.ac/profile/${USER_INFO.solvedID}" target="_blank">
+					<img src="${pageContext.request.contextPath}/assets/main/solvedac.svg" />
+				</a>
 			</form>
 			<form class="user-basic-info__bio">
 				<div id="user-basic-info__bio-header">
