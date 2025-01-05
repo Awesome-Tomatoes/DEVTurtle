@@ -48,7 +48,13 @@
                 </div>
                 <c:choose>
 					<c:when test="${gvo.join}">
-						<button class="unjoin-btn">그룹 탈퇴</button>
+<form id="unjoinForm" method="POST" action="${pageContext.request.contextPath}/groupdelete">
+    <input type="hidden" name="groupId" value="${gvo.groupId}">
+    <input type="hidden" name="search" value="search">
+    <button type="button" class="unjoin-btn" onclick="document.getElementById('unjoinForm').submit();">
+        그룹 탈퇴
+    </button>
+</form>
 					</c:when>
 				    <c:otherwise>
 						<button class="join-btn">그룹 참여</button>
