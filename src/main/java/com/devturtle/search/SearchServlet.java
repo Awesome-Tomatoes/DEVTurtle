@@ -52,6 +52,7 @@ public class SearchServlet extends HttpServlet {
                 rs = pstmt.executeQuery();
                 while (rs.next()) {
                     UserVO uvo = new UserVO();
+                    uvo.setUserID(rs.getInt("USER_ID"));
     				uvo.setUserName(rs.getString("USER_NAME"));
     				uvo.setNickname(rs.getString("NICKNAME"));
     				uvo.setTotalScore(rs.getInt("TOTAL_SCORE"));
