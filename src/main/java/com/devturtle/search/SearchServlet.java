@@ -27,19 +27,19 @@ public class SearchServlet extends HttpServlet {
         String query = request.getParameter("query");
     	System.out.println(query);
         
-		HttpSession session = request.getSession();
-		//userID 세션에 없으면 0, 잇으면 로그인한 userID기준으로 검색 결과 팔로우, 팔로워 관계 찾기
-		int userID = 25;
-		if (session != null)  {
-			String uid = (String)session.getAttribute("SESS_USER_ID");
-			System.out.println(uid);
-			if(uid != null) {
-				userID = Integer.parseInt(uid);
-			}
-//          session.getAttribute("SESS_USER_NICKNAME");
-//          session.getAttribute("SESS_ROLE");
-//          session.getAttribute("SESS_GROUP");
-		}
+//		HttpSession session = request.getSession();
+//		//userID 세션에 없으면 0, 잇으면 로그인한 userID기준으로 검색 결과 팔로우, 팔로워 관계 찾기
+//		int userID = 25;
+//		if (session != null)  {
+//			String uid = (String)session.getAttribute("SESS_USER_ID");
+//			System.out.println(uid);
+//			if(uid != null) {
+//				userID = Integer.parseInt(uid);
+//			}
+////          session.getAttribute("SESS_USER_NICKNAME");
+////          session.getAttribute("SESS_ROLE");
+////          session.getAttribute("SESS_GROUP");
+//		}
         
         if (query == null || query.isEmpty()) {
             query = "";
