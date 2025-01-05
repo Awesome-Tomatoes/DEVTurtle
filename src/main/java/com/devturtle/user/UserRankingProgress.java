@@ -31,7 +31,7 @@ public class UserRankingProgress {
         }
    
         remainingScore = target - rating;
-        remainingPercent = (int) (((target - rating) / (float) target) * 100);
+        remainingPercent = (int) (100-((target - rating) / (float) target) * 100);
 
         return new int[] {remainingScore, remainingPercent};
     }
