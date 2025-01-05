@@ -40,6 +40,18 @@ public class GroupVO {
 		this.gPrivate = gPrivate;
 	}
 	
+	public GroupVO(int groupId, String name, int size, int condition,
+			String description, String category,
+			String gPrivate, String location ) {
+	super();
+	this.groupId = groupId;
+	this.name = name;
+	this.condition = condition;
+	this.description = description;
+	this.category = category;
+	this.location = location;
+	this.gPrivate = gPrivate;
+	}
 	
 	// 그룹에 대한 정보
 	public GroupVO(int groupId, String name, String description, String category, String gPrivate, int totalScore,
