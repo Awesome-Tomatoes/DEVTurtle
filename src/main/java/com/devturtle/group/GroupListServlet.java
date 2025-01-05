@@ -9,6 +9,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
@@ -36,8 +37,12 @@ public class GroupListServlet extends HttpServlet {
 			throws ServletException, IOException {
 		// TODO Auto-generated method stub
 
-		int userId = 1;
 
+		 // 세션 객체를 가져오기
+        HttpSession session = request.getSession();
+        // 세션 ID 가져오기
+        int userId = (Integer) session.getAttribute("SESS_USER_ID");
+        
 		GroupDAO gdao = new GroupDAO();
 		ArrayList<GroupVO> groupList = gdao.selectAllJoinGroup(userId);
 
@@ -57,6 +62,8 @@ public class GroupListServlet extends HttpServlet {
 			request.setAttribute("contentPage", "/jsp/group/group_list.jsp");
 			request.getRequestDispatcher("/index.jsp").forward(request, response);
 		}
+		
+		
 	}
 
 	/**
