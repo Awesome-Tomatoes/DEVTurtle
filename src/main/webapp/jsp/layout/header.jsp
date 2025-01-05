@@ -39,4 +39,17 @@
     %>
 
 	</div>
+	
+	 <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+    <script>
+        $(document).ready(function () {
+        	$("#searchBtn").click( function() {  
+        		$("#header-search").attr("method", "get");
+    	    	$("#header-search").attr("action", "${pageContext.request.contextPath}/search");
+    	    	$("#query").val($("#searchForm").val());
+    	    	$("#header-search").submit();
+    	    } );
+        });
+    </script>
+	
 </header>
