@@ -123,7 +123,11 @@
 				<p>${USER_MISSON_SCORE}p</p>
 			</button>
 		</a>
-		<a class="user-info-list__btn" href="${pageContext.request.contextPath}/follow">
+		<% if (!isUserIdPresent) { %>
+			<a class="user-info-list__btn" href="${pageContext.request.contextPath}/follow">
+		<% } else {%>
+			<a class="user-info-list__btn" href="${pageContext.request.contextPath}/follow?userid=${USER_INFO.userID}">
+		<% } %>
 			<button>
 				<div class="user-info-list__title">
 					<img
