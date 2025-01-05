@@ -28,8 +28,9 @@
 			        if (userNickName != null) {
 			            out.println("[ "+ userNickName + " ]");
 			        } else {
-			            out.println("세션 SESS_USER_NICKNAME 없음");
+			            out.println("SESS_USER_NICKNAME 없음");
 			        }
+			        
 
 			%>님의 가입한 GROUP LIST
 			
