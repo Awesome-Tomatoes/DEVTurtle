@@ -75,15 +75,24 @@
 			<a class="see-more-btn" href="${pageContext.request.contextPath}/grouplist">더 보기</a>
 		</div>
 		<ul id="user-basic-info__group-ul">
-		<c:forEach var="glist" items="${USER_GROUP_LIST}" begin="0" end="2">
-			<li class="user-basic-info__group-li">
-				<span class="user-basic-info__group-li-title">${glist.name}</span>
-				<span class="user-basic-info__group-li-score">
-					<img class="user-basic-info__group-li-icon" src="${pageContext.request.contextPath}/assets/main/ranking.svg"/>
-					<span class="user-basic-info__group-li-point">${glist.rankScore} / ${ALL_GROUP_SIZE}</span>
-				</span>
-			</li>
-		</c:forEach>
+		<c:choose>
+		    <c:when test="${empty USER_GROUP_LIST}">
+		        <li class="user-basic-info__group-li">
+		            <span class="user-basic-info__group-li-title">가입된 그룹이 없습니다 😢</span>
+		        </li>
+		    </c:when>
+		    <c:otherwise>
+				<c:forEach var="glist" items="${USER_GROUP_LIST}" begin="0" end="2">
+					<li class="user-basic-info__group-li">
+						<span class="user-basic-info__group-li-title">${glist.name}</span>
+						<span class="user-basic-info__group-li-score">
+							<img class="user-basic-info__group-li-icon" src="${pageContext.request.contextPath}/assets/main/ranking.svg"/>
+							<span class="user-basic-info__group-li-point">${glist.rankScore} / ${ALL_GROUP_SIZE}</span>
+						</span>
+					</li>
+				</c:forEach>
+		    </c:otherwise>
+		</c:choose>
 		</ul>
 	</article>
 	<%
