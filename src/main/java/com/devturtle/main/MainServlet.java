@@ -49,6 +49,9 @@ protected void doGet(HttpServletRequest request, HttpServletResponse response) t
         	UserVO uRanking = udao.selectUserByIDWithRank(userId);
         	request.setAttribute("USER_RANKING", uRanking);
         	
+        	int totalUser = udao.selectAllUser().size();
+        	request.setAttribute("USER_COUNT", totalUser);
+        	
         	// 사용자 남은 랭킹 점수 및 퍼센트
         	int[] progress = UserRankingProgress.getRankProgress(userId);
         	int remainingScore = progress[0];
@@ -84,9 +87,6 @@ protected void doGet(HttpServletRequest request, HttpServletResponse response) t
 	
 	//개인 상위 1~10위
 	ArrayList<UserVO> userRankList = udao.selectAllUserByMonthOrderByRankPaging(today, 1, 10);
-//	for(var x : userRankList) {
-//		System.out.println(x.toString());
-//	}
 	
 	request.setAttribute("USER_RANK_LIST", userRankList);
 	

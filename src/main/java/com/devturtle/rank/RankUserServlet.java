@@ -8,6 +8,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.devturtle.user.UserDAO;
 import com.devturtle.user.UserVO;
@@ -15,9 +16,19 @@ import com.devturtle.common.PagingUtil;
 
 @WebServlet("/rankUser")
 public class RankUserServlet extends HttpServlet {
+
 	private static final long serialVersionUID = 1L;
        
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		HttpSession session = request.getSession();
+		if (session != null)  {
+			int userId =  Integer.parseInt((String)session.getAttribute("SESS_USER_ID"));
+			System.out.println(userId);
+//            session.getAttribute("SESS_USER_NICKNAME");
+//            session.getAttribute("SESS_ROLE");
+//            session.getAttribute("SESS_GROUP");
+		}
+		
 		
 		UserDAO udao = new UserDAO();
 		int currentPage = 1;

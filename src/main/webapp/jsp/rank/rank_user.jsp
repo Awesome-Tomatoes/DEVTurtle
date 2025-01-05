@@ -6,7 +6,6 @@
 <%@ taglib prefix="fn" 	uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="x" 	uri="http://java.sun.com/jsp/jstl/xml" %>
 <%@ taglib prefix="sql" 	uri="http://java.sun.com/jsp/jstl/sql" %>    
-<%-- <%@ include file="/jsp/layout/header.jsp" %> --%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -21,6 +20,8 @@
         <c:forEach var="uvo" items="${ULIST}">
             <div class="card">
                 <div class="card-header">
+                	<img src="${pageContext.request.contextPath}/userImage?userid=${uvo.userID}" alt="${uvo.userName}" height="60" width="60" class="user-avatar"> 
+
                     <h2> ${uvo.rank} ${uvo.userName}</h2>
                     <button class="follow-btn">Follow</button>
                 </div>
@@ -39,7 +40,6 @@
     
 ${MY_KEY_PAGING_HTML}
 
-<%-- <%@ include file="/jsp/layout/footer.jsp" %> --%>
 
 <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
 <script>

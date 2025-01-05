@@ -7,14 +7,22 @@
 }
 
 .user-info-list__btn {
+	display: flex;
+	align-items:center;
+	justify-content: center;
 	background-color: var(--depth-second-color);
 	width:	25%;
+	border-radius:20px;
+	text-decoration: none;
+}
+
+.user-info-list__btn button{
+	background-color: transparent;
 	border:none;
 	color: var(--font-white-color);
 	font-size: 20px;
 	padding-top:20px;
 	padding-bottom:20px;
-	border-radius:20px;
 }
 
 .user-info-list__title {

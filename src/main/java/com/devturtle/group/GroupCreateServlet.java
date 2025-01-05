@@ -6,6 +6,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.devturtle.user.UserDAO;
 import com.devturtle.user.UserVO;
@@ -32,6 +33,7 @@ public class GroupCreateServlet extends HttpServlet {
 		// TODO Auto-generated method stub
 		response.getWriter().append("Served at: ").append(request.getContextPath());
 
+		
 		// ----------------------페이지 -------------------------
 		// 동적으로 포함할 contentPage 경로 설정
 	    request.setAttribute("contentPage", "/jsp/group/group_create.jsp");
@@ -53,14 +55,19 @@ public class GroupCreateServlet extends HttpServlet {
 	    String description = request.getParameter("group-description");
 	    String location = "서울";
 	    GroupDAO gdao = new GroupDAO();
-	    int userId = 25; 
+	    
+	    // 세션 객체를 가져오기
+        HttpSession session = request.getSession();
+        // 세션 ID 가져오기
+        int userId = (Integer) session.getAttribute("SESS_USER_ID");
+        
 	    GroupVO gvo = new GroupVO(name,size, condition,
 				description, category,
 				gprivate,location);
 	    
 	    int tmp = gdao.createGroup(userId,gvo);
 	    if(tmp > 0) {
-	    	//그룹이 정상적으로 생성되었으면 그룹 리더를 추가
+	    	//그룹이 정상적으로 생성 후 그룹 점수 업데이트
 			UserDAO udao = new UserDAO();
 			UserVO uvo = udao.selectUser(userId);
 			int userScore = uvo.getTotalScore();
@@ -70,7 +77,7 @@ public class GroupCreateServlet extends HttpServlet {
 			}
 	    }
 
-	    response.sendRedirect("/groupcreate");
+	    response.sendRedirect("/grouplist");
 	}
 
 }

@@ -7,43 +7,53 @@
 <head>
     <meta charset="UTF-8">
     <title>Search Page</title>
-    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/rank/rank.css">
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/search/search.css">
 </head>
 <body>
 
     <h1>검색 페이지</h1>
     
-    <div class="container">
+    <%
+    String query = request.getParameter("query");
+    if (query == null) {
+        query = ""; // query가 null일 경우 빈 문자열로 초기화
+    }
+	%>
+    
+<div class="user-container">
+    <h3>사용자</h3>
+    <ul class="user-list">
         <c:forEach var="uvo" items="${ULIST}">
-            <div class="card">
-                <div class="card-header">
-                    <h2> ${uvo.userName}</h2>
-                    <button class="follow-btn">Follow</button>
+            <li class="user-item">
+                <img src="${pageContext.request.contextPath}/userImage?userid=${uvo.userID}" alt="${uvo.userName}" class="user-avatar"> 
+                <div class="user-info">
+                    <h4>${uvo.userName}</h4>
+                    <p>랭킹 Point: ${uvo.totalScore}</p>
                 </div>
-                <div class="card-content">
-                    <p><strong>전체 점수:</strong> ${uvo.totalScore}</p>
-                </div>
-            </div>
+                <button class="follow-btn">Follow</button>
+            </li>
         </c:forEach>
-    </div>
-    
-    <div class="container">
+    </ul>
+</div>
+
+<div class="group-container">
+    <h3>그룹</h3>
+    <ul class="group-list">
         <c:forEach var="gvo" items="${GLIST}">
-            <div class="card">
-                <div class="card-header">
-                    <h2>  ${gvo.name}</h2>
-                    <button class="follow-btn">Join</button>
+            <li class="group-item">
+                <%-- <img src="${gvo.groupImage}" alt="${gvo.name}" class="group-avatar"> --%>
+                <div class="group-info">
+                    <h4>${gvo.name}</h4>
+                    <p>그룹 Point: ${gvo.totalScore}</p>
                 </div>
-                <div class="card-content">
-                    <p><strong>전체 점수:</strong> ${gvo.totalScore}</p>
-                </div>
-            </div>
+                <button class="join-btn">가입하기</button>
+            </li>
         </c:forEach>
-    </div>
+    </ul>
+</div>
     
     
-    
-    <div class="results">
+<!--     <div class="results">
         <div id="user-results">
             <h2>Users</h2>
             <ul></ul>
@@ -52,11 +62,14 @@
             <h2>Groups</h2>
             <ul></ul> 
         </div>
-    </div>
+    </div> -->
 
     <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
     <script>
         $(document).ready(function () {
+        	const query = "<%= query %>";
+            $("#searchForm").val(query);
+        	
         	$("#searchBtn").click( function() {  
         		$("#header-search").attr("method", "get");
     	    	$("#header-search").attr("action", "${pageContext.request.contextPath}/search");

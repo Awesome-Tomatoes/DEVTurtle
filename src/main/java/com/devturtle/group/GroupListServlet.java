@@ -9,6 +9,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
@@ -36,24 +37,33 @@ public class GroupListServlet extends HttpServlet {
 			throws ServletException, IOException {
 		// TODO Auto-generated method stub
 
-		int userId = 1;
 
+		 // 세션 객체를 가져오기
+        HttpSession session = request.getSession();
+        // 세션 ID 가져오기
+        int userId = (Integer) session.getAttribute("SESS_USER_ID");
+        
 		GroupDAO gdao = new GroupDAO();
 		ArrayList<GroupVO> groupList = gdao.selectAllJoinGroup(userId);
 
-		if ("JSON".equals(request.getParameter("type"))) {
+		for(GroupVO g : groupList) {
+			System.out.println(g.toString());
+		}
+		
+		if ("json".equals(request.getParameter("type"))) {
 			response.setContentType("application/json");
 			response.setCharacterEncoding("UTF-8");
 
 			ObjectMapper objectMapper = new ObjectMapper(); // groupList -> JSON 형식
 			String json = objectMapper.writeValueAsString(groupList);
 			response.getWriter().write(json); // JSON 데이터 전송
+		
 		} else {
-			// JSON이 아닌 경우, JSP로 포워딩
-			request.setAttribute("groupList", groupList);
 			request.setAttribute("contentPage", "/jsp/group/group_list.jsp");
 			request.getRequestDispatcher("/index.jsp").forward(request, response);
 		}
+		
+		
 	}
 
 	/**

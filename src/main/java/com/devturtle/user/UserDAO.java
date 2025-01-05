@@ -345,17 +345,36 @@ public class UserDAO {
 		return rows;
 	}
 	
-	public int updateUserData(int userid, String nickname, String userBio) {
+	public int updateUserNickname(int userid, String nickname) {
 		DBManager dbm = OracleDBManager.getInstance(); //new OracleDBManager();
 		Connection conn = dbm.connect();
 		PreparedStatement pstmt = null;
 		int rows = 0;
 		try {
-			String sql = "update users set nickname=?, user_bio=?, updated_at = sysdate where user_id=?";
+			String sql = "update users set nickname=?, updated_at = sysdate where user_id=?";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, nickname);
-			pstmt.setString(2, userBio);
-			pstmt.setInt(3, userid);
+			pstmt.setInt(2, userid);
+			rows = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			dbm.close(conn, pstmt);
+		}
+		return rows;
+	}
+	
+	public int updateUserData(int userid, String userBio) {
+		DBManager dbm = OracleDBManager.getInstance(); //new OracleDBManager();
+		Connection conn = dbm.connect();
+		PreparedStatement pstmt = null;
+		int rows = 0;
+		try {
+			String sql = "update users set user_bio=?, updated_at = sysdate where user_id=?";
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setString(1, userBio);
+			pstmt.setInt(2, userid);
 			rows = pstmt.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
