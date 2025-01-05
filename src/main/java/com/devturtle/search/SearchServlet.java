@@ -14,6 +14,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.tomcat.dbcp.dbcp2.PStmtKey;
+
 import com.devturtle.common.DBManager;
 import com.devturtle.common.OracleDBManager;
 import com.devturtle.user.UserVO;
@@ -27,9 +29,10 @@ public class SearchServlet extends HttpServlet {
         String query = request.getParameter("query");
     	System.out.println(query);
         
-//		HttpSession session = request.getSession();
-//		//userID 세션에 없으면 0, 잇으면 로그인한 userID기준으로 검색 결과 팔로우, 팔로워 관계 찾기
-//		int userID = 25;
+		HttpSession session = request.getSession();
+		//userID 세션에 없으면 0, 잇으면 로그인한 userID기준으로 검색 결과 팔로우, 팔로워 관계 찾기
+		int userID = 25;
+		
 //		if (session != null)  {
 //			String uid = (String)session.getAttribute("SESS_USER_ID");
 //			System.out.println(uid);
@@ -41,29 +44,35 @@ public class SearchServlet extends HttpServlet {
 ////          session.getAttribute("SESS_GROUP");
 //		}
         
+    	
         if (query == null || query.isEmpty()) {
             query = "";
             request.setAttribute("contentPage", "/jsp/search/search.jsp");
     	    request.getRequestDispatcher("/index.jsp").forward(request, response);
         }
         
+        
+        
+        
         else {
         	//검색결과 담을 유저,그룹 VO
-            ArrayList<UserVO> followUlist = new ArrayList<>();
-            ArrayList<GroupVO> joinedGlist = new ArrayList<>();
-            ArrayList<UserVO> unFollowUlist = new ArrayList<>();
-            ArrayList<GroupVO> unjoinedGlist = new ArrayList<>();
+            ArrayList<UserVO> ulist = new ArrayList<>();
+            ArrayList<GroupVO> glist = new ArrayList<>();
+
             
     	    DBManager dbm = null;
     	    Connection conn = null ;
     	    PreparedStatement pstmt = null ;
     	    ResultSet rs = null;
+    	    
+    	    
+    	    // 유저
     	 
             try  {
         	    dbm = OracleDBManager.getInstance();
         	    conn = dbm.connect();
         	    pstmt = null;
-        	    String userSql = "SELECT * FROM USERS WHERE USER_NAME LIKE ? ORDER BY USER_NAME";
+        	    String userSql = "SELECT * FROM USERS WHERE NICKNAME LIKE ? ORDER BY NICKNAME";
             	pstmt = conn.prepareStatement(userSql);
             	pstmt.setString(1, "%" + query + "%");
                 rs = pstmt.executeQuery();
@@ -73,7 +82,7 @@ public class SearchServlet extends HttpServlet {
     				uvo.setUserName(rs.getString("USER_NAME"));
     				uvo.setNickname(rs.getString("NICKNAME"));
     				uvo.setTotalScore(rs.getInt("TOTAL_SCORE"));
-    				followUlist.add(uvo);
+    				ulist.add(uvo);
                 }
             } catch (SQLException e) {
                 System.err.println("SQL Error Code: " + e.getErrorCode());
@@ -82,37 +91,31 @@ public class SearchServlet extends HttpServlet {
     		} finally {
     			dbm.close(conn, pstmt, rs);
     		}
-
+            
+            
+            //그룹
             try {
             	dbm = OracleDBManager.getInstance();
         	    conn = dbm.connect();
         	    pstmt = null;
-                String groupSql = "SELECT * FROM GROUPS WHERE NAME LIKE ? ORDER BY NAME";
                 
                 //참여한 그룹 가져오기
-                String s1 = "SELECT * FROM GROUPS G LEFT JOIN GROUP_USER GU \r\n"
+                String sql = "SELECT * FROM GROUPS G LEFT JOIN GROUP_USER GU \r\n"
                 		+ "ON G.GROUP_ID = GU.GROUP_ID\r\n"
                 		+ "WHERE GU.USER_ID = ? AND NAME LIKE ?\r\n"
                 		+ "ORDER BY G.GROUP_ID";
                 
-                //참여안한 안된 그룹 가져오기
-                String s2 = "SELECT * FROM GROUPS G WHERE\r\n"
-                		+ "G.GROUP_ID NOT IN \r\n"
-                		+ "(SELECT GROUPS.GROUP_ID \r\n"
-                		+ " FROM GROUPS LEFT JOIN GROUP_USER \r\n"
-                		+ "      ON GROUPS.GROUP_ID = GROUP_USER.GROUP_ID\r\n"
-                		+ " WHERE NAME LIKE ? GROUP_USER.USER_ID = ?\r\n"
-                		+ ")\r\n"
-                		+ "ORDER BY G.GROUP_ID";
-                pstmt = conn.prepareStatement(groupSql);
-            	pstmt.setString(1, "%" + query + "%");
+                pstmt = conn.prepareStatement(sql);
+                pstmt.setInt(1, userID);
+            	pstmt.setString(2, "%" + query + "%");
                 rs = pstmt.executeQuery();                   
                 while (rs.next()) {
                 	GroupVO gvo = new GroupVO();
     				gvo.setGroupId(rs.getInt("GROUP_ID"));
     				gvo.setName(rs.getString("NAME"));
     			    gvo.setTotalScore(rs.getInt("TOTAL_SCORE"));
-    			    joinedGlist.add(gvo);
+    			    gvo.setJoin(true);
+    			    glist.add(gvo);
     			}
             } catch (SQLException e) {
                 System.err.println("SQL Error Code: " + e.getErrorCode());
@@ -122,11 +125,53 @@ public class SearchServlet extends HttpServlet {
     			dbm.close(conn, pstmt, rs);
     		}
             
-    		request.setAttribute("GLIST", joinedGlist);
-    		request.setAttribute("ULIST", followUlist);
+            try {
+            	dbm = OracleDBManager.getInstance();
+        	    conn = dbm.connect();
+        	    pstmt = null;
+                
+                //참여안한 안된 그룹 가져오기
+                String sql = "SELECT * FROM GROUPS G WHERE\r\n"
+                		+ "G.GROUP_ID NOT IN \r\n"
+                		+ "(SELECT GROUPS.GROUP_ID \r\n"
+                		+ " FROM GROUPS LEFT JOIN GROUP_USER \r\n"
+                		+ "      ON GROUPS.GROUP_ID = GROUP_USER.GROUP_ID\r\n"
+                		+ " WHERE  GROUP_USER.USER_ID = ?\r\n"
+                		+ ")  AND NAME LIKE ?\r\n"
+                		+ "ORDER BY G.GROUP_ID";
+                pstmt = conn.prepareStatement(sql);
+                pstmt.setInt(1, userID);
+            	pstmt.setString(2, "%" + query + "%");
+                rs = pstmt.executeQuery();                   
+                while (rs.next()) {
+                	GroupVO gvo = new GroupVO();
+    				gvo.setGroupId(rs.getInt("GROUP_ID"));
+    				gvo.setName(rs.getString("NAME"));
+    			    gvo.setTotalScore(rs.getInt("TOTAL_SCORE"));
+    			    gvo.setJoin(false);
+    			    glist.add(gvo);
+    			}
+            } catch (SQLException e) {
+                System.err.println("SQL Error Code: " + e.getErrorCode());
+                System.err.println("SQL State: " + e.getSQLState());
+    			e.printStackTrace();
+    		} finally {
+    			dbm.close(conn, pstmt, rs);
+    		}
+            
+    		request.setAttribute("GLIST", glist);
+    		request.setAttribute("ULIST", ulist);
     		
-    		System.out.println(joinedGlist.toString());
-    		System.out.println(followUlist.toString());
+    		glist.sort((a, b) ->{
+    			return a.getName().compareTo(b.getName());
+    		});
+    		
+    		ulist.sort((a, b) ->{
+    			return a.getNickname().compareTo(b.getNickname());
+    		});
+    		
+    		System.out.println(glist.toString());
+    		System.out.println(ulist.toString());
 
     		request.setAttribute("contentPage", "/jsp/search/search.jsp");
     		

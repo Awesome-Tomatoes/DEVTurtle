@@ -25,6 +25,7 @@ public class GroupVO {
 	private int condition;
 	private String location;
 	private String mainPng;
+	private boolean join;
 	
 	private ArrayList<GroupUserVO> listOfGroupUser;
 	

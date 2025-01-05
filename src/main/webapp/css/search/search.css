@@ -92,7 +92,7 @@ li:last-child {
 }
 
 .join-btn {
-    background-color: #0066cc;
+    background-color: #6600cc;
     border: none;
     color: white;
     padding: 5px 10px;
@@ -103,3 +103,17 @@ li:last-child {
 .join-btn:hover {
     background-color: #004c99;
 }
+
+.unjoin-btn {
+    background-color: #0066cc;
+    border: none;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.unjoin-btn:hover {
+    background-color: #004c99;
+}
+
