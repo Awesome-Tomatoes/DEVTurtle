@@ -75,9 +75,5 @@ public class LoginServelt extends HttpServlet {
             response.sendRedirect(contextPath + "/main");
         	
         }
-        
-        
-		
 	}
-
 }
