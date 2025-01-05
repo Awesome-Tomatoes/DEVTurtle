@@ -70,7 +70,7 @@ public class MissionGroupDAO {
 				+ "    FROM (\r\n"
 				+ "        SELECT \r\n"
 				+ "            og.group_id, og.success_date, o.objective_id, \r\n"
-				+ "            o.objective_query AS contents, o.points  \r\n"
+				+ "            o.contents, o.points  \r\n"
 				+ "        FROM \r\n"
 				+ "            objective_group og\r\n"
 				+ "        JOIN \r\n"
@@ -140,7 +140,7 @@ public class MissionGroupDAO {
 				+ "    g.name, \r\n"
 				+ "    o.objective_id, \r\n"
 				+ "    og.success_date, \r\n"
-				+ "    o.objective_query AS contents, \r\n"
+				+ "    o.contents, \r\n"
 				+ "    o.points\r\n"
 				+ "FROM \r\n"
 				+ "    objective_group og\r\n"
@@ -205,7 +205,7 @@ public ArrayList<MissionJoinGroupVO> selectMissionGroupChart(int groupid) {
 				+ "FROM (\r\n"
 				+ "    SELECT g.group_id, g.name, s.objective_id, s.success_date, s.contents, s.points\r\n"
 				+ "    FROM (\r\n"
-				+ "        SELECT og.group_id, og.success_date, o.objective_id, o.objective_query AS contents, o.points  \r\n"
+				+ "        SELECT og.group_id, og.success_date, o.objective_id, o.contents, o.points  \r\n"
 				+ "        FROM objective_group og\r\n"
 				+ "        JOIN objective o ON og.objective_id = o.objective_id\r\n"
 				+ "    ) s\r\n"
@@ -261,7 +261,7 @@ public ArrayList<MissionJoinGroupVO> selectMissionGroupBadge(int groupid) {
 	
 	ArrayList<MissionJoinGroupVO> mlist = new ArrayList<MissionJoinGroupVO>();
 	
-	String sql = "select g.group_id, g.name, o.objective_query as contents, o.badge_link, o.points, og.success_date\r\n"
+	String sql = "select g.group_id, g.name, o.contents, o.badge_link, o.points, og.success_date\r\n"
 			+ "from groups g, objective_group og, objective o\r\n"
 			+ "where og.objective_id = o.objective_id and g.group_id = og.group_id\r\n"
 			+ "and g.group_id = ?";
@@ -306,7 +306,7 @@ public ArrayList<MissionJoinGroupVO> selectMissionGroupBadge(int groupid) {
 	return mlist;
 }	
 
-	public ObjectiveVO insert(String contents, int points) { //admin용
+	public ObjectiveVO insertMission(String contents, int points) { //admin용
 		
 		ObjectiveVO uov = new ObjectiveVO();
 		
@@ -317,14 +317,14 @@ public ArrayList<MissionJoinGroupVO> selectMissionGroupBadge(int groupid) {
 		
 	}
 	
-	public int update(String contents, int points) { //admin용
+	public int updateMission(String contents, int points) { //admin용
 		
 		int row = 1;
 		
 		return row;
 	}
 	
-	public int delete(String contents, int points) { //admin용
+	public int deleteMission(String contents, int points) { //admin용
 		
 		int row = 1;
 		
