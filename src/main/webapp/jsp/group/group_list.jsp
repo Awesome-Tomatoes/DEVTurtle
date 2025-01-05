@@ -20,7 +20,20 @@
 	<div class="group-mylist-title-div">
 		<div class="group-mylist-main-title">
 			
-			<div id="group-mylist-main-title"> ${GROUP_DETAIL.name}님의 가입한 GROUP LIST</div>
+			<div id="group-mylist-main-title"> 
+			<%
+
+			        String userNickName = (String) session.getAttribute("SESS_USER_NICKNAME");
+			
+			        if (userNickName != null) {
+			            out.println("[ "+ userNickName + " ]");
+			        } else {
+			            out.println("세션 SESS_USER_NICKNAME 없음");
+			        }
+
+			%>님의 가입한 GROUP LIST
+			
+			</div>
 		</div>
 		<div class="group-mylist-sub-title">
 			GROUP 생성하기	
@@ -71,7 +84,8 @@ $( document ).ready(function() {
 });
 
 function loadGroupList() {
-	 $.ajax({
+	 
+	$.ajax({
 	        type: "GET",  
 	        url: "/grouplist",  
 	        data: { type: "json" },  
@@ -84,7 +98,7 @@ function loadGroupList() {
 	                data.forEach(function(group) {
 	                	
 	                    var groupDiv = 
-	                    	'<div class="group-mylist-join-info-div" id="group-' + group.id + '">' +
+	                    	'<div class="group-mylist-join-info-div" id="group-' + group.groupId + '">' +
 	                        '<div id="group-mylist-per-div">' +
 	                            '<div id="group-mylist-image">img</div>' +
 	                            '<div id="group-detail-simple-info-div">' +
@@ -109,6 +123,29 @@ function loadGroupList() {
 	            alert("서버 요청에 실패했습니다.");
 	        }
 	    });   
+}
+
+function leaveGroup(groupId) {
+	$.ajax({
+	    type: "POST",  
+	    url: "/groupdelete",  
+	    data: { groupId: groupId },
+	    dataType: "JSON", 
+	    success: function(response) {
+	        if (response.success) {
+	            alert("그룹에서 탈퇴했습니다.");
+	            $("#group-" + groupId).remove(); 
+	            loadGroupList(); 
+	        } else {
+	            alert("그룹 탈퇴에 실패했습니다. 다시 시도해주세요.");
+	        }
+	        
+	    },
+	    error: function(xhr, status, error) {
+            console.error("에러 발생: " + error);
+            alert("서버 요청에 실패했습니다.");
+        }
+	});
 }
 
 </script>
