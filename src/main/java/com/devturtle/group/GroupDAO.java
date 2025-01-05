@@ -120,7 +120,7 @@ public class GroupDAO {
 				GroupVO gvo = new GroupVO();
 				gvo.setGroupId(rs.getInt("GROUP_ID"));
 				gvo.setName(rs.getString("NAME"));
-				gvo.setSize(rs.getInt("SIZE"));
+				gvo.setSize(rs.getInt("SIZES"));
 			    gvo.setCondition(rs.getInt("CONDITION"));
 			    gvo.setDescription(rs.getString("DESCRIPTION"));
 			    gvo.setCategory(rs.getString("CATEGORY"));
@@ -171,7 +171,7 @@ public class GroupDAO {
 			if (rs.next()) {
 				gvo.setGroupId(rs.getInt("GROUP_ID"));
 				gvo.setName(rs.getString("NAME"));
-				gvo.setSize(rs.getInt("SIZE"));
+				gvo.setSize(rs.getInt("SIZES"));
 			    gvo.setCondition(rs.getInt("CONDITION"));
 			    gvo.setDescription(rs.getString("DESCRIPTION"));
 			    gvo.setCategory(rs.getString("CATEGORY"));
@@ -209,7 +209,7 @@ public class GroupDAO {
 					"update GROUPS \r\n"
 					+ "		set \r\n"
 					+ "     NAME = ?,\r\n"
-					+ "    \"SIZE\"= ?,\r\n"
+					+ "    \"SIZES\"= ?,\r\n"
 					+ "    \"CONDITION\" = ?,\r\n"
 					+ "    \"DESCRIPTION\" = ?,\r\n"
 					+ "    \"CATEGORY\" = ?, \r\n"

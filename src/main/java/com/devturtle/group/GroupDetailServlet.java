@@ -15,44 +15,42 @@ import com.devturtle.rank.RankGroupVO;
 /**
  * Servlet implementation class GroupDetailServlet
  */
-@WebServlet("/GroupDetailServlet")
+@WebServlet("/groupdetail")
 public class GroupDetailServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		// session 가짜 데이터
-		int userId =1;
-		int groupId =1;
-		
-		// 그룹 전체 정보
-		GroupDAO gdao = new GroupDAO();
-		GroupVO groupDetail = gdao.selectGroupDetail(userId,groupId);
-		request.setAttribute("GROUP_DETAIL", groupDetail);
-		
-		// 그룹 랭킹 정보
-		GroupVO gRankVO = gdao.selectGroupByIDWithRank(groupId);
-		int gRank = gRankVO.getRank(); //현재 그룹 랭크
-		int allGroupSize = gdao.selectAllGroupSize(); // 전체 그룹 갯수
-		request.setAttribute("GROUP_RANK", gRank);
-		request.setAttribute("GROUP_SIZE", allGroupSize);
-		
-		// 특정 그룹 차트용 월간 랭킹 변동사항 데이터 groupID, YYYYMMDD 형태로 입력
-//		RankGroupDAO rudao = new RankGroupDAO();
-//		ArrayList<RankGroupVO> rglist = rudao.selectRankGroupAllByMonth(1, "20250101");
-//		request.setAttribute("MONTHLY_GROUP_RANK", rglist);
-		
-		// 그룹 달성 업정정보
-		
-		// 동적으로 포함할 contentPage 경로 설정
-	    request.setAttribute("contentPage", "/jsp/group/group_detail.jsp");
+		 // URL 파라미터로 groupId 받기
+        String groupIdParam = request.getParameter("groupId");
 
-	    // layout.jsp로 포워딩
-	    request.getRequestDispatcher("/index.jsp").forward(request, response);
-		
+        System.out.println("groupIdParam >>> "+groupIdParam);
+        if (groupIdParam != null) {
+            int groupId = Integer.parseInt(groupIdParam); // groupId를 정수로 변환
 
-	}
+            // 그룹 전체 정보
+            GroupDAO gdao = new GroupDAO();
+            GroupVO groupDetail = gdao.selectGroupDetail(1, groupId);  // 사용자 ID와 groupId로 그룹 정보 조회
+            request.setAttribute("GROUP_DETAIL", groupDetail);
 
+            // 그룹 랭킹 정보
+            GroupVO gRankVO = gdao.selectGroupByIDWithRank(groupId);
+            int gRank = gRankVO.getRank();
+            int allGroupSize = gdao.selectAllGroupSize();
+            request.setAttribute("GROUP_RANK", gRank);
+            request.setAttribute("GROUP_SIZE", allGroupSize);
+
+            // 동적으로 포함할 contentPage 경로 설정
+            request.setAttribute("contentPage", "/jsp/group/group_detail.jsp");
+
+            // layout.jsp로 포워딩
+            request.getRequestDispatcher("/index.jsp").forward(request, response);
+        } else {
+            // groupId가 없을 경우 에러 처리
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Group ID is required.");
+        }
+    }
+	
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */

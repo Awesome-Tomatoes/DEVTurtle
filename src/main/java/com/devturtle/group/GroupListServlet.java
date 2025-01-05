@@ -41,16 +41,19 @@ public class GroupListServlet extends HttpServlet {
 		GroupDAO gdao = new GroupDAO();
 		ArrayList<GroupVO> groupList = gdao.selectAllJoinGroup(userId);
 
-		if ("JSON".equals(request.getParameter("type"))) {
+		for(GroupVO g : groupList) {
+			System.out.println(g.toString());
+		}
+		
+		if ("json".equals(request.getParameter("type"))) {
 			response.setContentType("application/json");
 			response.setCharacterEncoding("UTF-8");
 
 			ObjectMapper objectMapper = new ObjectMapper(); // groupList -> JSON 형식
 			String json = objectMapper.writeValueAsString(groupList);
 			response.getWriter().write(json); // JSON 데이터 전송
+		
 		} else {
-			// JSON이 아닌 경우, JSP로 포워딩
-			request.setAttribute("groupList", groupList);
 			request.setAttribute("contentPage", "/jsp/group/group_list.jsp");
 			request.getRequestDispatcher("/index.jsp").forward(request, response);
 		}
