@@ -8,6 +8,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.devturtle.common.PagingUtil;
 import com.devturtle.group.GroupDAO;
@@ -19,6 +20,16 @@ public class RankGroupServlet extends HttpServlet {
        
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
+		HttpSession session = request.getSession();
+		if (session != null)  {
+			int userId =  Integer.parseInt((String)session.getAttribute("SESS_USER_ID"));
+			System.out.println(userId);
+//          session.getAttribute("SESS_USER_NICKNAME");
+//          session.getAttribute("SESS_ROLE");
+//          session.getAttribute("SESS_GROUP");
+		}
+		
+		
 		GroupDAO gdao = new GroupDAO();
 		int currentPage = 1;
 		String currentPageStr = request.getParameter("currentPage");

@@ -12,6 +12,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.devturtle.common.DBManager;
 import com.devturtle.common.OracleDBManager;
@@ -24,6 +25,16 @@ public class SearchServlet extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String query = request.getParameter("query");
+    	System.out.println(query);
+        
+		HttpSession session = request.getSession();
+		if (session != null)  {
+			int userId =  Integer.parseInt((String)session.getAttribute("SESS_USER_ID"));
+			System.out.println(userId);
+//          session.getAttribute("SESS_USER_NICKNAME");
+//          session.getAttribute("SESS_ROLE");
+//          session.getAttribute("SESS_GROUP");
+		}
         
         if (query == null || query.isEmpty()) {
             query = "";
@@ -32,7 +43,6 @@ public class SearchServlet extends HttpServlet {
         }
         
         else {
-        	System.out.println(query);
         	//검색결과 담을 유저,그룹 VO
             ArrayList<UserVO> ulist = new ArrayList<>();
             ArrayList<GroupVO> glist = new ArrayList<>();
