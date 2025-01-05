@@ -13,7 +13,7 @@ import com.devturtle.user.UserDAO;
 /**
  * Servlet implementation class UserImage
  */
-@WebServlet("/userImage")
+@WebServlet("/groupImage")
 public class GroupImageServlet extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
