@@ -1,7 +1,6 @@
 package com.devturtle.user;
 
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -11,9 +10,6 @@ import java.util.ArrayList;
 
 import com.devturtle.common.DBManager;
 import com.devturtle.common.OracleDBManager;
-import com.devturtle.git.GitManager;
-import com.devturtle.solved.SolvedDAO;
-import com.devturtle.solved.SolvedManager;
 
 
 public class LoginHistoryDAO {
@@ -55,6 +51,7 @@ public class LoginHistoryDAO {
 		Connection conn = dbm.connect();
 		PreparedStatement pstmt = null;
 		
+		
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 		String currentDate = LocalDate.now().format(formatter);
 		
@@ -74,9 +71,12 @@ public class LoginHistoryDAO {
 			try {
 				conn.setAutoCommit(false);
 	
-				String sql = "insert into users(login_history_id, history_date, user_id)\r\n"
+				String sql = "insert into login_history(login_history_id, login_date, user_id)\r\n"
 					+ "values(login_history_seq.nextval,?,?)";
 				pstmt = conn.prepareStatement(sql);
+				
+				pstmt.setString(1, currentDate);
+				pstmt.setInt(2, userid);
 				
 				rows = pstmt.executeUpdate();
 				if (rows == 1) {

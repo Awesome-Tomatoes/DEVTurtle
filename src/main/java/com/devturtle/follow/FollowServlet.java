@@ -29,7 +29,11 @@ public class FollowServlet extends HttpServlet {
 		FollowDAO fdao = new FollowDAO();
 		UserDAO udao = new UserDAO();
 		
-		int userid = (int) session.getAttribute("SESS_USER_ID");
+		int userid = Integer.parseInt(request.getParameter("userid"));
+		
+		if (userid == 0) {
+			userid = (int) session.getAttribute("SESS_USER_ID");
+		}
 		
 		ArrayList<UserVO> followedlist = fdao.selectAllFollowed(userid);
 		ArrayList<UserVO> followinglist = fdao.selectAllFollowing(userid);
