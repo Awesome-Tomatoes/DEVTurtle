@@ -27,86 +27,125 @@ import com.google.gson.Gson;
 
 @WebServlet("/mypage")
 public class MypageServlet extends HttpServlet {
-private static final long serialVersionUID = 1L;
-       
-    public MypageServlet() {
-        super();
-    }
-
-protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-	HttpSession session = request.getSession();
-	UserDAO udao = new UserDAO();
-	MissionPersonalDAO mdao = new MissionPersonalDAO();
-	FollowDAO fdao = new FollowDAO();
-	GroupDAO gdao  = new GroupDAO();
-	RankUserDAO rudao = new RankUserDAO();
+	private static final long serialVersionUID = 1L;
 	
-	
-	if (session != null) {
-		Integer userId = (Integer) session.getAttribute("SESS_USER_ID");
-		if (userId != null) {
-			// 사용자 기본 정보
-        	UserVO uinfo = udao.selectUser(userId);
-        	request.setAttribute("USER_INFO", uinfo);
-        	
-			//사용자 랭킹명 조회
-			String uRankCode = UserRankText.getRank(userId);
-			request.setAttribute("USER_RANK_CODE", uRankCode);
-			
-			// 사용자 미션 점수 조회 
-			ArrayList<MissionJoinUserVO> mlist = mdao.selectMissionUser(userId);
-			
-			int missonPoints = 0;
-        	for (MissionJoinUserVO mission : mlist) {
-        		missonPoints += mission.getPoints();
-        	}
-        	
-        	request.setAttribute("USER_MISSON_SCORE", missonPoints);
-        	
-			
-			// 사용자 남은 랭킹 점수 및 퍼센트
-        	int[] progress = UserRankingProgress.getRankProgress(userId);
-        	int remainingScore = progress[0];
-        	int remainingPercent = progress[1];
+	private void handleResponse(HttpServletResponse response, boolean isSuccess, String successMessage, String errorMessage) throws IOException {
+	    String message = isSuccess ? successMessage : errorMessage;
+	    String redirectUrl = "/mypage";
 
-        	request.setAttribute("USER_REMAINING_SCORE", remainingScore);
-        	request.setAttribute("USER_REMAINING_PERCENT", remainingPercent);
-        	
-        	// 사용자 랭킹 순위 정보
-        	UserVO uRanking = udao.selectUserByIDWithRank(userId);
-        	request.setAttribute("USER_RANKING", uRanking);
-        	
-        	int totalUser = udao.selectAllUser().size();
-        	request.setAttribute("USER_COUNT", totalUser);
-        	
-        	// 팔로워 명수
-        	int followerCount = fdao.countUserFollowed(userId);
-        	request.setAttribute("FOLLOWER_COUNT", followerCount);
-        	
-        	// 그룹 수
-        	ArrayList<GroupVO> glist = gdao.selectAllJoinGroup(userId);
-        	
-        	int groupCount = glist.size();
-        	request.setAttribute("GROUP_COUNT", groupCount);
-        	
-        	// 차트 데이터
-        	SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
-        	String today = dateFormat.format(new Date());
-        	
-        	ArrayList<RankUserVO> rankList = rudao.selectRankUserAllByMonth(userId, today);
-        	
-        	String rankjson = new Gson().toJson(rankList);
-        	request.setAttribute("RANK_CHART_DATA", rankjson);
-        	
-        	
-		}
+	    response.getWriter().write(
+	        "<!DOCTYPE html>" +
+	        "<html>" +
+	        "<head>" +
+	        "    <script type='text/javascript'>" +
+	        "        alert('" + message + "');" +
+	        "        window.location.href = '" + redirectUrl + "';" +
+	        "    </script>" +
+	        "</head>" +
+	        "<body></body>" +
+	        "</html>"
+	    );
 	}
-    request.setAttribute("contentPage", "/jsp/mypage/mypage.jsp");
-    request.getRequestDispatcher("/index.jsp").forward(request, response);
-}
 
-protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-doGet(request, response);
-}
+	public MypageServlet() {
+		super();
+	}
+
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		HttpSession session = request.getSession();
+		UserDAO udao = new UserDAO();
+		MissionPersonalDAO mdao = new MissionPersonalDAO();
+		FollowDAO fdao = new FollowDAO();
+		GroupDAO gdao  = new GroupDAO();
+		RankUserDAO rudao = new RankUserDAO();
+
+
+		if (session != null) {
+			Integer userId = (Integer) session.getAttribute("SESS_USER_ID");
+			if (userId != null) {
+				// 사용자 기본 정보
+				UserVO uinfo = udao.selectUser(userId);
+				request.setAttribute("USER_INFO", uinfo);
+
+				//사용자 랭킹명 조회
+				String uRankCode = UserRankText.getRank(userId);
+				request.setAttribute("USER_RANK_CODE", uRankCode);
+
+				// 사용자 미션 점수 조회 
+				ArrayList<MissionJoinUserVO> mlist = mdao.selectMissionUser(userId);
+
+				int missonPoints = 0;
+				for (MissionJoinUserVO mission : mlist) {
+					missonPoints += mission.getPoints();
+				}
+
+				request.setAttribute("USER_MISSON_SCORE", missonPoints);
+
+
+				// 사용자 남은 랭킹 점수 및 퍼센트
+				int[] progress = UserRankingProgress.getRankProgress(userId);
+				int remainingScore = progress[0];
+				int remainingPercent = progress[1];
+
+				request.setAttribute("USER_REMAINING_SCORE", remainingScore);
+				request.setAttribute("USER_REMAINING_PERCENT", remainingPercent);
+
+				// 사용자 랭킹 순위 정보
+				UserVO uRanking = udao.selectUserByIDWithRank(userId);
+				request.setAttribute("USER_RANKING", uRanking);
+
+				int totalUser = udao.selectAllUser().size();
+				request.setAttribute("USER_COUNT", totalUser);
+
+				// 팔로워 명수
+				int followerCount = fdao.countUserFollowed(userId);
+				request.setAttribute("FOLLOWER_COUNT", followerCount);
+
+				// 그룹 수
+				ArrayList<GroupVO> glist = gdao.selectAllJoinGroup(userId);
+
+				int groupCount = glist.size();
+				request.setAttribute("GROUP_COUNT", groupCount);
+
+				// 차트 데이터
+				SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
+				String today = dateFormat.format(new Date());
+
+				ArrayList<RankUserVO> rankList = rudao.selectRankUserAllByMonth(userId, today);
+
+				String rankjson = new Gson().toJson(rankList);
+				request.setAttribute("RANK_CHART_DATA", rankjson);
+
+
+			}
+		}
+		request.setAttribute("contentPage", "/jsp/mypage/mypage.jsp");
+		request.getRequestDispatcher("/index.jsp").forward(request, response);
+	}
+
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		//doGet(request, response);
+		HttpSession session = request.getSession();
+		Integer userId = (Integer) session.getAttribute("SESS_USER_ID");
+		UserDAO udao = new UserDAO();
+		
+		String actionType = request.getParameter("actionType");
+		
+		try {
+	        if ("updateNickname".equals(actionType)) {
+	            String nickname = request.getParameter("nickname");
+	            int res = udao.updateUserNickname(userId, nickname);
+	            handleResponse(response, res > 0, "닉네임이 변경되었습니다.", "오류가 발생했습니다. 다시 시도해주세요.");
+	        } else if ("updateBio".equals(actionType)) {
+	            String bio = request.getParameter("bio");
+	            int res = udao.updateUserData(userId, bio);
+	            handleResponse(response, res > 0, "자기소개가 변경되었습니다.", "오류가 발생했습니다. 다시 시도해주세요.");
+	        } else {
+	            handleResponse(response, false, "", "유효하지 않은 요청입니다.");
+	        }
+	    } catch (Exception e) {
+	        handleResponse(response, false, "", "서버 오류가 발생했습니다.");
+	    }
+	}
 
 }

@@ -63,9 +63,11 @@
 		</article>
 		<article class="contents__article--fragment"
 			id="contents__article--fragment-basic">
-			<form class="user-basic-info__form">
-				<label>닉네임</label> <input type="text" value="${USER_INFO.nickname}" />
-				<button class="update-btn">수정</button>
+			<form class="user-basic-info__form" id="update-nickname-form">
+				<label>닉네임</label> 
+				<input type="text" value="${USER_INFO.nickname}" name="nickname" />
+				<input type="hidden" name="actionType" value="updateNickname" />
+				<button type="button" class="update-btn" id="update-nickname-btn">수정</button>
 			</form>
 			<form class="user-basic-info__form">
 				<label>Github</label> <input type="text" value="${USER_INFO.gitID}" /> 
@@ -79,13 +81,13 @@
 					<img src="${pageContext.request.contextPath}/assets/main/solvedac.svg" />
 				</a>
 			</form>
-			<form class="user-basic-info__bio">
+			<form class="user-basic-info__bio" id="update-bio-form">
 				<div id="user-basic-info__bio-header">
 					<label>자기소개</label>
-					<button class="update-btn">수정</button>
-
+					<button type="button" class="update-btn" id="update-bio-btn">수정</button>
+					<input type="hidden" name="actionType" value="updateBio" />
 				</div>
-				<textarea>${USER_INFO.userBio}</textarea>
+				<textarea name="bio">${USER_INFO.userBio}</textarea>
 			</form>
 		</article>
 	</article>
@@ -141,7 +143,24 @@
 	<div id="my_dataviz"></div>
 </div>
 
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
 <script>
+	//-- 정보 수정 처리 로직 --
+	$(document).ready(function () {
+	    $("#update-nickname-btn").click(function () {
+	    	$("#update-nickname-form").attr("method", "post");
+	    	$("#update-nickname-form").attr("action", "${pageContext.request.contextPath}/mypage");
+	    	$("#update-nickname-form").submit();
+	    })
+	    $("#update-bio-btn").click(function () {
+	    	$("#update-bio-form").attr("method", "post");
+	    	$("#update-bio-form").attr("action", "${pageContext.request.contextPath}/mypage");
+	    	$("#update-bio-form").submit();
+	    })
+	});
+	
+	//-- 차트 처리 로직 --
 	const rankData = ${RANK_CHART_DATA};
 	
 	// D3.js를 위한 데이터 변환
