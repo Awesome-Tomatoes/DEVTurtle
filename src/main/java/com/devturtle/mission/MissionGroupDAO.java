@@ -69,7 +69,7 @@ public class MissionGroupDAO {
 				+ "        s.success_date, s.contents, s.points\r\n"
 				+ "    FROM (\r\n"
 				+ "        SELECT \r\n"
-				+ "            og.group_id, og.success_date, o.objective_id, \r\n"
+				+ "            og.group_id, TO_CHAR(og.success_date, 'YYYY-MM-DD') as success_date, o.objective_id, \r\n"
 				+ "            o.contents, o.points  \r\n"
 				+ "        FROM \r\n"
 				+ "            objective_group og\r\n"
@@ -98,6 +98,7 @@ public class MissionGroupDAO {
 			while (rs.next()) {
 				String gname = rs.getString("name");
 				String success_date = rs.getString("success_date");
+				
 				String contents = rs.getString("contents"); // objective_query는 contents로 별칭이 변경됨
 				int group_id = rs.getInt("group_id");
 				int objective_id = rs.getInt("objective_id");
@@ -139,7 +140,7 @@ public class MissionGroupDAO {
 				+ "    g.group_id, \r\n"
 				+ "    g.name, \r\n"
 				+ "    o.objective_id, \r\n"
-				+ "    og.success_date, \r\n"
+				+ "    TO_CHAR(og.success_date, 'YYYY-MM-DD') as success_date, \r\n"
 				+ "    o.contents, \r\n"
 				+ "    o.points\r\n"
 				+ "FROM \r\n"
@@ -205,7 +206,7 @@ public ArrayList<MissionJoinGroupVO> selectMissionGroupChart(int groupid) {
 				+ "FROM (\r\n"
 				+ "    SELECT g.group_id, g.name, s.objective_id, s.success_date, s.contents, s.points\r\n"
 				+ "    FROM (\r\n"
-				+ "        SELECT og.group_id, og.success_date, o.objective_id, o.contents, o.points  \r\n"
+				+ "        SELECT og.group_id, TO_CHAR(og.success_date, 'YYYY-MM-DD') as success_date, o.objective_id, o.contents, o.points  \r\n"
 				+ "        FROM objective_group og\r\n"
 				+ "        JOIN objective o ON og.objective_id = o.objective_id\r\n"
 				+ "    ) s\r\n"
@@ -261,7 +262,7 @@ public ArrayList<MissionJoinGroupVO> selectMissionGroupBadge(int groupid) {
 	
 	ArrayList<MissionJoinGroupVO> mlist = new ArrayList<MissionJoinGroupVO>();
 	
-	String sql = "select g.group_id, g.name, o.contents, o.badge_link, o.points, og.success_date\r\n"
+	String sql = "select g.group_id, g.name, o.contents, o.badge_link, o.points, TO_CHAR(og.success_date, 'YYYY-MM-DD') as success_date\r\n"
 			+ "from groups g, objective_group og, objective o\r\n"
 			+ "where og.objective_id = o.objective_id and g.group_id = og.group_id\r\n"
 			+ "and g.group_id = ?";
