@@ -43,7 +43,7 @@
 				</p>
 				<p class="user-ranking-info__p">
 					<span class="user-ranking-info__p--title">내 랭킹</span>
-					<span class="user-ranking-info__p--desc">499,999 rd / 500,000</span>		
+					<span class="user-ranking-info__p--desc">${USER_RANKING.rank} rd / ${USER_COUNT}</span>		
 				</p>
 			</div>
 		</div>
