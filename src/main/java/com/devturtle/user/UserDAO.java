@@ -154,7 +154,7 @@ public class UserDAO {
 		return ulist;
 	}
 	
-	public ArrayList<UserVO> selectAllForSearch(String query) {
+	public ArrayList<UserVO> selectAllForSearch(int userID, String query) {
 		ArrayList<UserVO> ulist = new ArrayList<UserVO>();
 		DBManager dbm = OracleDBManager.getInstance();
 		Connection conn = dbm.connect();
@@ -162,10 +162,11 @@ public class UserDAO {
 		ResultSet rs = null;
 
 		try {
-			String sql = "select * from users where nickname like ? or user_name like ? order by nickname";
+			String sql = "select * from users where nickname like ? or user_name like ? and user_id != ? order by nickname";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, '%'+query+'%');
 			pstmt.setString(2, '%'+query+'%');
+			pstmt.setInt(3, userID);
 			rs = pstmt.executeQuery();
 			while (rs.next()) {
 				UserVO uvo = new UserVO();
