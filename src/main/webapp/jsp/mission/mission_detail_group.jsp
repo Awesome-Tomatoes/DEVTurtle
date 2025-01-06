@@ -6,7 +6,6 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="x" uri="http://java.sun.com/jsp/jstl/xml" %>
 <%@ taglib prefix="sql" uri="http://java.sun.com/jsp/jstl/sql" %>
-<%@ include file="/jsp/layout/header.jsp" %>
 
 <!DOCTYPE html>
 <html>
@@ -319,6 +318,5 @@ svg.selectAll(".month-label")
     .attr("fill", defaultColor);
 </script>
 
-<%@ include file="/jsp/layout/footer.jsp" %>
 </body>
 </html>
