@@ -18,8 +18,7 @@ import com.devturtle.user.UserVO;
  */
 @WebServlet("/follow")
 public class FollowServlet extends HttpServlet {
-       
-  
+	private static final long serialVersionUID = 1L;
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String contextPath = request.getContextPath();
@@ -62,14 +61,14 @@ public class FollowServlet extends HttpServlet {
 		request.setAttribute("USER_ID", udao.selectUser(userid).getUserID());
 		
 		
-	    request.setAttribute("contentPage", "/jsp/follow/follow_list.jsp");
-		request.getRequestDispatcher("/index.jsp").forward(request, response);
+	    request.setAttribute("contentPage", contextPath+"/jsp/follow/follow_list.jsp");
+		request.getRequestDispatcher(contextPath+"/index.jsp").forward(request, response);
 	
 	}
 
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		doGet(request, response);
+		
 	}
 
 }
