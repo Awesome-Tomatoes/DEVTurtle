@@ -115,8 +115,9 @@
                     <textarea id="group-description" name="group-description" >${GROUP_DETAIL.description}</textarea>
                 </div>
  
-                <button type="submit" id="group-detail-info-update-btn" class="group-detail-info-update-btn">수정</button>
-               	 
+ 				<c:if test="${GROUP_USER_CHECK}">
+				    <button type="submit" id="group-detail-info-update-btn" class="group-detail-info-update-btn">수정</button>
+				</c:if>
             </form>
         </article>
 		</div>
@@ -131,8 +132,9 @@
 		<div class="group-sub-title">
 			
 			<h1> 총 ${GROUP_USER_CNT} / ${GROUP_DETAIL.size} 명 
-			<button class="group-button">더보기</button>
-			
+				<c:if test="${GROUP_USER_CHECK}">
+				<button class="group-button">더보기</button>
+				</c:if>
 			</h1>
 		</div>
 	</div>
@@ -199,10 +201,11 @@
 		<div class="group-sub-title">
 		
 			<h1> 총10명 
-		
-			<a class="group-button" 
-				href="${pageContext.request.contextPath}/missionGroup?groupid=${GROUP_DETAIL.groupId}"
-		">더 보기</a>
+		<c:if test="${GROUP_USER_CHECK}">
+				<a class="group-button" 
+					href="${pageContext.request.contextPath}/missionGroup?groupid=${GROUP_DETAIL.groupId}"
+			">더 보기</a>
+		</c:if>
 		</h1>
 		</div>
 	</div>

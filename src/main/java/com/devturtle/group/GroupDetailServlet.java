@@ -51,9 +51,15 @@ public class GroupDetailServlet extends HttpServlet {
 
             // 그룹 전체 정보
             GroupDAO gdao = new GroupDAO();
-            GroupVO groupDetail = gdao.selectGroupDetail(userId, groupId);  // 사용자 ID와 groupId로 그룹 정보 조회
+            
+            GroupVO groupDetail = gdao.selectGroupDetail(groupId);  // 사용자 ID와 groupId로 그룹 정보 조회
             request.setAttribute("GROUP_DETAIL", groupDetail);
 
+            // 그룹 유저 수정 
+            Boolean bool= gdao.groupUserCheckOfUserId(groupId,userId);
+            request.setAttribute("GROUP_USER_CHECK", bool);
+            
+            
             // 그룹 랭킹 정보
             GroupVO gRankVO = gdao.selectGroupByIDWithRank(groupId);
             int gRank = gRankVO.getRank();
