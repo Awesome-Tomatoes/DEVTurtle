@@ -26,19 +26,28 @@ public class FollowFollowServlet extends HttpServlet {
 		int followId = Integer.parseInt(request.getParameter("followid"));
 		int pathId = Integer.parseInt(request.getParameter("userid"));
 		
+		
 		HttpSession session = request.getSession(false);
 		
 		int userId = (int) session.getAttribute("SESS_USER_ID");
+		
+		System.out.println("userId" + userId);
+		System.out.println("pathId" + pathId);
+		System.out.println("followId" + followId);
+		
+		
 		if(userId == 0) {
 			response.sendRedirect("/session_check.jsp");
 		} else {
 			FollowDAO fdao = new FollowDAO();
-			ArrayList<UserVO> flist = fdao.selectAllFollowing(userId);
+			ArrayList<UserVO> flist = fdao.selectWaitFollowing(userId);
 			System.out.println(flist);
 			boolean bool = true;
 			for(UserVO uvo : flist) {
 				if(uvo.getUserID() == followId) {
+					
 					bool = false;
+					System.out.println("여기 들어왔어요 ");
 					break;
 				}
 			}
