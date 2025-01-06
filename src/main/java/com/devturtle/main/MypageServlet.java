@@ -73,13 +73,18 @@ public class MypageServlet extends HttpServlet {
         }
         
         UserVO uinfo = udao.selectUser(userId);
-        
+         
         request.setAttribute("USER_INFO", uinfo);
         request.setAttribute("USER_RANK_CODE", UserRankText.getRank(userId));
-
+        
         ArrayList<MissionJoinUserVO> mlist = mdao.selectMissionUser(userId);
-        int missionPoints = mlist.stream().mapToInt(MissionJoinUserVO::getPoints).sum();
-        request.setAttribute("USER_MISSION_SCORE", missionPoints);
+        
+        int missonPoints = 0;
+		for (MissionJoinUserVO mission : mlist) {
+			missonPoints += mission.getPoints();
+		}
+		
+        request.setAttribute("USER_MISSION_SCORE", missonPoints);
 
         int[] progress = UserRankingProgress.getRankProgress(userId);
         request.setAttribute("USER_REMAINING_SCORE", progress[0]);

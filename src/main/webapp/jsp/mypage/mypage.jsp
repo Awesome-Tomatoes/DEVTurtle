@@ -52,7 +52,7 @@
 					</li>  -->
 					<li class="user-ranking-info__li">
 						<p class="user-ranking-info__p">미션</p>
-						<p class="user-ranking-info__p">${USER_MISSON_SCORE}p</p>
+						<p class="user-ranking-info__p">${USER_MISSION_SCORE}p</p>
 					</li>
 				</ul>
 
@@ -120,7 +120,7 @@
 						src="${pageContext.request.contextPath}/assets/main/misson.svg" />
 					<p>미션포인트</p>
 				</div>
-				<p>${USER_MISSON_SCORE}p</p>
+				<p>${USER_MISSION_SCORE}p</p>
 			</button>
 		</a>
 		<% if (!isUserIdPresent) { %>
