@@ -71,6 +71,9 @@ public class GroupDetailServlet extends HttpServlet {
             
             ArrayList<MissionJoinGroupVO> mgvo = mgdao.selectMissionGroup(groupId);
             ArrayList<MissionJoinGroupVO> b_mgvo = mgdao.selectMissionGroupBadge(groupId);
+            int groupBadgeCnt = b_mgvo.size();
+
+            request.setAttribute("MISSION_GROUP_CNT", groupBadgeCnt);
             request.setAttribute("MISSION_GROUP_LIST", mgvo);
             request.setAttribute("MISSION_GROUP_BADGE_LIST", b_mgvo);
             

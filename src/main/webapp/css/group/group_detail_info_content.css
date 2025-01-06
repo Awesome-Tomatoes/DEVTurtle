@@ -82,7 +82,7 @@
 
 .group-basic-info__form-item textarea {
     width: 97%; /* 부모 요소의 너비에 맞게 꽉 차게 설정 */
-    height: 50px;
+    height: 100px;
     margin-top: 10px;
     background-color: transparent;
     border: 2px solid var(--depth-third-color);

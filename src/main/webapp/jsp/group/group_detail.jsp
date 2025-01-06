@@ -65,17 +65,21 @@
 			    <div id="group-ranking-badge-div">
 				    <ul>
 				    	<li class="group-ranking-info-li">
-			      	  		<p id="group_mission_badge">획득뱃지 총 ${GROUP_REMAINING_SCORE}개</p>
-			      			<p id="group_mission_badge"class="group-ranking-info-p">${GROUP_MISSION_SCORE}p</p>
+			      	  		<p id="group_mission_badge">그룹 뱃지 ${MISSION_GROUP_CNT} 개 획득 </p>
+			      			<div>
+			      				<c:forEach var="mvo" items="${MISSION_GROUP_BADGE_LIST}">
+						           <img src="http://${pageContext.request.serverName}:${pageContext.request.serverPort}${pageContext.request.contextPath}${mvo.badgeLink}" 
+						             alt="Badge Image" style="padding : 5px; width: 50px; height: 50px;">
+							   	</c:forEach>
+			      			</div>
+			      			
 			      		</li>
 				    </ul>
 			    </div>
 			</div>
 				
 		</div>
-		<div id="group-detail-info-div">
-			 
-        					
+		<div id="group-detail-info-div">				
 			<h1>${GROUP_DETAIL.name} 's 상세정보</h1>
 			
 			<article class="contents__article--fragment" id="contents__article--fragment-basic">
@@ -133,16 +137,46 @@
 		</div>
 		
 		<c:forEach var="user" items="${GROUP_USER_LIST}">
-	       <div class="group-user-detail-info-div">
-	           <p>User ID: ${user.userId}</p>
-	           <p>User Name: ${user.userName}</p>
-	           <p>User nickname: ${user.nickname}</p>
-	           
-	           <p>User totalScore: ${user.totalScore}</p>
-	           
-	           
-	           <!-- 다른 필요한 유저 정보들을 여기서 출력 -->
-	       </div>
+	       
+	       	<div class="group-user-detail-info-div">
+			    <p class="group-ranking-info-p">
+			         <c:choose>
+				        <c:when test="${user.role == 'LEADER'}">
+				            👑 
+				        </c:when>
+				        <c:otherwise>
+				           	<img src="${pageContext.request.contextPath}/assets/main/grade-star.svg" />
+				        </c:otherwise>
+				    </c:choose>
+	
+			        ${user.nickname}
+			        <span id="group-ranking-info-grade"></span>
+			    </p>
+			    <img id="group-ranking-info-img"
+			        src="${pageContext.request.contextPath}/userImage?userid=${user.userId}" style=" width: 100px; height: 150px;" />
+			    <p class="group-ranking-info-p">
+			        <span class="group-ranking-info-p-title">유저 랭킹 포인트</span>
+			        <span class="group-ranking-info-p-point">${user.totalScore}점</span>
+			    </p>
+			    <ul id="group-ranking-info-ul">
+			        <li class="group-ranking-info-li">
+			            <p class="group-ranking-info-p">직급</p>
+			            <p class="group-ranking-info-p">${user.role}</p>
+			        </li>
+			       
+			        <li class="group-ranking-info-li">
+			            <p class="group-ranking-info-p">참여일</p>
+			            <p class="group-ranking-info-p">${user.joinedAt}</p>
+			        </li>
+			        
+			        <li class="group-ranking-info-li">
+			            <p class="group-ranking-info-p">출석률</p>
+			            <p class="group-ranking-info-p">90%</p>
+			        </li>
+			    </ul>
+			</div>
+	       
+	       
 	   </c:forEach>
 		
 		<div class ="group-card-button">
@@ -167,26 +201,21 @@
 	</div>
 	
 	<div class= "group-info-container-div">
-		<div class="group-success-mission-detail">
-			1. ${GROUP_DETAIL.name}
-		</div>
-		<div class="group-success-mission-detail">
-			2. ${GROUP_DETAIL.name}
-		</div>
-		<div class="group-success-mission-detail">
-			3. ${GROUP_DETAIL.name}
-		</div>
-		<div class="group-success-mission-detail">
-			<c:forEach var="mvo" items="${MISSION_GROUP_LIST}" varStatus="seq">
+		
+		
+		<c:forEach var="mvo" items="${MISSION_GROUP_LIST}" varStatus="seq">
+		  	<div class="group-success-mission-detail">	
 			  <c:if test="${seq.index >= 0 && seq.index < 3}">
-			    <tr>
-			      <td>${seq.index + 1}</td> <!-- 번호 출력 -->
-			      <td>${mvo.contents}</td>
-			      <td class="table-points">+${mvo.points}</td>
-			    </tr>
+			    <div class="mission-flex-div">
+				  <div class = "mission-flex-div-items" >
+				  	${seq.index + 1}
+				  	${mvo.contents}
+				  </div>
+				  <div class="mission-flex-div-items" style="color:var(--main-color); ">+${mvo.points}p</div> <!-- 오른쪽 정렬 -->
+				</div>
 			  </c:if>
-			</c:forEach>
-		</div>
+			</div>
+		</c:forEach>
 	</div>
 	
 	
