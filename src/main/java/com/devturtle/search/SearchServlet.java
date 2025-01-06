@@ -31,18 +31,15 @@ public class SearchServlet extends HttpServlet {
         
 		HttpSession session = request.getSession();
 		//userID 세션에 없으면 0, 잇으면 로그인한 userID기준으로 검색 결과 팔로우, 팔로워 관계 찾기
-		int userID = 25;
-		
-//		if (session != null)  {
-//			String uid = (String)session.getAttribute("SESS_USER_ID");
-//			System.out.println(uid);
-//			if(uid != null) {
-//				userID = Integer.parseInt(uid);
-//			}
-////          session.getAttribute("SESS_USER_NICKNAME");
-////          session.getAttribute("SESS_ROLE");
-////          session.getAttribute("SESS_GROUP");
-//		}
+		int userID = 0;
+		if (session != null)  {
+			userID = (Integer) session.getAttribute("SESS_USER_ID");
+			System.out.println(userID);
+			
+//          session.getAttribute("SESS_USER_NICKNAME");
+//          session.getAttribute("SESS_ROLE");
+//          session.getAttribute("SESS_GROUP");
+		}
         
     	
         if (query == null || query.isEmpty()) {
@@ -99,17 +96,20 @@ public class SearchServlet extends HttpServlet {
         	    conn = dbm.connect();
         	    pstmt = null;
                 
-                //참여한 그룹 가져오기
+                
                 String sql = "SELECT * FROM GROUPS G LEFT JOIN GROUP_USER GU \r\n"
                 		+ "ON G.GROUP_ID = GU.GROUP_ID\r\n"
                 		+ "WHERE GU.USER_ID = ? AND NAME LIKE ?\r\n"
                 		+ "ORDER BY G.NAME";
+                
+//                String sql2 = "SELECT * FROM GROUPS G ";
                 
                 pstmt = conn.prepareStatement(sql);
                 pstmt.setInt(1, userID);
             	pstmt.setString(2, "%" + query + "%");
                 rs = pstmt.executeQuery();                   
                 while (rs.next()) {
+                	System.out.println("참여한 그룹 : " + rs.getString("NAME"));
                 	GroupVO gvo = new GroupVO();
     				gvo.setGroupId(rs.getInt("GROUP_ID"));
     				gvo.setName(rs.getString("NAME"));
@@ -139,11 +139,13 @@ public class SearchServlet extends HttpServlet {
                 		+ " WHERE  GROUP_USER.USER_ID = ?\r\n"
                 		+ ")  AND NAME LIKE ?\r\n"
                 		+ "ORDER BY G.NAME";
+
                 pstmt = conn.prepareStatement(sql);
                 pstmt.setInt(1, userID);
             	pstmt.setString(2, "%" + query + "%");
                 rs = pstmt.executeQuery();                   
                 while (rs.next()) {
+                	System.out.println("참여안한 그룹 : " + rs.getString("NAME"));
                 	GroupVO gvo = new GroupVO();
     				gvo.setGroupId(rs.getInt("GROUP_ID"));
     				gvo.setName(rs.getString("NAME"));
@@ -170,8 +172,8 @@ public class SearchServlet extends HttpServlet {
     			return a.getNickname().compareTo(b.getNickname());
     		});
     		
-    		System.out.println(glist.toString());
-    		System.out.println(ulist.toString());
+//    		System.out.println(glist.toString());
+//    		System.out.println(ulist.toString());
 
     		request.setAttribute("contentPage", "/jsp/search/search.jsp");
     		

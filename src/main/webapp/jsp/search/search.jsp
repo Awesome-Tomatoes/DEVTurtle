@@ -41,12 +41,11 @@
     <ul class="group-list">
         <c:forEach var="gvo" items="${GLIST}">
             <li class="group-item">
+                <c:if test="${gvo.join}">
                 <div class="group-info">
                     <h4>${gvo.name}</h4>
                     <p>그룹 Point: ${gvo.totalScore}</p>
                 </div>
-              
-                <c:if test="${gvo.join}">
                     <form id="unjoinForm_${gvo.groupId}" method="POST" action="${pageContext.request.contextPath}/groupdelete">
                         <input type="hidden" name="groupId" value="${gvo.groupId}">
                         <input type="hidden" name="search" value="search">
@@ -57,6 +56,10 @@
                 </c:if>
 
                 <c:if test="${not gvo.join}">
+                <div class="group-info">
+                    <h4>${gvo.name}</h4>
+                    <p>그룹 Point: ${gvo.totalScore}</p>
+                </div>
                     <form id="joinForm_${gvo.groupId}" method="POST" action="${pageContext.request.contextPath}/groupAdd">
                         <input type="hidden" name="groupId" value="${gvo.groupId}">
                         <input type="hidden" name="search" value="search">
@@ -64,7 +67,7 @@
                             그룹 참여
                         </button>
                     </form>
-                </c:if>
+                </c:if> 
 
             </li>
         </c:forEach>
