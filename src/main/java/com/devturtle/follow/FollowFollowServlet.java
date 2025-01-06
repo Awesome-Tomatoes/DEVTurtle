@@ -1,12 +1,16 @@
 package com.devturtle.follow;
 
 import java.io.IOException;
+import java.util.ArrayList;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+
+import com.devturtle.user.UserVO;
 
 /**
  * Servlet implementation class FollowFollowServlet
@@ -29,9 +33,22 @@ public class FollowFollowServlet extends HttpServlet {
 			response.sendRedirect("/session_check.jsp");
 		} else {
 			FollowDAO fdao = new FollowDAO();
+			ArrayList<UserVO> flist = fdao.selectAllFollowing(userId);
+			boolean bool = true;
+			for(UserVO uvo : flist) {
+				if(uvo.getUserID() == followId) {
+					bool = false;
+					break;
+				}
+			}
 			
-			fdao.updateState(followId, userId);
-
+			if (bool) {
+				fdao.updateState(followId, userId);
+				System.out.println("update 실행");
+			} else {
+				fdao.insertFollowed(userId, followId);
+				System.out.println("insert 실행");
+			}
 			response.sendRedirect(before_address);
 		}
 	
