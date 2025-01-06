@@ -113,7 +113,7 @@
 				<li class="ranking__li">
 					<div class="ranking__li--div">
 						<span class="ranking__li--rank">${status.index + 1}위</span>
-						<img class="ranking__li--img" src="${pageContext.request.contextPath}/assets/turtle_badge/attendance_badge.png"/>
+						<img class="ranking__li--img" src="${pageContext.request.contextPath}/groupImage?groupid=${grlist.groupId}"/>
 						<p class="ranking__li--desc">
 							<span class="ranking__li--desc-title">${grlist.name}</span>
 							<span>${grlist.totalScore}p</span>

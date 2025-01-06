@@ -1,0 +1,30 @@
+/* 유저 정보 목록을 감싸는 컨테이너 */
+.group-user-list {
+    display: flex;
+    flex-wrap: wrap; /* 여러 줄로 감싸기 */
+    gap: 20px;  /* 유저들 간의 간격 */
+    justify-content: center; /* 가운데 정렬 */
+}
+
+/* 각 유저 카드 스타일 */
+.group-user-detail-info-div {
+    width: 30%; /* 한 줄에 3개씩 보여주기 위해 */
+    background-color: var(--depth-third-color);
+    border-radius: 20px;
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+/* 버튼 스타일 */
+.group-card-button button {
+    background-color: var(--depth-second-color);
+    color: var(--font-white-color);
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.group-card-button button:hover {
+    background-color: var(--main-color);
+}

@@ -27,13 +27,14 @@ h2,h1,p {
     min-height: 100%;  
 }
 
+
 #group-success-info-div {
     width: 35%;
     margin : 3%; 
     min-height:100%;
     background-color: var(--depth-second-color);
     border-radius: 20px; 
-    padding: 3%;
+    padding: 1%;
     
     height: 80%;
 	padding : 2.5% 3% 3% 3%;
@@ -108,9 +109,6 @@ h2,h1,p {
 	align-items: center;
 }
 
-.group-card-button{
-	width:5%
-}
 
 .group-main-title{
 }

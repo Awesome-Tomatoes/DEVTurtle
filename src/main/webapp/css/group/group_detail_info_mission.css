@@ -1,0 +1,138 @@
+@charset "UTF-8";
+#mypage-container {
+	width:100%;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 30px;
+}
+
+.contents-article {
+	display: flex;
+	gap: 30px;
+ 	background-color: var(--depth-first-color);
+ 	border-radius: 20px;
+ 	width:90%;
+ 	padding: 30px;
+}
+
+#contents-article-fragment-basic {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	width: 70%;
+	gap:30px;
+	color: var(--font-white-color);
+}
+
+#contents-article-fragment-ranking {
+	width: 30%;
+}
+#group_mission_badge{
+	padding : 8px ;
+}
+
+#group-ranking-info {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 20px;
+	width: 100%;
+}
+
+.group-ranking-info-p {
+	display: flex;
+	flex-direction:row;
+	align-items: center;
+	gap: 10px;
+}
+
+.contents-article-fragment {
+	background-color: var(--depth-second-color);
+	border-radius: 20px;
+	padding: 30px;
+}
+
+#group-ranking-info-img {
+	width: 40%;
+    height: 40%;
+	margin-top: 5px;
+	margin-bottom: 5px;
+}
+
+.group-ranking-info-p-point {
+	color:var(--main-color);
+}
+
+#group-ranking-info-ul {
+	display: flex;
+	gap: 5px;
+}
+
+.group-ranking-info-li {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	background-color: var(--depth-third-color);
+	border-radius: 5px;
+	padding: 5px;
+}
+
+.group-basic-info-form {
+	display: flex;
+	justify-content: space-between;
+  	align-items: flex-end;
+	width: 100%;
+	gap: 10px;
+}
+
+.group-basic-info-form label{
+	width:100px;
+	padding-bottom: 5px;
+}
+
+.group-basic-info-form input{
+	width: 100%;	
+	border-bottom: 2px solid var(--depth-third-color);
+	padding-bottom: 5px;
+	color: var(--font-white-color);
+}
+
+.update-btn {
+	width:7%;
+	background-color: var(--depth-third-color);
+	padding-top: 5px;
+	padding-bottom: 5px;
+	padding-left: 10px;
+	padding-right: 10px;
+	border:0;
+	border-radius: 5px;
+	color: var(--font-white-color);
+}
+
+.group-basic-info-form a {
+	width:7%;
+	display:flex;
+	justify-content: center;
+}
+
+.group-basic-info-bio {
+	width: 100%;	
+}
+
+#group-basic-info-bio-header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+
+.group-basic-info-bio textarea {
+	width: 97%;
+	height: 100px;
+	margin-top: 10px;
+	background-color: transparent;
+	border: 2px solid var(--depth-third-color);
+	border-radius: 10px;
+	color:var(--font-white-color);
+	padding:10px;
+}

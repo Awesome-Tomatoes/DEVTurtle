@@ -10,8 +10,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.devturtle.mission.MissionGroupDAO;
+import com.devturtle.mission.MissionJoinGroupVO;
 import com.devturtle.rank.RankGroupDAO;
 import com.devturtle.rank.RankGroupVO;
+import com.devturtle.user.UserVO;
 
 /**
  * Servlet implementation class GroupDetailServlet
@@ -23,7 +26,7 @@ public class GroupDetailServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		 // URL 파라미터로 groupId 받기
-        String groupIdParam = request.getParameter("groupId");
+        String groupIdParam = request.getParameter("groupid");
 
         Integer userId = null;
         String userIdParam = request.getParameter("userid");
@@ -51,10 +54,27 @@ public class GroupDetailServlet extends HttpServlet {
             // 그룹 랭킹 정보
             GroupVO gRankVO = gdao.selectGroupByIDWithRank(groupId);
             int gRank = gRankVO.getRank();
-            int allGroupSize = gdao.selectAllGroupSize();
             request.setAttribute("GROUP_RANK", gRank);
-            request.setAttribute("GROUP_SIZE", allGroupSize);
+            //int allGroupSize = gdao.selectAllGroupSize();
+            //request.setAttribute("GROUP_SIZE", allGroupSize);
+            
+            // Group에 속한 User 수 + userVO 반환
+            int groupUserCnt = gdao.getNumberOfGroupUser(groupId); 
+            ArrayList<GroupUserVO> groupUserList = gdao.selectAllGroupUser(groupId);
 
+            request.setAttribute("GROUP_USER_CNT", groupUserCnt);
+            request.setAttribute("GROUP_USER_LIST", groupUserList);
+            
+            
+            // 그룹 미션 정보
+            MissionGroupDAO mgdao = new MissionGroupDAO();
+            
+            ArrayList<MissionJoinGroupVO> mgvo = mgdao.selectMissionGroup(groupId);
+            ArrayList<MissionJoinGroupVO> b_mgvo = mgdao.selectMissionGroupBadge(groupId);
+            request.setAttribute("MISSION_GROUP_LIST", mgvo);
+            request.setAttribute("MISSION_GROUP_BADGE_LIST", b_mgvo);
+            
+            
             // 동적으로 포함할 contentPage 경로 설정
             request.setAttribute("contentPage", "/jsp/group/group_detail.jsp");
 
@@ -66,6 +86,7 @@ public class GroupDetailServlet extends HttpServlet {
         }
     }
 	
+	
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
@@ -75,7 +96,7 @@ public class GroupDetailServlet extends HttpServlet {
 		HttpSession session = request.getSession();
 	        // 세션 ID 가져오기
 	    int userId = (Integer) session.getAttribute("SESS_USER_ID");
-	    int groupId =  Integer.parseInt(request.getParameter("groupId"));
+	    int groupId =  Integer.parseInt(request.getParameter("groupid"));
 	    
 	    System.out.println("updaet 전 확인 >>>"+groupId);
 	    String name = request.getParameter("group-name");
