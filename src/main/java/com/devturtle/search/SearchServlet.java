@@ -34,15 +34,12 @@ public class SearchServlet extends HttpServlet {
 		HttpSession session = request.getSession();
 		//userID 세션에 없으면 0, 잇으면 로그인한 userID기준으로 검색 결과 팔로우, 팔로워 관계 찾기
 		int userID = 0;
-		if (session != null)  {
+		if (session==null || !request.isRequestedSessionIdValid())  {
 			userID = (Integer) session.getAttribute("SESS_USER_ID");
-			System.out.println(userID);
-			
 //          session.getAttribute("SESS_USER_NICKNAME");
 //          session.getAttribute("SESS_ROLE");
 //          session.getAttribute("SESS_GROUP");
 		}
-        
     	
         if (query == null || query.isEmpty()) {
             query = "";
