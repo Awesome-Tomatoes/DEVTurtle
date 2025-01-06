@@ -31,6 +31,7 @@ System.out.println(userId);
        <!-- 팔로워 리스트 출력 -->
        <div class="follow-list-section">
            <div id="follow-mylist-container-div">
+           <!--
 				<div id="follow-mylist-search-div">
 					<div>
 						<input class="follow-search-input" type="text"  placeholder="친구 이름을 입력하세요">
@@ -38,6 +39,8 @@ System.out.println(userId);
 					</div>
 				
 				</div>
+				-->
+				<c:if test="${fn:length(FOLLOWER_LIST) == 0}">내가 팔로잉하고있는 사람이 없습니다</c:if>
             	<c:forEach var="user" items="${FOLLOWER_LIST}"> 
 					<div class="follow-mylist-join-info-div">
 	                    <div id="follow-mylist-per-div">
@@ -70,13 +73,7 @@ System.out.println(userId);
        <!-- 팔로워 리스트 출력 -->
        <div class="follow-list-section">
            <div id="follow-mylist-container-div">
-				<div id="follow-mylist-search-div">
-					<div>
-						<input class="follow-search-input" type="text"  placeholder="친구 이름을 입력하세요">
-						<button class="follow-search-btn">검색</button> 
-					</div>
-				
-				</div>
+           		<c:if test="${fn:length(FOLLOWING_LIST) == 0}">나를 팔로우한 사람이 없습니다</c:if>
 	            <c:forEach var="user" items="${FOLLOWING_LIST}">
 	                <div class="follow-mylist-join-info-div">
 	                    <div id="follow-mylist-per-div">
@@ -107,14 +104,7 @@ System.out.println(userId);
        <!-- 팔로워 리스트 출력 -->
        <div class="follow-list-section">
            <div id="follow-mylist-container-div">
-				<div id="follow-mylist-search-div">
-					
-					<div>
-						<input class="follow-search-input" type="text"  placeholder="친구 이름을 입력하세요">
-						<button class="follow-search-btn">검색</button> 
-					</div>
-				
-				</div>
+           	<c:if test="${fn:length(WAIT_LIST) == 0}">팔로우 신청한 사람이 없습니다</c:if>
             	<c:forEach var="user" items="${WAIT_LIST}">
 					<div id="follow-mylist-container-div" class="follow-mylist-join-info-div" >
 
