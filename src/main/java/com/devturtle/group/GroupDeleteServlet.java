@@ -72,7 +72,9 @@ public class GroupDeleteServlet extends HttpServlet {
 			  		gdao.initGroupScore(groupId, userScore);
 			   	}
 				if(request.getParameter("search").equals("search")) {
-					 response.sendRedirect(request.getHeader("Referer"));
+					String query = request.getParameter("query");
+//					 response.sendRedirect(request.getHeader("Referer"));
+					request.getRequestDispatcher("/search?query=" + query).forward(request, response);	
 				}
 				else {
 					 response.getWriter().write("{\"success\": true}");

@@ -46,37 +46,30 @@
                     <h4>${gvo.name}</h4>
                     <p>그룹 Point: ${gvo.totalScore}</p>
                 </div>
-                <c:choose>
-					<c:when test="${gvo.join}">
-<form id="unjoinForm" method="POST" action="${pageContext.request.contextPath}/groupdelete">
-    <input type="hidden" name="groupId" value="${gvo.groupId}">
-    <input type="hidden" name="search" value="search">
-    <button type="button" class="unjoin-btn" onclick="document.getElementById('unjoinForm').submit();">
-        그룹 탈퇴
-    </button>
-</form>
-					</c:when>
-				    <c:otherwise>
-						<button class="join-btn">그룹 참여</button>
-				    </c:otherwise>
-				</c:choose>
+              <c:if test="${gvo.join}">
+    <form id="unjoinForm" method="POST" action="${pageContext.request.contextPath}/groupdelete">
+        <input type="hidden" name="groupId" value="${gvo.groupId}">
+        <input type="hidden" name="search" value="search">
+        <button type="button" class="unjoin-btn" onclick="document.getElementById('unjoinForm').submit();">
+            그룹 탈퇴
+        </button>
+    </form>
+</c:if>
 
-            </li>
+<c:if test="${not gvo.join}">
+    <form id="joinForm" method="POST" action="${pageContext.request.contextPath}/groupAdd">
+        <input type="hidden" name="groupId" value="${gvo.groupId}">
+        <input type="hidden" name="search" value="search">
+        <button type="button" class="join-btn" onclick="document.getElementById('joinForm').submit();">
+            그룹 참여
+        </button>
+    </form>
+</c:if>
+
+</li>
         </c:forEach>
     </ul>
 </div>
-    
-    
-<!--     <div class="results">
-        <div id="user-results">
-            <h2>Users</h2>
-            <ul></ul>
-        </div>
-        <div id="group-results">
-            <h2>Groups</h2>
-            <ul></ul> 
-        </div>
-    </div> -->
 
     <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
     <script>

@@ -111,8 +111,8 @@ public class GroupDAO {
 					"SELECT G.*, GU.* 		\r\n"
 					+ "FROM GROUPS G		\r\n"
 					+ "JOIN GROUP_USER GU	\r\n"
-					+ "ON (g.group_id = gu.group_id)\r\n"
-					+ "WHERE gu.user_id =	? 	\r\n";
+					+ "ON (G.group_id = GU.group_id)\r\n"
+					+ "WHERE GU.user_id =	? 	\r\n";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, userId);
 			rs = pstmt.executeQuery();
@@ -130,7 +130,7 @@ public class GroupDAO {
 			    gvo.setCreatedAt(rs.getString("CREATED_AT"));
 			    gvo.setUpdatedAt(rs.getString("UPDATED_AT"));
 			    gvo.setTotalScore(rs.getInt("TOTAL_SCORE"));
-			    gvo.setRankScore(rs.getInt("RANK_SCORE"));
+//			    gvo.setRankScore(rs.getInt("RANK_SCORE"));
 			    glist.add(gvo);
 			}
 		} catch (SQLException e) {
@@ -140,6 +140,39 @@ public class GroupDAO {
 		}
 		
 		return glist;
+	}
+	
+	public int updateGroupScoreAfterAddUser(int gid, int userScore) {
+
+		DBManager dbm = OracleDBManager.getInstance(); // new OracleDBManager();
+		Connection conn = dbm.connect();
+		PreparedStatement pstmt = null;
+		int rows = 0;
+
+		try {
+			conn.setAutoCommit(false);
+
+
+			String sql =
+					"update groups set total_score = total_score + ? where group_id = ?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, userScore);
+			pstmt.setInt(2, gid);
+			
+
+			rows = pstmt.executeUpdate();
+			if (rows == 1) {
+				conn.commit();
+			} else {
+				conn.rollback();
+			}
+		} catch (SQLException e) {
+
+			e.printStackTrace();
+		} finally {
+			dbm.close(conn, pstmt);
+		}
+		return rows;
 	}
 
 	// -------------------------GROUP Detail 메서드---------------------------------
@@ -161,9 +194,9 @@ public class GroupDAO {
 					"SELECT G.*, GU.* 		\r\n"
 					+ "FROM GROUPS G		\r\n"
 					+ "JOIN GROUP_USER GU	\r\n"
-					+ "ON (g.group_id = gu.group_id)\r\n"
+					+ "ON (G.group_id = GU.group_id)\r\n"
 					+ "WHERE G.GROUP_ID = ? \r\n"
-					+ "AND gu.user_id =	? 	\r\n";
+					+ "AND GU.user_id =	? 	\r\n";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, groupId);
 			pstmt.setInt(2, userId);
@@ -181,7 +214,7 @@ public class GroupDAO {
 			    gvo.setCreatedAt(rs.getString("CREATED_AT"));
 			    gvo.setUpdatedAt(rs.getString("UPDATED_AT"));
 			    gvo.setTotalScore(rs.getInt("TOTAL_SCORE"));
-			    gvo.setRankScore(rs.getInt("RANK_SCORE"));
+//			    gvo.setRankScore(rs.getInt("RANK_SCORE"));
 			} else {
 				System.out.println("그룹 상세정보 select error");
 			}
@@ -203,7 +236,7 @@ public class GroupDAO {
         String query = "SELECT GROUP_ID, NAME, SIZES, CONDITION, DESCRIPTION, CATEGORY, PRIVATE, LOCATION, "
                      + "TO_CHAR(CREATED_AT, 'YYYY-MM-DD') AS CREATED_AT, "
                      + "TO_CHAR(UPDATED_AT, 'YYYY-MM-DD') AS UPDATED_AT, "
-                     + "TOTAL_SCORE, RANK_SCORE "
+                     + "TOTAL_SCORE"
                      + "FROM GROUPS WHERE GROUP_ID = ?";
 
         try (PreparedStatement pstmt = conn.prepareStatement(query)) {
@@ -225,7 +258,7 @@ public class GroupDAO {
                     group.setCreatedAt(rs.getString("CREATED_AT"));
                     group.setUpdatedAt(rs.getString("UPDATED_AT"));
                     group.setTotalScore(rs.getInt("TOTAL_SCORE"));
-                    group.setRankScore(rs.getInt("RANK_SCORE"));
+//                    group.setRankScore(rs.getInt("RANK_SCORE"));
                 }
             }
         } catch (SQLException e) {
