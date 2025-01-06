@@ -103,7 +103,7 @@ public class SearchServlet extends HttpServlet {
                 String sql = "SELECT * FROM GROUPS G LEFT JOIN GROUP_USER GU \r\n"
                 		+ "ON G.GROUP_ID = GU.GROUP_ID\r\n"
                 		+ "WHERE GU.USER_ID = ? AND NAME LIKE ?\r\n"
-                		+ "ORDER BY G.GROUP_ID";
+                		+ "ORDER BY G.NAME";
                 
                 pstmt = conn.prepareStatement(sql);
                 pstmt.setInt(1, userID);
@@ -138,7 +138,7 @@ public class SearchServlet extends HttpServlet {
                 		+ "      ON GROUPS.GROUP_ID = GROUP_USER.GROUP_ID\r\n"
                 		+ " WHERE  GROUP_USER.USER_ID = ?\r\n"
                 		+ ")  AND NAME LIKE ?\r\n"
-                		+ "ORDER BY G.GROUP_ID";
+                		+ "ORDER BY G.NAME";
                 pstmt = conn.prepareStatement(sql);
                 pstmt.setInt(1, userID);
             	pstmt.setString(2, "%" + query + "%");

@@ -26,6 +26,7 @@ public class GroupAddMemberServlet extends HttpServlet {
 	        
 	        int groupId = Integer.parseInt(request.getParameter("groupId"));  
 	        HttpSession session = request.getSession();
+	        String searchParam = (String)request.getParameter("search");
 	        int userId = (int) session.getAttribute("SESS_USER_ID"); 
 	        GroupDAO gdao = new GroupDAO();
 		    
@@ -40,9 +41,12 @@ public class GroupAddMemberServlet extends HttpServlet {
 		    }
 		    // 검색 페이지에서 온거면 돌아가기
 		    if(request.getParameter("search").equals("search")) {
-				String query = request.getParameter("query");
-
-				request.getRequestDispatcher("/search?query=" + query).forward(request, response);	
+		    	if(searchParam != null) {
+					if(request.getParameter("search").equals("search")) {
+//						response.sendRedirect("/search?query=" + query);
+						response.sendRedirect(request.getHeader("Referer"));
+					}
+				}
 			}
 	}
 

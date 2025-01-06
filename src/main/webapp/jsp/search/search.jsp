@@ -41,49 +41,62 @@
     <ul class="group-list">
         <c:forEach var="gvo" items="${GLIST}">
             <li class="group-item">
-                <%-- <img src="${gvo.groupImage}" alt="${gvo.name}" class="group-avatar"> --%>
                 <div class="group-info">
                     <h4>${gvo.name}</h4>
                     <p>그룹 Point: ${gvo.totalScore}</p>
                 </div>
-              <c:if test="${gvo.join}">
-    <form id="unjoinForm" method="POST" action="${pageContext.request.contextPath}/groupdelete">
-        <input type="hidden" name="groupId" value="${gvo.groupId}">
-        <input type="hidden" name="search" value="search">
-        <button type="button" class="unjoin-btn" onclick="document.getElementById('unjoinForm').submit();">
-            그룹 탈퇴
-        </button>
-    </form>
-</c:if>
+              
+                <c:if test="${gvo.join}">
+                    <form id="unjoinForm_${gvo.groupId}" method="POST" action="${pageContext.request.contextPath}/groupdelete">
+                        <input type="hidden" name="groupId" value="${gvo.groupId}">
+                        <input type="hidden" name="search" value="search">
+                        <button type="button" class="unjoin-btn">
+                            그룹 탈퇴
+                        </button>
+                    </form>
+                </c:if>
 
-<c:if test="${not gvo.join}">
-    <form id="joinForm" method="POST" action="${pageContext.request.contextPath}/groupAdd">
-        <input type="hidden" name="groupId" value="${gvo.groupId}">
-        <input type="hidden" name="search" value="search">
-        <button type="button" class="join-btn" onclick="document.getElementById('joinForm').submit();">
-            그룹 참여
-        </button>
-    </form>
-</c:if>
+                <c:if test="${not gvo.join}">
+                    <form id="joinForm_${gvo.groupId}" method="POST" action="${pageContext.request.contextPath}/groupAdd">
+                        <input type="hidden" name="groupId" value="${gvo.groupId}">
+                        <input type="hidden" name="search" value="search">
+                        <button type="button" class="join-btn">
+                            그룹 참여
+                        </button>
+                    </form>
+                </c:if>
 
-</li>
+            </li>
         </c:forEach>
     </ul>
 </div>
 
-    <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
-    <script>
-        $(document).ready(function () {
-        	const query = "<%= query %>";
-            $("#searchForm").val(query);
-        	
-        	$("#searchBtn").click( function() {  
-        		$("#header-search").attr("method", "get");
-    	    	$("#header-search").attr("action", "${pageContext.request.contextPath}/search");
-    	    	$("#query").val($("#searchForm").val());
-    	    	$("#header-search").submit();
-    	    } );
+<script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+<script>
+    $(document).ready(function () {
+        const query = "<%= query %>";
+        $("#searchForm").val(query);
+
+        $("#searchBtn").click(function() {
+            $("#header-search").attr("method", "get");
+            $("#header-search").attr("action", "${pageContext.request.contextPath}/search");
+            $("#query").val($("#searchForm").val());
+            $("#header-search").submit();
         });
-    </script>
+
+        <c:forEach var="gvo" items="${GLIST}">
+            $("#joinForm_${gvo.groupId}").click(function() {
+                $(this).attr("method", "post");
+                $(this).attr("action", "${pageContext.request.contextPath}/groupAdd");
+                $(this).submit();
+            });
+
+            $("#unjoinForm_${gvo.groupId}").click(function() {
+                $(this).attr("method", "post");
+                $(this).submit();
+            });
+        </c:forEach>
+    });
+</script>
 </body>
 </html>
