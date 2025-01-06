@@ -52,10 +52,11 @@ public class LoginHistoryDAO {
 		PreparedStatement pstmt = null;
 		
 		
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd 00:00:00");
 		String currentDate = LocalDate.now().format(formatter);
 		
 		ArrayList<LoginHistoryVO> loginHistory = selectLoginHistory(userid);
+		
 		
 		boolean logined = true;
 		
