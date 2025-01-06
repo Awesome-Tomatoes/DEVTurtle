@@ -47,9 +47,6 @@ public class SearchServlet extends HttpServlet {
     	    request.getRequestDispatcher("/index.jsp").forward(request, response);
         }
         
-        
-        
-        
         else {
             //검색결과 담을 유저,그룹 VO
             UserDAO udao = new UserDAO();
