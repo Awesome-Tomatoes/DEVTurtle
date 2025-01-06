@@ -282,7 +282,7 @@ svg.selectAll()
 	.attr("width", cellSize)
 	.attr("height", cellSize)
 	.attr("fill", d => [0, 6].includes(d.getDay()) ? weekendColor : defaultColor) // 주말 강조
-	.attr("data-date", d => d.toISOString().replace("T00:00:00.000Z", " 00:00:00")) // ISO 형식으로 날짜 저장
+	.attr("data-date", d => d.toISOString().replace("T00:00:00.000Z", "")) // ISO 형식으로 날짜 저장
 	.attr("count", 0)
 	.on("mouseover", mouseover)
 	.on("mousemove", mousemove)
