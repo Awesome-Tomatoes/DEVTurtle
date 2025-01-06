@@ -7,6 +7,8 @@
 <%@ taglib prefix="x" 	uri="http://java.sun.com/jsp/jstl/xml" %>
 <%@ taglib prefix="sql" 	uri="http://java.sun.com/jsp/jstl/sql" %>    
 
+<script src="https://d3js.org/d3.v7.min.js"></script>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -234,10 +236,8 @@
 			<h1> ${GROUP_DETAIL.name} 의 그룹랭킹 포인트</h1>
 		</div>
 	</div>
-	<div class= "group-info-container-div">
-		
-	</div>
-	<div id="group_dataviz">
+	<div class= "group-info-container-div" id="group-rank-chart">
+		<div id="group_dataviz"></div>		
 	</div>
 	
 </div>
@@ -261,9 +261,54 @@ $( document ).ready(function() {
 	   
 	});
 	
+	//-----------------------차트------------------------
+	const rankData = ${GROUP_RANK_CHART};
 	
+	// D3.js를 위한 데이터 변환
+	const data = rankData.map(item => ({
+	  date: d3.timeParse("%Y-%m-%d")(item.date.split(" ")[0]), // 날짜 형식 변환
+	  value: +item.scoreSum // 점수 값
+	}));
 	
-	//-----------------------------------------------
+	// 차트 크기 및 여백 설정
+	var margin = { top: 30, right: 30, bottom: 30, left: 60 },
+	    width = 1400 - margin.left - margin.right,
+	    height = 400 - margin.top - margin.bottom;
+	
+	// SVG 생성
+	var svg = d3.select("#group_dataviz")
+	  .append("svg")
+	    .attr("width", width + margin.left + margin.right)
+	    .attr("height", height + margin.top + margin.bottom)
+	  .append("g")
+	    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+	
+	// X축 생성
+	var x = d3.scaleTime()
+	  .domain(d3.extent(data, function(d) { return d.date; }))
+	  .range([0, width]);
+	
+	svg.append("g")
+	  .attr("transform", "translate(0," + height + ")")
+	  .call(d3.axisBottom(x).tickFormat(d3.timeFormat("%m/%d")));
+	
+	// Y축 생성
+	var y = d3.scaleLinear()
+	  .domain([0, d3.max(data, function(d) { return d.value; })])
+	  .range([height, 0]);
+	
+	svg.append("g").call(d3.axisLeft(y));
+	
+	// 꺾은선 추가
+	svg.append("path")
+	  .datum(data)
+	  .attr("fill", "none")
+	  .attr("stroke", "#b3ff43")
+	  .attr("stroke-width", 3)
+	  .attr("d", d3.line()
+	    .x(function(d) { return x(d.date); })
+	    .y(function(d) { return y(d.value); })
+	  );
 	
 
 });
