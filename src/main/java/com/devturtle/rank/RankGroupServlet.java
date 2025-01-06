@@ -2,17 +2,19 @@ package com.devturtle.rank;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import com.devturtle.common.PagingUtil;
 import com.devturtle.group.GroupDAO;
 import com.devturtle.group.GroupVO;
+import com.devturtle.mission.MissionGroupDAO;
 
 @WebServlet("/rankGroup")
 public class RankGroupServlet extends HttpServlet {
@@ -36,6 +38,8 @@ public class RankGroupServlet extends HttpServlet {
 //		
 		
 		GroupDAO gdao = new GroupDAO();
+		MissionGroupDAO mdao = new MissionGroupDAO();
+		
 		int currentPage = 1;
 		String currentPageStr = request.getParameter("currentPage");
 		if(currentPageStr != null && !currentPageStr.equals(""))  {
@@ -53,9 +57,17 @@ public class RankGroupServlet extends HttpServlet {
 		
 		ArrayList<GroupVO> glist = gdao.selectAllGroupByMonthOrderByRankPaging("20250102", pg.getStartSeq(), pg.getEndSeq());
 		request.setAttribute("GLIST", glist);
+		
+		// 각 그룹의 사용자 수
+        Map<Integer, Integer> groupUserCountMap = new HashMap<>();
+        for (GroupVO group : glist) {
+            int userCount = gdao.getNumberOfGroupUser(group.getGroupId());
+            groupUserCountMap.put(group.getGroupId(), userCount);  
+        }
+
+        request.setAttribute("GROUP_USER_COUNT", groupUserCountMap);		
 
 		request.setAttribute("contentPage", "/jsp/rank/rank_group.jsp");
-		
 	    request.getRequestDispatcher("/index.jsp").forward(request, response);	
 	}
 
