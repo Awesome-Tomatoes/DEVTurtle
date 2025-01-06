@@ -144,7 +144,7 @@
 		<c:forEach var="user" items="${GROUP_USER_LIST}">
 	       
 	       	<div class="group-user-detail-info-div">
-			    <p class="group-ranking-info-p">
+			    <p class="group-ranking-info-p" id="padding-p-css" >
 			         <c:choose>
 				        <c:when test="${user.role == 'LEADER'}">
 				            👑 
@@ -235,9 +235,10 @@
 		</div>
 	</div>
 	<div class= "group-info-container-div">
-	
+		
 	</div>
-	
+	<div id="group_dataviz">
+	</div>
 	
 </div>
 

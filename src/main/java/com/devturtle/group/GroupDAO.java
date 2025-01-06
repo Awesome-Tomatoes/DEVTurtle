@@ -786,7 +786,10 @@ public class GroupDAO {
 		
         try {
             	// SQL 쿼리 작성
-	            String sql = "select * \r\n"
+	            String sql = "select "
+	            			+ "u.*,"
+	            			+ " gu.*,"
+	            			+ " TO_CHAR(gu.joined_At, 'YYYY-MM-DD') AS joinedDate \r\n"
 	    	        		+ "from users u \r\n"
 	    	        		+ "join group_user gu\r\n"
 	    	        		+ "on u.user_id = gu.user_id\r\n"
@@ -799,7 +802,7 @@ public class GroupDAO {
 
                 	GroupUserVO ugvo = new GroupUserVO();
     				ugvo.setGroupId(groupId);
-    				ugvo.setJoinedAt(rs.getString("JOINED_AT"));
+    				ugvo.setJoinedAt(rs.getString("joinedDate"));
     				ugvo.setLeaveAt(rs.getString("LEAVE_AT"));
     				ugvo.setNickname(rs.getString("NICKNAME"));
     				ugvo.setRole(rs.getString("ROLE"));

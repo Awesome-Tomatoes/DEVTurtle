@@ -2,7 +2,9 @@
  	color: var(--font-gray-color);
   	background-color: var(--back-color) 
 */
-
+#group-user-detail-info-div{
+	padding-top:10px;
+}
 
 
 h2,h1,p {
