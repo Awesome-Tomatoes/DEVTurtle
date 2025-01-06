@@ -15,24 +15,27 @@
 	href="${pageContext.request.contextPath}/css/rank/rank_user.css">
 </head>
 <body>
-    <h1>사용자 랭킹 정보</h1>
-    <div class="container">
+    <h1 id="user-rank-title">👑 이번 달 사용자 랭킹 정보</h1>
+    <div class="user-rank-container">
         <c:forEach var="uvo" items="${ULIST}">
-            <div class="card">
-                <div class="card-header">
-                	<img src="${pageContext.request.contextPath}/userImage?userid=${uvo.userID}" alt="${uvo.userName}" height="60" width="60" class="user-avatar"> 
-
-                    <h2> ${uvo.rank} ${uvo.userName}</h2>
+            <div class="user-rank-card">
+                <div class="user-rank-card-header">
+                    <a href="${pageContext.request.contextPath}/mypage?userid=${uvo.userID}">${uvo.rank}위 ${uvo.userName}</a>
                     <button class="follow-btn">Follow</button>
                 </div>
-                <div class="card-content">
-                    <p><strong>솔브드 점수:</strong> ${uvo.solvedScore}</p>
-                    <p><strong>깃 점수:</strong> ${uvo.gitScore}</p>
-                    <p><strong>전체 점수:</strong> ${uvo.totalScore}</p>
-                    <p><strong>유저 소개:</strong> ${uvo.userBio}</p>
+                <div class="user-rank-card-content">
+                		<div class="user-rank-card-content-desc">
+	                		<img src="${pageContext.request.contextPath}/userImage?userid=${uvo.userID}" alt="${uvo.userName}" class="user-avatar">
+	                		<div class="user-rank-card-content-p">
+	                			<p class="user-rank-bio"><span>${uvo.userBio}</span></p>
+			                    <p><strong>solved.ac</strong><span>${uvo.solvedScore}p</span></p>
+			                    <p><strong>Github</strong><span>${uvo.gitScore}p</span></p>
+		                    </div>
+	                    </div>
+                    
                 </div>
-                <div class="card-footer">
-                    <p><strong>POINT:</strong> ${uvo.totalScore}</p>
+                <div class="user-rank-card-footer">
+                	<p>TOTAL POINT <strong>${uvo.totalScore}P</strong></p>
                 </div>
             </div>
         </c:forEach>
