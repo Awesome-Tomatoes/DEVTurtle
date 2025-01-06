@@ -59,11 +59,11 @@ public class FollowServlet extends HttpServlet {
 		}
 		
 		request.setAttribute("USER_NICK", udao.selectUser(userid).getNickname());
+		request.setAttribute("USER_ID", udao.selectUser(userid).getUserID());
 		
 		
 	    // layout.jsp로 포워딩
-		request.setAttribute("contentPage", "/jsp/follow/follow_list.jsp");
-		request.getRequestDispatcher("/index.jsp").forward(request, response);
+		request.getRequestDispatcher("/jsp/follow/follow_list.jsp").forward(request, response);
 	
 	}
 

@@ -15,7 +15,11 @@
 
 </head>
 <body>
-
+<%
+String userId = request.getParameter("USER_ID");
+boolean isUserIdPresent = (userId != null);
+System.out.println(userId);
+%>
 <div id="follow-list-container">
 	<div class="follow-mylist-title-div">
 		<div class="follow-mylist-main-title">		
@@ -37,16 +41,18 @@
             	<c:forEach var="user" items="${FOLLOWER_LIST}"> 
 					<div class="follow-mylist-join-info-div">
 	                    <div id="follow-mylist-per-div">
-	                        <div id="follow-mylist-image">
-	                            <img src="/path/to/user/image/${user.userID}.jpg" alt="${user.nickname}">
-	                        </div>
+	                        <img src="${pageContext.request.contextPath}/userImage?userid=${user.userID}" alt="${user.nickname}" class="follow-mylist-image">
+	                        
 	                        <div id="follow-detail-simple-info-div">
 	                            <p class="follow_p_margin">${user.nickname}</p> <!-- user nickname -->
 	                            <p class="follow_p_margin">점수: ${user.totalScore}</p> <!-- user total score -->
 	                        </div>
 	                    </div>
 	                    <div class="follow-mylist-btn-div">
-	                        <button class="follow-no-btn">삭제</button>
+	                    	<% 
+	                    	if(isUserIdPresent) { %>
+	                        	<button class="follow-no-btn">삭제</button>
+	                       <% } %>
 	                    </div>
         			</div>
         		</c:forEach>
@@ -75,16 +81,18 @@
 	            <c:forEach var="user" items="${FOLLOWING_LIST}">
 	                <div class="follow-mylist-join-info-div">
 	                    <div id="follow-mylist-per-div">
-	                        <div id="follow-mylist-image">
-	                            <img src="/path/to/user/image/${user.userID}.jpg" alt="${user.nickname}">
-	                        </div>
+	                        <img src="${pageContext.request.contextPath}/userImage?userid=${user.userID}" alt="${user.nickname}" class="follow-mylist-image">
 	                        <div id="follow-detail-simple-info-div">
 	                            <p>${user.nickname}</p>
 	                            <p>점수: ${user.totalScore}</p>
 	                        </div>
 	                    </div>
 	                    <div class="follow-mylist-btn-div">
-	                        <button class="follow-no-btn">삭제</button>
+	                    
+	                    <% 
+	                    	if(isUserIdPresent) { %>
+	                        	<button class="follow-no-btn">삭제</button>
+	                       <% } %>
 	                    </div>
 	                </div>
 	            </c:forEach>
@@ -114,16 +122,18 @@
 
 		                <div class="follow-mylist-join-info-div">
 		                    <div id="follow-mylist-per-div">
-		                        <div id="follow-mylist-image">
-		                            <img src="/path/to/user/image/${user.userID}.jpg" alt="${user.nickname}">
-		                        </div>
+		                        <img src="${pageContext.request.contextPath}/userImage?userid=${user.userID}" alt="${user.nickname}" class="follow-mylist-image">
 		                        <div id="follow-detail-simple-info-div">
 		                            <p>${user.nickname}</p>
 		                            <p>점수: ${user.totalScore}</p>
 		                        </div>
 		                    </div>
 		                    <div class="follow-mylist-btn-div">
-		                        <button class="follow-no-btn">삭제</button>
+		                    	<% 
+	                    			if(isUserIdPresent) { %>
+		                        	<button class="follow-follow-btn">팔로우</button>
+	                        		<button class="follow-no-btn">삭제</button>
+	                       		<% } %>
 		                    </div>
 		                </div>
 		              </div>
