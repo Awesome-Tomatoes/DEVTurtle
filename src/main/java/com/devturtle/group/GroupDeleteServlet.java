@@ -52,7 +52,7 @@ public class GroupDeleteServlet extends HttpServlet {
 	        int userId = (int) session.getAttribute("SESS_USER_ID");  // 세션에서 userId 가져오기
 
 	        String role = (String) session.getAttribute("SESS_ROLE");
-	        
+	        String searchParam = (String)request.getParameter("search");
 	        System.out.println(" session parameter check>>> " + groupId  + " , " + userId + " , " + role );
 	        
 	        // 그룹탈퇴 처리 로직 
@@ -71,11 +71,14 @@ public class GroupDeleteServlet extends HttpServlet {
 				if(groupId > 0) { 
 			  		gdao.initGroupScore(groupId, userScore);
 			   	}
-				if(request.getParameter("search").equals("search")) {
-					String query = request.getParameter("query");
-//					 response.sendRedirect(request.getHeader("Referer"));
-					request.getRequestDispatcher("/search?query=" + query).forward(request, response);	
+				if(searchParam != null) {
+					if(request.getParameter("search").equals("search")) {
+						String query = request.getParameter("query");
+//						 response.sendRedirect(request.getHeader("Referer"));
+						request.getRequestDispatcher("/search?query=" + query).forward(request, response);	
+					}
 				}
+				
 				else {
 					 response.getWriter().write("{\"success\": true}");
 				}
