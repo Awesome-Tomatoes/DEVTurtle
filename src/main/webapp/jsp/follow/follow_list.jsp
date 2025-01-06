@@ -49,7 +49,7 @@ System.out.println(userId);
 	                        </div>
 	                    </div>
 	                    <div class="follow-mylist-btn-div">
-		                    		<button class="follow-detail-btn">상세</button>
+	                    	<a class="follow-detail-btn" href="${pageContext.request.contextPath}/mypage?=${user.userID}">상세</a>
 							<c:if test="${USER_ID eq sessionScope.SESS_USER_ID}">
 		                        	<button class="follow-no-btn">삭제</button>
 		                    </c:if>
@@ -87,7 +87,7 @@ System.out.println(userId);
 	                        </div>
 	                    </div>
 	                    <div class="follow-mylist-btn-div">
-	                    	<button class="follow-detail-btn">상세</button>
+	                    	<a class="follow-detail-btn" href="${pageContext.request.contextPath}/mypage?=${user.userID}">상세</a>
 							<c:if test="${USER_ID eq sessionScope.SESS_USER_ID}">
 		                        	<button class="follow-no-btn">삭제</button>
 		                    </c:if>
@@ -127,7 +127,7 @@ System.out.println(userId);
 		                        </div>
 		                    </div>
 		                    <div class="follow-mylist-btn-div">
-		                    		<button class="follow-detail-btn">상세</button>
+	                    	<a class="follow-detail-btn" href="${pageContext.request.contextPath}/mypage?=${user.userID}">상세</a>
 		                    	<c:if test="${USER_ID eq sessionScope.SESS_USER_ID}">
 		                        	<button class="follow-yes-btn">팔로우</button>
 	                        		<button class="follow-no-btn">삭제</button>
