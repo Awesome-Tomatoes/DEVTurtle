@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -15,6 +17,7 @@ import com.devturtle.common.PagingUtil;
 import com.devturtle.group.GroupDAO;
 import com.devturtle.group.GroupVO;
 import com.devturtle.mission.MissionGroupDAO;
+
 
 @WebServlet("/rankGroup")
 public class RankGroupServlet extends HttpServlet {
@@ -39,6 +42,7 @@ public class RankGroupServlet extends HttpServlet {
 		
 		GroupDAO gdao = new GroupDAO();
 		MissionGroupDAO mdao = new MissionGroupDAO();
+		SimpleDateFormat date = new SimpleDateFormat("yyyyMMdd");
 		
 		int currentPage = 1;
 		String currentPageStr = request.getParameter("currentPage");
@@ -55,7 +59,7 @@ public class RankGroupServlet extends HttpServlet {
 		PagingUtil pg = new PagingUtil(request.getContextPath() + "/rankGroup", currentPage, totRecord, blockCount, blockPage);
 		request.setAttribute("MY_KEY_PAGING_HTML", pg.getPagingHtml().toString());
 		
-		ArrayList<GroupVO> glist = gdao.selectAllGroupByMonthOrderByRankPaging("20250102", pg.getStartSeq(), pg.getEndSeq());
+		ArrayList<GroupVO> glist = gdao.selectAllGroupByMonthOrderByRankPaging(date.format(new Date()), pg.getStartSeq(), pg.getEndSeq());
 		request.setAttribute("GLIST", glist);
 		
 		// 각 그룹의 사용자 수
@@ -74,6 +78,17 @@ public class RankGroupServlet extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		doGet(request, response);
+	}
+	
+	public static void main(String[] argv) {
+//		Date today = new Date();    
+//		System.out.println(today);            
+//		SimpleDateFormat date = new SimpleDateFormat("yyyy/MM/dd");    
+//		SimpleDateFormat time = new SimpleDateFormat("hh:mm:ss a");           
+//		System.out.println("Date: "+date.format(today));    
+//		System.out.println("Time: "+time.format(today));
+//		SimpleDateFormat date = new SimpleDateFormat("yyyyMMdd");
+//		System.out.println(date.format(new Date()));
 	}
 
 }

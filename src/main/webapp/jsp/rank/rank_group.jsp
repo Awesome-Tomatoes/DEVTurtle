@@ -19,7 +19,7 @@
             <div class="group-rank-card" >
 	                <div class="group-rank-card-header">
 	                    <h2> ${gvo.rank}위</h2>     
-	                    <button class="follow-btn">Join</button>
+	                    <!-- <button class="follow-btn">Join</button> -->
 	                </div>
 	                <div class="group-rank-card-title">
 	                	<a href="${pageContext.request.contextPath}/groupdetail?groupid=${gvo.groupId}" class="group-name"> ${gvo.name}</a>

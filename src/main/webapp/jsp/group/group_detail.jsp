@@ -7,6 +7,8 @@
 <%@ taglib prefix="x" 	uri="http://java.sun.com/jsp/jstl/xml" %>
 <%@ taglib prefix="sql" 	uri="http://java.sun.com/jsp/jstl/sql" %>    
 
+<script src="https://d3js.org/d3.v7.min.js"></script>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -79,7 +81,7 @@
 			</div>
 				
 		</div>
-		<div id="group-detail-info-div">				
+		<div id="group-detail-info-div" data-group-user-check="${GROUP_USER_CHECK}">				
 			<h1>${GROUP_DETAIL.name} 's 상세정보</h1>
 			
 			<article class="contents__article--fragment" id="contents__article--fragment-basic">
@@ -113,8 +115,9 @@
                     <textarea id="group-description" name="group-description" >${GROUP_DETAIL.description}</textarea>
                 </div>
  
-                <button type="submit" id="group-detail-info-update-btn" class="group-detail-info-update-btn">수정</button>
-               	 
+ 				<c:if test="${GROUP_USER_CHECK}">
+				    <button type="submit" id="group-detail-info-update-btn" class="group-detail-info-update-btn">수정</button>
+				</c:if>
             </form>
         </article>
 		</div>
@@ -129,13 +132,14 @@
 		<div class="group-sub-title">
 			
 			<h1> 총 ${GROUP_USER_CNT} / ${GROUP_DETAIL.size} 명 
-			<button class="group-button">더보기</button>
-			
+				<c:if test="${GROUP_USER_CHECK}">
+				<button class="group-button">더보기</button>
+				</c:if>
 			</h1>
 		</div>
 	</div>
 	
-	<div class= "group-info-container-div group-flex-div">
+	<div class= "group-info-container-div group-flex-div" >
 		
 		<div class ="group-card-button">
 			
@@ -144,7 +148,7 @@
 		<c:forEach var="user" items="${GROUP_USER_LIST}">
 	       
 	       	<div class="group-user-detail-info-div">
-			    <p class="group-ranking-info-p">
+			    <p class="group-ranking-info-p" id="padding-p-css" >
 			         <c:choose>
 				        <c:when test="${user.role == 'LEADER'}">
 				            👑 
@@ -197,10 +201,11 @@
 		<div class="group-sub-title">
 		
 			<h1> 총10명 
-		
-			<a class="group-button" 
-				href="${pageContext.request.contextPath}/missionGroup?groupid=${GROUP_DETAIL.groupId}"
-		">더 보기</a>
+		<c:if test="${GROUP_USER_CHECK}">
+				<a class="group-button" 
+					href="${pageContext.request.contextPath}/missionGroup?groupid=${GROUP_DETAIL.groupId}"
+			">더 보기</a>
+		</c:if>
 		</h1>
 		</div>
 	</div>
@@ -234,10 +239,9 @@
 			<h1> ${GROUP_DETAIL.name} 의 그룹랭킹 포인트</h1>
 		</div>
 	</div>
-	<div class= "group-info-container-div">
-	
+	<div class= "group-info-container-div" id="group-rank-chart">
+		<div id="group_dataviz"></div>		
 	</div>
-	
 	
 </div>
 
@@ -261,8 +265,75 @@ $( document ).ready(function() {
 	});
 	
 	
+	var groupUserCheck = document.getElementById("group-detail-info-div").getAttribute("data-group-user-check");
+
+	groupUserCheck = (groupUserCheck === 'true');
 	
-	//-----------------------------------------------
+	const inputs = document.querySelectorAll(".group-basic-info__form-item input");
+
+	var textarea = document.getElementById("group-description");
+
+
+	inputs.forEach(input => {
+	    if (!groupUserCheck) {
+	        input.disabled = true; // 비활성화
+	        textarea.disabled = true;
+	    } else {
+	        input.disabled = false; // 활성화
+	        textarea.disabled = false; 
+	    }
+	});
+	
+	
+	
+	//-----------------------차트------------------------
+	const rankData = ${GROUP_RANK_CHART};
+	
+	// D3.js를 위한 데이터 변환
+	const data = rankData.map(item => ({
+	  date: d3.timeParse("%Y-%m-%d")(item.date.split(" ")[0]), // 날짜 형식 변환
+	  value: +item.scoreSum // 점수 값
+	}));
+	
+	// 차트 크기 및 여백 설정
+	var margin = { top: 30, right: 30, bottom: 30, left: 60 },
+	    width = 1400 - margin.left - margin.right,
+	    height = 400 - margin.top - margin.bottom;
+	
+	// SVG 생성
+	var svg = d3.select("#group_dataviz")
+	  .append("svg")
+	    .attr("width", width + margin.left + margin.right)
+	    .attr("height", height + margin.top + margin.bottom)
+	  .append("g")
+	    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+	
+	// X축 생성
+	var x = d3.scaleTime()
+	  .domain(d3.extent(data, function(d) { return d.date; }))
+	  .range([0, width]);
+	
+	svg.append("g")
+	  .attr("transform", "translate(0," + height + ")")
+	  .call(d3.axisBottom(x).tickFormat(d3.timeFormat("%m/%d")));
+	
+	// Y축 생성
+	var y = d3.scaleLinear()
+	  .domain([0, d3.max(data, function(d) { return d.value; })])
+	  .range([height, 0]);
+	
+	svg.append("g").call(d3.axisLeft(y));
+	
+	// 꺾은선 추가
+	svg.append("path")
+	  .datum(data)
+	  .attr("fill", "none")
+	  .attr("stroke", "#b3ff43")
+	  .attr("stroke-width", 3)
+	  .attr("d", d3.line()
+	    .x(function(d) { return x(d.date); })
+	    .y(function(d) { return y(d.value); })
+	  );
 	
 
 });

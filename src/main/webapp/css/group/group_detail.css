@@ -2,7 +2,9 @@
  	color: var(--font-gray-color);
   	background-color: var(--back-color) 
 */
-
+#group-user-detail-info-div{
+	padding-top:10px;
+}
 
 
 h2,h1,p {
@@ -170,4 +172,10 @@ h2,h1,p {
 #group-detail-contents{
 	width:90%;
 	margin: 0px auto;
+}
+
+/* 차트 */
+
+#group-rank-chart {
+	height: 400px;
 }

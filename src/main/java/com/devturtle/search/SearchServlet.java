@@ -18,6 +18,8 @@ import org.apache.tomcat.dbcp.dbcp2.PStmtKey;
 
 import com.devturtle.common.DBManager;
 import com.devturtle.common.OracleDBManager;
+import com.devturtle.follow.FollowDAO;
+import com.devturtle.user.UserDAO;
 import com.devturtle.user.UserVO;
 import com.devturtle.group.GroupVO;
 
@@ -29,65 +31,82 @@ public class SearchServlet extends HttpServlet {
         String query = request.getParameter("query");
     	System.out.println(query);
         
-		HttpSession session = request.getSession();
-		//userID 세션에 없으면 0, 잇으면 로그인한 userID기준으로 검색 결과 팔로우, 팔로워 관계 찾기
+		HttpSession session = request.getSession(false);
 		int userID = 0;
-		if (session != null)  {
-			userID = (Integer) session.getAttribute("SESS_USER_ID");
-			System.out.println(userID);
-			
-//          session.getAttribute("SESS_USER_NICKNAME");
-//          session.getAttribute("SESS_ROLE");
-//          session.getAttribute("SESS_GROUP");
+		//userID 세션에 없으면 0, 잇으면 로그인한 userID기준으로 검색 결과 팔로우, 팔로워 관계 찾기
+		
+		if (session!=null)  {
+			Object sessionUserID = session.getAttribute("SESS_USER_ID");
+		    if (sessionUserID != null) {
+		        try {
+		            userID = (Integer) sessionUserID; // null이 아님을 확인한 후 캐스팅
+		        } catch (ClassCastException e) {
+		            System.out.println("SESS_USER_ID가 Integer 형식이 아닙니다.");
+		        }
+		    } else {
+		        System.out.println("SESS_USER_ID가 세션에 없습니다.");
+		    }
 		}
-        
     	
         if (query == null || query.isEmpty()) {
             query = "";
+            
             request.setAttribute("contentPage", "/jsp/search/search.jsp");
     	    request.getRequestDispatcher("/index.jsp").forward(request, response);
         }
         
-        
-        
-        
         else {
-        	//검색결과 담을 유저,그룹 VO
-            ArrayList<UserVO> ulist = new ArrayList<>();
+            //검색결과 담을 유저,그룹 VO
+            UserDAO udao = new UserDAO();
+            FollowDAO fdao = new FollowDAO();
+            ArrayList<UserVO> ulist = udao.selectAllForSearch(userID, query);
+            ArrayList<UserVO> flist = fdao.selectAllFollowed(userID, query);
             ArrayList<GroupVO> glist = new ArrayList<>();
-
+            
+            System.out.println("flist :" + flist.toString());
+            for(int i = 0; i < ulist.size(); i++) {
+                boolean bool = false;
+                for(UserVO fvo : flist) {
+                    if (ulist.get(i).getUserID() == fvo.getUserID())
+                        bool = true;
+                }
+                if(bool) {
+                    ulist.remove(i);
+                    i--;
+                }
+            }
+            
+            request.setAttribute("ULIST",ulist);
+            request.setAttribute("FLIST",flist);
             
     	    DBManager dbm = null;
     	    Connection conn = null ;
     	    PreparedStatement pstmt = null ;
     	    ResultSet rs = null;
-    	    
-    	    
-    	    // 유저
     	 
-            try  {
-        	    dbm = OracleDBManager.getInstance();
-        	    conn = dbm.connect();
-        	    pstmt = null;
-        	    String userSql = "SELECT * FROM USERS WHERE NICKNAME LIKE ? ORDER BY NICKNAME";
-            	pstmt = conn.prepareStatement(userSql);
-            	pstmt.setString(1, "%" + query + "%");
-                rs = pstmt.executeQuery();
-                while (rs.next()) {
-                    UserVO uvo = new UserVO();
-                    uvo.setUserID(rs.getInt("USER_ID"));
-    				uvo.setUserName(rs.getString("USER_NAME"));
-    				uvo.setNickname(rs.getString("NICKNAME"));
-    				uvo.setTotalScore(rs.getInt("TOTAL_SCORE"));
-    				ulist.add(uvo);
-                }
-            } catch (SQLException e) {
-                System.err.println("SQL Error Code: " + e.getErrorCode());
-                System.err.println("SQL State: " + e.getSQLState());
-    			e.printStackTrace();
-    		} finally {
-    			dbm.close(conn, pstmt, rs);
-    		}
+//            try  {
+//        	    dbm = OracleDBManager.getInstance();
+//        	    conn = dbm.connect();
+//        	    pstmt = null;
+//        	    String userSql = "SELECT * FROM USERS WHERE NICKNAME LIKE ? ORDER BY NICKNAME";
+//            	pstmt = conn.prepareStatement(userSql);
+//            	pstmt.setString(1, "%" + query + "%");
+//                rs = pstmt.executeQuery();
+//                while (rs.next()) {
+//                    UserVO uvo = new UserVO();
+//                    uvo.setUserID(rs.getInt("USER_ID"));
+//    				uvo.setUserName(rs.getString("USER_NAME"));
+//    				uvo.setNickname(rs.getString("NICKNAME"));
+//    				uvo.setTotalScore(rs.getInt("TOTAL_SCORE"));
+//    				ulist.add(uvo);
+//                }
+//            } catch (SQLException e) {
+//                System.err.println("SQL Error Code: " + e.getErrorCode());
+//                System.err.println("SQL State: " + e.getSQLState());
+//    			e.printStackTrace();
+//    		} finally {
+//    			dbm.close(conn, pstmt, rs);
+//    		}
             
             
             //그룹
@@ -162,7 +181,6 @@ public class SearchServlet extends HttpServlet {
     		}
             
     		request.setAttribute("GLIST", glist);
-    		request.setAttribute("ULIST", ulist);
     		
     		glist.sort((a, b) ->{
     			return a.getName().compareTo(b.getName());

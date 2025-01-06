@@ -227,6 +227,51 @@ public class GroupDAO {
 		return gvo;
 	}
 
+	// 그룹의 상세정보
+	public GroupVO selectGroupDetail(int groupId) {
+		// 상세보기 클릭 후 해당 그룹의 상세 정보들
+
+		GroupVO gvo = new GroupVO();
+		
+		DBManager dbm = OracleDBManager.getInstance(); // new OracleDBManager();
+		Connection conn = dbm.connect();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+
+		try {
+			// GROUP 더미가 7개 들어가있음 : RANK_GROUP_SEQ.NEXTVAL+7
+
+			String sql =
+					"SELECT G.* 		\r\n"
+					+ "FROM GROUPS G		\r\n"
+					+ "WHERE G.GROUP_ID = ? \r\n";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, groupId);
+
+			rs = pstmt.executeQuery();
+			if (rs.next()) {
+				gvo.setGroupId(rs.getInt("GROUP_ID"));
+				gvo.setName(rs.getString("NAME"));
+				gvo.setSize(rs.getInt("SIZES"));
+			    gvo.setCondition(rs.getInt("CONDITION"));
+			    gvo.setDescription(rs.getString("DESCRIPTION"));
+			    gvo.setCategory(rs.getString("CATEGORY"));
+			    gvo.setGPrivate(rs.getString("PRIVATE"));
+			    gvo.setLocation(rs.getString("LOCATION"));
+			    gvo.setCreatedAt(rs.getString("CREATED_AT"));
+			    gvo.setUpdatedAt(rs.getString("UPDATED_AT"));
+			    gvo.setTotalScore(rs.getInt("TOTAL_SCORE"));
+			} else {
+				System.out.println("그룹 상세정보 select error");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			dbm.close(conn, pstmt, rs);
+		}
+		return gvo;
+	}
+
 	public GroupVO selectGroupById(int groupId) {
         GroupVO group = null;
         DBManager dbm = OracleDBManager.getInstance(); // new OracleDBManager();
@@ -648,6 +693,9 @@ public class GroupDAO {
 		return rows;
 	}
 	
+	
+	// 
+	
 	// 리더 변경하기
 	public int grantGroupLeaderByLeader(int groupId,int currentLeaderId,int newLeaderId) {
 
@@ -785,7 +833,10 @@ public class GroupDAO {
 		
         try {
             	// SQL 쿼리 작성
-	            String sql = "select * \r\n"
+	            String sql = "select "
+	            			+ "u.*,"
+	            			+ " gu.*,"
+	            			+ " TO_CHAR(gu.joined_At, 'YYYY-MM-DD') AS joinedDate \r\n"
 	    	        		+ "from users u \r\n"
 	    	        		+ "join group_user gu\r\n"
 	    	        		+ "on u.user_id = gu.user_id\r\n"
@@ -798,7 +849,7 @@ public class GroupDAO {
 
                 	GroupUserVO ugvo = new GroupUserVO();
     				ugvo.setGroupId(groupId);
-    				ugvo.setJoinedAt(rs.getString("JOINED_AT"));
+    				ugvo.setJoinedAt(rs.getString("joinedDate"));
     				ugvo.setLeaveAt(rs.getString("LEAVE_AT"));
     				ugvo.setNickname(rs.getString("NICKNAME"));
     				ugvo.setRole(rs.getString("ROLE"));
@@ -852,11 +903,49 @@ public class GroupDAO {
 	}
 
 	
+	public Boolean groupUserCheckOfUserId(int groupId,int userId) {
+
+		int groupUserCnt =0;
+		DBManager dbm = OracleDBManager.getInstance(); // new OracleDBManager();
+		Connection conn = dbm.connect();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		Boolean bool = false;
+
+		try {
+
+			String sql = "select count(1) as CNT 	\r\n"
+						+ "from group_user			\r\n"
+						+ "where group_id = ?		\r\n"
+						+ "and user_id = ?	";
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setInt(1, groupId);
+			pstmt.setInt(2, userId);
+
+			rs = pstmt.executeQuery();
+			if (rs.next()) {
+				groupUserCnt = rs.getInt("CNT");
+				if(groupUserCnt > 0) {
+					bool = true;
+				}
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			dbm.close(conn, pstmt, rs);
+		}
+		
+		return bool;
+	}
+
+	
 	public static void main(String[] argv) {
 		GroupDAO gdao = new GroupDAO();
 	
-		GroupVO gvo= gdao.selectGroupById(1);
-		System.out.println(gvo.toString());
+		System.out.println(">>>>"+gdao.groupUserCheckOfUserId(1, 2));
+//		GroupVO gvo= gdao.selectGroupById(1);
+//		System.out.println(gvo.toString());
 //		System.out.println( "리더 임명 test>>>"+ gdao.grantGroupLeaderByLeader(1, 1, 2));
 //		int testInsert = gdao.createGroup(2, gvoTest);
 //		System.out.println("testInsert" + testInsert);

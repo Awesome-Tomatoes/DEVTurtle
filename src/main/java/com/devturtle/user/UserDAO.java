@@ -153,6 +153,42 @@ public class UserDAO {
 		}
 		return ulist;
 	}
+	
+	public ArrayList<UserVO> selectAllForSearch(int userID, String query) {
+		ArrayList<UserVO> ulist = new ArrayList<UserVO>();
+		DBManager dbm = OracleDBManager.getInstance();
+		Connection conn = dbm.connect();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+
+		try {
+			String sql = "select * from users where USER_NAME like ? OR user_id LIKE ? order by nickname";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, '%'+query+'%');;
+			pstmt.setInt(2, userID);
+			rs = pstmt.executeQuery();
+			while (rs.next()) {
+				UserVO uvo = new UserVO();
+				uvo.setUserID(rs.getInt("USER_ID"));
+				uvo.setUserName(rs.getString("USER_NAME"));
+				uvo.setLoginID(rs.getString("LOGIN_ID"));
+				uvo.setLoginPW(rs.getString("LOGIN_PW"));
+				uvo.setNickname(rs.getString("NICKNAME"));
+				uvo.setGitID(rs.getString("GIT_ID"));
+				uvo.setSolvedID(rs.getString("SOLVED_ID"));
+				uvo.setUserBio(rs.getString("USER_BIO"));
+				uvo.setTotalScore(rs.getInt("TOTAL_SCORE"));
+				uvo.setSolvedScore(rs.getInt("SOLVED_SCORE"));
+				uvo.setGitScore(rs.getInt("GIT_SCORE"));
+				ulist.add(uvo);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			dbm.close(conn, pstmt, rs);
+		}
+		return ulist;
+	}
 
 	public ArrayList<UserVO> selectAllUserByMonthOrderByRankPaging(String date, int startSeq , int endSeq) {
 		

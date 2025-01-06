@@ -21,7 +21,7 @@
             <div class="user-rank-card">
                 <div class="user-rank-card-header">
                     <a href="${pageContext.request.contextPath}/mypage?userid=${uvo.userID}">${uvo.rank}위 ${uvo.userName}</a>
-                    <button class="follow-btn">Follow</button>
+                    <!-- <button class="follow-btn">Follow</button> -->
                 </div>
                 <div class="user-rank-card-content">
                 		<div class="user-rank-card-content-desc">

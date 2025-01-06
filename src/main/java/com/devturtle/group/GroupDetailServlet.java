@@ -1,7 +1,9 @@
 package com.devturtle.group;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -15,6 +17,7 @@ import com.devturtle.mission.MissionJoinGroupVO;
 import com.devturtle.rank.RankGroupDAO;
 import com.devturtle.rank.RankGroupVO;
 import com.devturtle.user.UserVO;
+import com.google.gson.Gson;
 
 /**
  * Servlet implementation class GroupDetailServlet
@@ -48,9 +51,15 @@ public class GroupDetailServlet extends HttpServlet {
 
             // 그룹 전체 정보
             GroupDAO gdao = new GroupDAO();
-            GroupVO groupDetail = gdao.selectGroupDetail(userId, groupId);  // 사용자 ID와 groupId로 그룹 정보 조회
+            
+            GroupVO groupDetail = gdao.selectGroupDetail(groupId);  // 사용자 ID와 groupId로 그룹 정보 조회
             request.setAttribute("GROUP_DETAIL", groupDetail);
 
+            // 그룹 유저 수정 
+            Boolean bool= gdao.groupUserCheckOfUserId(groupId,userId);
+            request.setAttribute("GROUP_USER_CHECK", bool);
+            
+            
             // 그룹 랭킹 정보
             GroupVO gRankVO = gdao.selectGroupByIDWithRank(groupId);
             int gRank = gRankVO.getRank();
@@ -58,7 +67,21 @@ public class GroupDetailServlet extends HttpServlet {
             //int allGroupSize = gdao.selectAllGroupSize();
             //request.setAttribute("GROUP_SIZE", allGroupSize);
             
-            // Group에 속한 User 수 + userVO 반환
+            // 그룹 랭킹 차트 정보
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
+            String today = dateFormat.format(new Date());
+            
+            RankGroupDAO rgdao = new RankGroupDAO();
+            ArrayList<RankGroupVO> gRankList = rgdao.selectRankGroupAllByMonth(groupId, today);
+            System.out.println("test >>>>"+  gRankList.toString());
+            
+            String gsonRankList = new Gson().toJson(gRankList);
+            System.out.println("GROUP_RANK_CHART: " + gsonRankList);
+            
+            request.setAttribute("GROUP_RANK_CHART",  new Gson().toJson(gRankList));
+            
+            
+            // Group User ( 수 + userVO ) 반환
             int groupUserCnt = gdao.getNumberOfGroupUser(groupId); 
             ArrayList<GroupUserVO> groupUserList = gdao.selectAllGroupUser(groupId);
 
