@@ -47,11 +47,19 @@
   height: 20px;
 }
 
+#header-auth {
+  display: flex;
+  justify-content: right;
+  align-items: center;
+  gap: 5px;
+  width: 187px;
+}
 
 #header-auth a {
   font-size: 16px;
   padding: 5px;
   text-decoration: none;
+  border: 2px solid var(--main-color);
 }
 
 .header-auth-a {
