@@ -1,7 +1,9 @@
 package com.devturtle.rank;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -45,10 +47,13 @@ public class RankUserServlet extends HttpServlet {
 		int blockCount = 6; 
 		int blockPage = 4;
 		
+		SimpleDateFormat date = new SimpleDateFormat("yyyyMMdd");
+
+		
 		PagingUtil pg = new PagingUtil(request.getContextPath() + "/rankUser", currentPage, totRecord, blockCount, blockPage);
 		request.setAttribute("MY_KEY_PAGING_HTML", pg.getPagingHtml().toString());
 		
-		ArrayList<UserVO> ulist = udao.selectAllUserByMonthOrderByRankPaging("20250104", pg.getStartSeq(), pg.getEndSeq());
+		ArrayList<UserVO> ulist = udao.selectAllUserByMonthOrderByRankPaging(date.format(new Date()), pg.getStartSeq(), pg.getEndSeq());
 		request.setAttribute("ULIST", ulist);
 		
 		request.setAttribute("contentPage", "/jsp/rank/rank_user.jsp");
