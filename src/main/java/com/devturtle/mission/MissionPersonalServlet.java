@@ -10,6 +10,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.devturtle.user.UserDAO;
+import com.devturtle.user.UserVO;
 
 /**
  * Servlet implementation class MissionPersonalServlet
@@ -37,6 +39,8 @@ public class MissionPersonalServlet extends HttpServlet {
 		
 		if (userid == null || userid.isEmpty()) {
             System.out.println("error");
+            String contextPath = request.getContextPath();
+            response.sendRedirect(contextPath + "/jsp/error/error_page404.jsp");
         }
 		else {
 			int userId = Integer.parseInt(userid);
@@ -45,9 +49,15 @@ public class MissionPersonalServlet extends HttpServlet {
 			
 			ArrayList<MissionJoinUserVO> ulist = mpd.selectMissionUser(userId);
 			
-			request.setAttribute("uname", ulist.get(0).getNickname());
-			request.setAttribute("ULIST", ulist);
-			
+			if (ulist.size() != 0) {
+				request.setAttribute("uname", ulist.get(0).getNickname());
+				request.setAttribute("ULIST", ulist);
+			} else {
+				UserDAO udao = new UserDAO();
+				UserVO uvo = udao.selectUser(userId);
+				request.setAttribute("uname", uvo.getNickname());
+				request.setAttribute("ULIST", ulist);
+			}
 			String contextPath = request.getContextPath();
 			request.getRequestDispatcher(contextPath+"/jsp/mission/mission_detail_user.jsp").forward(request, response);
 			//request.getRequestDispatcher("/jsp/mission/mission_detail_user.jsp").forward(request, response);	
@@ -64,6 +74,8 @@ public class MissionPersonalServlet extends HttpServlet {
 		
 		if (userid == null || userid.isEmpty()) {
             System.out.println("error");
+            String contextPath = request.getContextPath();
+            response.sendRedirect(contextPath + "/jsp/error/error_page404.jsp");
         }
 		else {
 			int userId = Integer.parseInt(userid);

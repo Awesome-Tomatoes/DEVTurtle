@@ -194,7 +194,7 @@ public class GroupDAO {
 		return gvo;
 	}
 
-	public GroupVO getGroupById(int groupId) {
+	public GroupVO selectGroupById(int groupId) {
         GroupVO group = null;
         DBManager dbm = OracleDBManager.getInstance(); // new OracleDBManager();
 		Connection conn = dbm.connect();
@@ -823,7 +823,7 @@ public class GroupDAO {
 	public static void main(String[] argv) {
 		GroupDAO gdao = new GroupDAO();
 	
-		GroupVO gvo= gdao.getGroupById(1);
+		GroupVO gvo= gdao.selectGroupById(1);
 		System.out.println(gvo.toString());
 //		System.out.println( "리더 임명 test>>>"+ gdao.grantGroupLeaderByLeader(1, 1, 2));
 //		int testInsert = gdao.createGroup(2, gvoTest);

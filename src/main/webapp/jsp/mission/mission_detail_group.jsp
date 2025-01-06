@@ -168,12 +168,12 @@ $(document).ready(function () {
                  })
                  .attr("fill", function () {
                      // JSON 데이터에서 해당 날짜의 색상을 가져오기
-                     const date = d3.select(this).attr("data-date");
+                     const date = d3.select(this).attr("data-date")
                      const match = highlightedDates.find(h => h.success_date === date);
                      return match ? "#b3ff43" : d3.select(this).attr("fill");
                  })
                  .attr("count", function () {
-                	 const date = d3.select(this).attr("data-date");
+                	 const date = d3.select(this).attr("data-date")
                      const match = highlightedDates.find(h => h.success_date === date);
                      return match ? match.count : d3.select(this).attr("count");
                  })
@@ -204,9 +204,8 @@ const generateCalendar = (startDate, endDate) => {
       return allDates;
   };
 
-
 // 2023년 1년치 데이터 생성
-const calendarData = generateCalendar("2023-01-01", "2023-12-31");
+const calendarData = generateCalendar("2025-01-01", "2025-12-31");
 
 // x축: 주 단위, y축: 요일
 const weekDays = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
@@ -292,7 +291,7 @@ svg.selectAll()
 	.attr("width", cellSize)
 	.attr("height", cellSize)
 	.attr("fill", d => [0, 6].includes(d.getDay()) ? weekendColor : defaultColor) // 주말 강조
-	.attr("data-date", d => d.toISOString().replace("T00:00:00.000Z", " 00:00:00")) // ISO 형식으로 날짜 저장
+	.attr("data-date", d => d.toISOString().replace("T00:00:00.000Z", "")) // ISO 형식으로 날짜 저장
 	.attr("count", 0)
 	.on("mouseover", mouseover)
 	.on("mousemove", mousemove)

@@ -7,6 +7,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.devturtle.group.GroupDAO;
+import com.devturtle.group.GroupVO;
 import com.fasterxml.jackson.databind.JsonNode;
 
 import java.util.ArrayList;
@@ -37,6 +39,8 @@ public class MissionGroupServlet extends HttpServlet {
 		
 		if (groupid == null || groupid.isEmpty()) {
             System.out.println("error");
+            String contextPath = request.getContextPath();
+            response.sendRedirect(contextPath + "/jsp/error/error_page404.jsp");
         }
 		else {
 			int groupId = Integer.parseInt(groupid);
@@ -44,11 +48,18 @@ public class MissionGroupServlet extends HttpServlet {
 			MissionGroupDAO mgd = new MissionGroupDAO();
 			
 			ArrayList<MissionJoinGroupVO> mlist = mgd.selectMissionGroup(groupId); // 예시로 3 넣음
-			ArrayList<MissionJoinGroupVO> blist = mgd.selectMissionGroupBadge(groupId);	
 			
-			request.setAttribute("gname", mlist.get(0).getGname());
-			request.setAttribute("MLIST", mlist);
-			request.setAttribute("BLIST", blist);
+			if (mlist.size() != 0) {
+				ArrayList<MissionJoinGroupVO> blist = mgd.selectMissionGroupBadge(groupId);	
+				request.setAttribute("gname", mlist.get(0).getGname());
+				request.setAttribute("MLIST", mlist);
+				request.setAttribute("BLIST", blist);
+			} else {
+				GroupDAO gdao = new GroupDAO();
+				GroupVO gvo = gdao.selectGroupById(groupId);
+				request.setAttribute("gname", gvo.getName());
+				request.setAttribute("MLIST", mlist);
+			}
 			
 			String contextPath = request.getContextPath();
 			request.getRequestDispatcher(contextPath+"/jsp/mission/mission_detail_group.jsp").forward(request, response);
@@ -70,6 +81,8 @@ public class MissionGroupServlet extends HttpServlet {
 		
 		if (groupid == null || groupid.isEmpty()) {
             System.out.println("error");
+            String contextPath = request.getContextPath();
+            response.sendRedirect(contextPath + "/jsp/error/error_page404.jsp");
         }
 		else {
 			int groupId = Integer.parseInt(groupid);
