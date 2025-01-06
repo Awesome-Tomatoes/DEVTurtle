@@ -8,11 +8,10 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
+import com.devturtle.common.PagingUtil;
 import com.devturtle.user.UserDAO;
 import com.devturtle.user.UserVO;
-import com.devturtle.common.PagingUtil;
 
 @WebServlet("/rankUser")
 public class RankUserServlet extends HttpServlet {
@@ -49,9 +48,7 @@ public class RankUserServlet extends HttpServlet {
 		PagingUtil pg = new PagingUtil(request.getContextPath() + "/rankUser", currentPage, totRecord, blockCount, blockPage);
 		request.setAttribute("MY_KEY_PAGING_HTML", pg.getPagingHtml().toString());
 		
-		
-//		request.setAttribute("RULIST", rulist);
-		ArrayList<UserVO> ulist = udao.selectAllUserByMonthOrderByRankPaging("20241231", pg.getStartSeq(), pg.getEndSeq());
+		ArrayList<UserVO> ulist = udao.selectAllUserByMonthOrderByRankPaging("20250104", pg.getStartSeq(), pg.getEndSeq());
 		request.setAttribute("ULIST", ulist);
 		
 		request.setAttribute("contentPage", "/jsp/rank/rank_user.jsp");
