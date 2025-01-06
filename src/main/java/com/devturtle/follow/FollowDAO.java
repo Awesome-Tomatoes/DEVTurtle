@@ -157,6 +157,7 @@ public class FollowDAO {
 			while(rs.next()) {
 				list.add(rs.getInt("following"));
 			}
+
 			
 			for(int uid : list) {
 			sql = "select * from users where user_id = ? and (nickname LIKE ? or user_name like ?) order by nickname";
@@ -188,6 +189,8 @@ public class FollowDAO {
 		}	finally {
 				dbm.close(conn, pstmt, rs);
 		}
+		
+		System.out.println(ulist.toString());
 		return ulist;
 	}
 	

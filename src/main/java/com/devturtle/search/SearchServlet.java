@@ -31,18 +31,26 @@ public class SearchServlet extends HttpServlet {
         String query = request.getParameter("query");
     	System.out.println(query);
         
-		HttpSession session = request.getSession();
-		//userID 세션에 없으면 0, 잇으면 로그인한 userID기준으로 검색 결과 팔로우, 팔로워 관계 찾기
+		HttpSession session = request.getSession(false);
 		int userID = 0;
-		if (session==null || !request.isRequestedSessionIdValid())  {
-			userID = (Integer) session.getAttribute("SESS_USER_ID");
-//          session.getAttribute("SESS_USER_NICKNAME");
-//          session.getAttribute("SESS_ROLE");
-//          session.getAttribute("SESS_GROUP");
+		//userID 세션에 없으면 0, 잇으면 로그인한 userID기준으로 검색 결과 팔로우, 팔로워 관계 찾기
+		
+		if (session!=null)  {
+			Object sessionUserID = session.getAttribute("SESS_USER_ID");
+		    if (sessionUserID != null) {
+		        try {
+		            userID = (Integer) sessionUserID; // null이 아님을 확인한 후 캐스팅
+		        } catch (ClassCastException e) {
+		            System.out.println("SESS_USER_ID가 Integer 형식이 아닙니다.");
+		        }
+		    } else {
+		        System.out.println("SESS_USER_ID가 세션에 없습니다.");
+		    }
 		}
     	
         if (query == null || query.isEmpty()) {
             query = "";
+            
             request.setAttribute("contentPage", "/jsp/search/search.jsp");
     	    request.getRequestDispatcher("/index.jsp").forward(request, response);
         }
@@ -52,10 +60,8 @@ public class SearchServlet extends HttpServlet {
             UserDAO udao = new UserDAO();
             FollowDAO fdao = new FollowDAO();
             ArrayList<UserVO> ulist = udao.selectAllForSearch(userID, query);
-            ArrayList<UserVO> flist = new ArrayList<>();
+            ArrayList<UserVO> flist = fdao.selectAllFollowed(userID, query);
             ArrayList<GroupVO> glist = new ArrayList<>();
-            
-            flist = fdao.selectAllFollowed(userID, query);
             
             System.out.println("flist :" + flist.toString());
             for(int i = 0; i < ulist.size(); i++) {
@@ -175,7 +181,6 @@ public class SearchServlet extends HttpServlet {
     		}
             
     		request.setAttribute("GLIST", glist);
-    		request.setAttribute("ULIST", ulist);
     		
     		glist.sort((a, b) ->{
     			return a.getName().compareTo(b.getName());

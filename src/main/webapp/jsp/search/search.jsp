@@ -30,10 +30,11 @@
             <li class="user-item">
                 <img src="${pageContext.request.contextPath}/userImage?userid=${uvo.userID}" alt="${uvo.userName}" class="user-avatar"> 
                 <div class="user-info">
-                    <h4>${uvo.userName}</h4>
+                    <a href="/mypage?userid=${uvo.userID}">${uvo.userName}</a>
                     <p>랭킹 Point: ${uvo.totalScore}</p>
                 </div>
-                <a class="follow-btn" href="/followDelete?userid=${sessionScope.SESS_USER_ID}&deleteid=${uvo.userID}">삭제</a>
+					
+                	<a class="follow-btn" href="/followDelete?userid=${sessionScope.SESS_USER_ID}&deleteid=${uvo.userID}">삭제</a>
             </li>
         </c:forEach>
     
@@ -41,10 +42,10 @@
             <li class="user-item">
                 <img src="${pageContext.request.contextPath}/userImage?userid=${uvo.userID}" alt="${uvo.userName}" class="user-avatar"> 
                 <div class="user-info">
-                    <h4>${uvo.userName}</h4>
+                	<a href="/mypage?userid=${uvo.userID}">${uvo.userName}</a>
                     <p>랭킹 Point: ${uvo.totalScore}</p>
                 </div>
-                <a class="follow-btn" href="/followFollow?userid=${sessionScope.SESS_USER_ID}&followid=${uvo.userID}">팔로우</a>
+                <a href="/followFollow?userid=${sessionScope.SESS_USER_ID}&followid=${uvo.userID}">팔로우</a>
             </li>
         </c:forEach>
     </ul>
@@ -57,7 +58,8 @@
             <li class="group-item">
                 <c:if test="${gvo.join}">
                 <div class="group-info">
-                    <h4>${gvo.name}</h4>
+                    <a href="/groupdetail?groupid=${gvo.groupId}">${gvo.name}</a>
+                   
                     <p>그룹 Point: ${gvo.totalScore}</p>
                 </div>
                     <form id="unjoinForm_${gvo.groupId}" method="POST" action="${pageContext.request.contextPath}/groupdelete">
@@ -71,7 +73,7 @@
 
                 <c:if test="${not gvo.join}">
                 <div class="group-info">
-                    <h4>${gvo.name}</h4>
+                    <a href="/groupdetail?groupid=${gvo.groupId}">${gvo.name}</a>
                     <p>그룹 Point: ${gvo.totalScore}</p>
                 </div>
                     <form id="joinForm_${gvo.groupId}" method="POST" action="${pageContext.request.contextPath}/groupAdd">
