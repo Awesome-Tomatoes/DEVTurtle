@@ -236,8 +236,7 @@ public class GroupDAO {
         String query = "SELECT GROUP_ID, NAME, SIZES, CONDITION, DESCRIPTION, CATEGORY, PRIVATE, LOCATION, "
                      + "TO_CHAR(CREATED_AT, 'YYYY-MM-DD') AS CREATED_AT, "
                      + "TO_CHAR(UPDATED_AT, 'YYYY-MM-DD') AS UPDATED_AT, "
-                     + "TOTAL_SCORE"
-                     + "FROM GROUPS WHERE GROUP_ID = ?";
+                     + "TOTAL_SCORE FROM GROUPS WHERE GROUP_ID = ?";
 
         try (PreparedStatement pstmt = conn.prepareStatement(query)) {
 
