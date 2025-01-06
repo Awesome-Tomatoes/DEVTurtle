@@ -119,7 +119,7 @@
 							<span>${grlist.totalScore}p</span>
 						</p>
 					</div>
-					<a href="${pageContext.request.contextPath}/groupdetail?groupId=${grlist.groupId}" class="see-more-btn">상세</a>
+					<a href="${pageContext.request.contextPath}/groupdetail?groupid=${grlist.groupId}" class="see-more-btn">상세</a>
 				</li>
 			</c:forEach>
 		</ul>
