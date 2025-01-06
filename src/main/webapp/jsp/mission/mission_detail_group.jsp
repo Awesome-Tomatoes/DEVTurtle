@@ -48,11 +48,18 @@
 <div class="table-container">
     <h2 class="table-title">${gname} 팀의 획득한 뱃지</h2>
     <!-- 획득한 뱃지 내용을 동적으로 추가 -->
-    <c:forEach var="mvo" items="${BLIST}">
-           <img src="http://${pageContext.request.serverName}:${pageContext.request.serverPort}${pageContext.request.contextPath}${mvo.badgeLink}" 
-             alt="Badge Image" 
-             style="width: 100px; height: 100px;">
-   	</c:forEach>
+    <c:choose>
+    	<c:when test="${fn:length(BLIST) == 0}">
+        	<p>획득하신 뱃지가 없습니다</p>
+    	</c:when>
+    	<c:otherwise>
+        	<c:forEach var="mvo" items="${BLIST}">
+            	<img src="http://${pageContext.request.serverName}:${pageContext.request.serverPort}${pageContext.request.contextPath}${mvo.badgeLink}" 
+                 	alt="Badge Image" 
+                 	style="width: 100px; height: 100px;">
+        	</c:forEach>
+    	</c:otherwise>
+	</c:choose>
 </div>
 
 <div class="table-container">
