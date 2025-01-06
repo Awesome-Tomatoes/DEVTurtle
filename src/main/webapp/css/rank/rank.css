@@ -1,137 +1,99 @@
-@import "../common/reset.css";
-@import "../common/color.css";
 @import "../paging/paging.css";
 
-@font-face {
-  font-family: "DungGeunMo";
-  src: url("./assets/DungGeunMo.ttf") format("ttf");
+#group-rank-title {
+    font-size: 30px;
+	color: var(--main-color);
+	width: 100%;
+	text-align: center;
 }
 
-body {
-  font-family: "DungGeunMo";
-  color: var(--font-gray-color);
-  background-color: var(--back-color);
-  padding-top: 40px;
-  padding-bottom: 40px;
-  padding-left: 60px;
-  padding-right: 60px; 
-}
-
-input {
-  font-family: "DungGeunMo";
-}
-
-button {
-  font-family: "DungGeunMo";
-}
-
-/* 로고 스타일 */
-.logo {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding-bottom: 50px; /* 간격 수정 */
-}
-
-.logo a {
-  text-decoration: none;
-  color: #b3ff43;
-  display: flex;
-  align-items: center;
-  font-size: 22px; /* 크기 증가 */
-}
-
-.logo img {
-  width: 90px; /* 크기 증가 */
-  height: auto;
-  margin-right: 20px; /* 간격 증가 */
-}
-
-.input-container {
-  position: relative;
-}
-
-/* 텍스트 필드 스타일 */
-.input-container input {
-  width: 40%;
-  padding: 14px 40px 14px 14px;
-  border: 2px solid #304d5d;
-  border-radius: 5px;
-  background-color: #01131f;
-  color: #304d5d;
-  font-size: 16px;
-  font-family: "DungGeunMo", Arial, sans-serif;
-  box-sizing: border-box;
-}
-
-
-h1 {
-    text-align: center;
-    margin: 20px;
-    color: #64ffda;
-}
-
-.container {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
+.group-rank-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
     gap: 20px;
-    margin: 20px;
+    padding-top: 30px;
+    padding-bottom: 30px;
 }
 
-.card {
-    background-color: #2d3748;
+.group-rank-card {
+    background-color: var(--depth-second-color);
     border-radius: 10px;
     padding: 20px;
-    width: 300px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     transition: 0.3s;
 }
 
-.card:hover {
+.group-rank-card:hover {
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
 }
 
-.card-header {
+.group-rank-card-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 15px;
 }
 
-.card-header h2 {
-    font-size: 18px;
-    color: #fbd38d;
+.group-rank-card-header h2 {
+    font-size: 24px;
+    color: var(--font-bright-color);
     margin: 0;
 }
 
-.card-content {
+.group-rank-card-title {
+	display: flex;
+	align-items: center;
+	gap: 5px;
+}
+
+.group-name {
+	font-size: 20px;
+	color: var(--main-color);
+    text-decoration: none;
+}
+
+.group-people {
+	display: flex;
+	align-items: center;
+	gap: 3px;
+}
+
+.group-people img{
+	width: 15px;
+	height: 15px;
+}
+
+.group-rank-card-content {
     margin-top: 10px;
 }
 
-.card-content p {
+.group-rank-card-content p {
     margin: 5px 0;
-    font-size: 14px;
+
 }
 
-.card-footer {
+.group-rank-card-footer {
     margin-top: 15px;
     text-align: right;
+    font-size: 20px;
+}
+
+.group-rank-card-footer strong{
+    color: var(--main-color);
 }
 
 .follow-btn {
-    background-color: #64ffda;
+    background-color: var(--main-color);
     border: none;
     border-radius: 5px;
-    padding: 5px 10px;
+    padding: 5px 20px;
     cursor: pointer;
-    color: #1e293b;
-    font-weight: bold;
+    color: var(--back-color);
     transition: 0.3s;
+    font-size:24px;
 }
 
 .follow-btn:hover {
-    background-color: #81e6d9;
+    background-color: #95c947;
 }
 
 
