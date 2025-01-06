@@ -242,10 +242,8 @@ public class GroupDAO {
 			// GROUP 더미가 7개 들어가있음 : RANK_GROUP_SEQ.NEXTVAL+7
 
 			String sql =
-					"SELECT G.*, GU.* 		\r\n"
+					"SELECT G.* 		\r\n"
 					+ "FROM GROUPS G		\r\n"
-					+ "JOIN GROUP_USER GU	\r\n"
-					+ "ON (G.group_id = GU.group_id)\r\n"
 					+ "WHERE G.GROUP_ID = ? \r\n";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, groupId);

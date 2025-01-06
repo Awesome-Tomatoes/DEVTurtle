@@ -81,7 +81,7 @@
 			</div>
 				
 		</div>
-		<div id="group-detail-info-div">				
+		<div id="group-detail-info-div" data-group-user-check="${GROUP_USER_CHECK}">				
 			<h1>${GROUP_DETAIL.name} 's 상세정보</h1>
 			
 			<article class="contents__article--fragment" id="contents__article--fragment-basic">
@@ -139,7 +139,7 @@
 		</div>
 	</div>
 	
-	<div class= "group-info-container-div group-flex-div">
+	<div class= "group-info-container-div group-flex-div" >
 		
 		<div class ="group-card-button">
 			
@@ -263,6 +263,28 @@ $( document ).ready(function() {
 	   	$("#group-basic-info__form").submit();
 	   
 	});
+	
+	
+	var groupUserCheck = document.getElementById("group-detail-info-div").getAttribute("data-group-user-check");
+
+	groupUserCheck = (groupUserCheck === 'true');
+	
+	const inputs = document.querySelectorAll(".group-basic-info__form-item input");
+
+	var textarea = document.getElementById("group-description");
+
+
+	inputs.forEach(input => {
+	    if (!groupUserCheck) {
+	        input.disabled = true; // 비활성화
+	        textarea.disabled = true;
+	    } else {
+	        input.disabled = false; // 활성화
+	        textarea.disabled = false; 
+	    }
+	});
+	
+	
 	
 	//-----------------------차트------------------------
 	const rankData = ${GROUP_RANK_CHART};
