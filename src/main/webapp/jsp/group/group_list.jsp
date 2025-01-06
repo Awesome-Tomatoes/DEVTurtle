@@ -110,7 +110,7 @@ function loadGroupList() {
 	                            '</div>' +
 	                        '</div>' +
 	                        '<div class="group-mylist-btn-div">' +
-	                        	'<a class="group-yes-btn" href="${pageContext.request.contextPath}/groupdetail?groupId='+group.groupId+'">이동</a>'+
+	                        	'<a class="group-yes-btn" href="${pageContext.request.contextPath}/groupdetail?groupid='+group.groupId+'">이동</a>'+
 	                           
 	                            '<button class="group-no-btn" onclick="leaveGroup(\'' + group.groupId + '\')">탈퇴</button>' +
 	                        '</div>' +

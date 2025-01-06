@@ -49,8 +49,7 @@
     color: var(--font-white-color);
 }
 #group-detail-info-div  h1{
-	font-size: 24px; /* 글자 크기 설정 */
-    font-weight: bold; /* 글자 두께 (선택 사항) */
+	font-size: 21px; /* 글자 크기 설정 */
     color: var(--font-white-color);
     padding-bottom : 20px; 
 }
@@ -83,7 +82,7 @@
 
 .group-basic-info__form-item textarea {
     width: 97%; /* 부모 요소의 너비에 맞게 꽉 차게 설정 */
-    height: 100px;
+    height: 50px;
     margin-top: 10px;
     background-color: transparent;
     border: 2px solid var(--depth-third-color);

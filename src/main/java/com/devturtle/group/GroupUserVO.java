@@ -21,10 +21,16 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class GroupUserVO {
 
-	private long groupId;
-	private String userId;
+	private int groupId;
+	private int userId;
 	private String role;
 	private String status;
 	private String joinedAt;
-	private String leavedAt;
+	private String leaveAt;
+	
+
+	private String userName;
+	private String nickname;
+	private int totalScore;
+	
 }

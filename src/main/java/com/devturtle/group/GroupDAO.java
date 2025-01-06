@@ -49,6 +49,7 @@ public class GroupDAO {
 		return res;
 	}
 
+		
 	public int selectAllGroupSize() {
 
 		ArrayList<GroupVO> alist = new ArrayList<GroupVO>();
@@ -742,6 +743,83 @@ public class GroupDAO {
 		return joinGroupCount;
 	}
 
+	public ArrayList<GroupUserVO> selectAllGroupUser(int groupId){
+		ArrayList<GroupUserVO> ulist = new ArrayList<GroupUserVO>();
+		 
+		DBManager dbm = OracleDBManager.getInstance();
+		Connection conn = dbm.connect();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
+        try {
+            	// SQL 쿼리 작성
+	            String sql = "select * \r\n"
+	    	        		+ "from users u \r\n"
+	    	        		+ "join group_user gu\r\n"
+	    	        		+ "on u.user_id = gu.user_id\r\n"
+	    	        		+ "where gu.group_id= ?";
+
+				pstmt =  conn.prepareStatement(sql);
+	        	pstmt.setInt(1, groupId);
+	        	rs = pstmt.executeQuery();
+                while (rs.next()) {
+
+                	GroupUserVO ugvo = new GroupUserVO();
+    				ugvo.setGroupId(groupId);
+    				ugvo.setJoinedAt(rs.getString("JOINED_AT"));
+    				ugvo.setLeaveAt(rs.getString("LEAVE_AT"));
+    				ugvo.setNickname(rs.getString("NICKNAME"));
+    				ugvo.setRole(rs.getString("ROLE"));
+    				ugvo.setStatus(rs.getString("STATUS"));
+    				ugvo.setTotalScore(rs.getInt("TOTAL_SCORE"));
+    				ugvo.setUserId(rs.getInt("USER_ID"));
+    				ugvo.setUserName(rs.getString("USER_NAME"));
+    				
+    				ulist.add(ugvo);
+                 
+                }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+			dbm.close(conn, pstmt, rs);
+		}
+
+        return ulist;
+    }
+
+	public int getNumberOfGroupUser(int groupId) {
+
+		int groupUserCnt =0;
+		DBManager dbm = OracleDBManager.getInstance(); // new OracleDBManager();
+		Connection conn = dbm.connect();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+
+		try {
+
+			String sql = "select count(1) as CNT \r\n"
+						+ "from users u \r\n"
+						+ "join group_user gu\r\n"
+						+ "on u.user_id = gu.user_id\r\n"
+						+ "where gu.group_id= ?";
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setInt(1, groupId);
+
+			rs = pstmt.executeQuery();
+			if (rs.next()) {
+				groupUserCnt = rs.getInt("CNT");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			dbm.close(conn, pstmt, rs);
+		}
+		
+		return groupUserCnt;
+	}
+
+	
 	public static void main(String[] argv) {
 		GroupDAO gdao = new GroupDAO();
 	
@@ -765,6 +843,12 @@ public class GroupDAO {
 		
 //		System.out.println(gdao.deleteGroupUser(4, 2));
 		
+//		ArrayList<GroupUserVO> uvo = new ArrayList<GroupUserVO>();
+//		uvo	 = gdao.selectAllGroupUser(1);
+//		System.out.println(uvo.toString());
+//		
+//		int result = gdao.getNumberOfGroupUser(1);
+//		System.out.println(result + "result");
 	}
 
 }
