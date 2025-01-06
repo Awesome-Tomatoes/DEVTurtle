@@ -16,7 +16,8 @@ public class FollowFollowServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
     
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String contextPath = request.getContextPath();
+		   String before_address = request.getHeader("referer");
+		
 		
 		int followId = Integer.parseInt(request.getParameter("followid"));
 		int pathId = Integer.parseInt(request.getParameter("userid"));
@@ -30,12 +31,8 @@ public class FollowFollowServlet extends HttpServlet {
 			FollowDAO fdao = new FollowDAO();
 			
 			fdao.updateState(followId, userId);
-			
-			if(pathId == userId) {
-				response.sendRedirect(contextPath+"/follow");
-			} else {
-				response.sendRedirect(contextPath+"/follow?=" + pathId);
-			}
+
+			response.sendRedirect(before_address);
 		}
 	
 	}

@@ -109,9 +109,61 @@ public class FollowDAO {
 			}
 			
 			for(int uid : list) {
-			sql = "select * from users where user_id = ?";
+			sql = "select * from users where user_id = ? order by nickname";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, uid);
+			rs = pstmt.executeQuery();
+
+			UserVO uvo = new UserVO();
+			
+				while(rs.next()) {
+					uvo.setUserID(  rs.getInt("USER_ID")     );
+					uvo.setUserName(  rs.getString("USER_NAME")  );
+					uvo.setLoginID(  rs.getString("LOGIN_ID")  );
+					uvo.setLoginPW(  rs.getString("LOGIN_PW")  );
+					uvo.setNickname(  rs.getString("NICKNAME")  );
+					uvo.setGitID(  rs.getString("GIT_ID")  );
+					uvo.setSolvedID(  rs.getString("SOLVED_ID")  );
+					uvo.setUserBio(  rs.getString("USER_BIO")  );
+					uvo.setTotalScore(  rs.getInt("TOTAL_SCORE")  );
+					uvo.setSolvedScore(  rs.getInt("SOLVED_SCORE")  );
+					uvo.setGitScore(  rs.getInt("GIT_SCORE")  );
+					ulist.add(uvo);
+				}	
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}	finally {
+				dbm.close(conn, pstmt, rs);
+		}
+		return ulist;
+	}
+	
+	public ArrayList<UserVO> selectAllFollowed(int userID, String query){
+		ArrayList<Integer> list = new ArrayList<Integer>();
+		ArrayList<UserVO> ulist = new ArrayList<UserVO>();
+		
+		DBManager dbm = OracleDBManager.getInstance(); 
+		Connection conn = dbm.connect();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
+		try {
+			String sql = "select following from follow where follower = ? order by follow_id";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, userID);
+			rs = pstmt.executeQuery();  
+			
+			while(rs.next()) {
+				list.add(rs.getInt("following"));
+			}
+			
+			for(int uid : list) {
+			sql = "select * from users where user_id = ? and (nickname LIKE ? or user_name like ?) order by nickname";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, uid);
+			pstmt.setString(2, '%'+query+'%');
+			pstmt.setString(3, '%'+query+'%');
 			rs = pstmt.executeQuery();
 
 			UserVO uvo = new UserVO();
@@ -159,7 +211,7 @@ public class FollowDAO {
 			}
 			
 			for(int uid : list) {
-			sql = "select * from users where user_id = ?";
+			sql = "select * from users where user_id = ? order by nickname";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, uid);
 			rs = pstmt.executeQuery();
