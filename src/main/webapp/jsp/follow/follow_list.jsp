@@ -15,9 +15,10 @@
 
 </head>
 <body>
+
 <%
 String userId = request.getParameter("USER_ID");
-boolean isUserIdPresent = (userId != null);
+boolean isUserIdPresent = (userId == null);
 System.out.println(userId);
 %>
 <div id="follow-list-container">
@@ -31,7 +32,6 @@ System.out.println(userId);
        <div class="follow-list-section">
            <div id="follow-mylist-container-div">
 				<div id="follow-mylist-search-div">
-					<p  class="follow-search-p" >${USER_NICK}님의 FOLLOWER 목록</p>
 					<div>
 						<input class="follow-search-input" type="text"  placeholder="친구 이름을 입력하세요">
 						<button class="follow-search-btn">검색</button> 
@@ -49,10 +49,9 @@ System.out.println(userId);
 	                        </div>
 	                    </div>
 	                    <div class="follow-mylist-btn-div">
-	                    	<% 
-	                    	if(isUserIdPresent) { %>
-	                        	<button class="follow-no-btn">삭제</button>
-	                       <% } %>
+							<c:if test="${USER_ID eq sessionScope.SESS_USER_ID}">
+		                        	<button class="follow-no-btn">삭제</button>
+		                    </c:if>
 	                    </div>
         			</div>
         		</c:forEach>
@@ -71,7 +70,6 @@ System.out.println(userId);
        <div class="follow-list-section">
            <div id="follow-mylist-container-div">
 				<div id="follow-mylist-search-div">
-					<p  class="follow-search-p" >${USER_NICK}님의 FOLLOWING 목록</p>
 					<div>
 						<input class="follow-search-input" type="text"  placeholder="친구 이름을 입력하세요">
 						<button class="follow-search-btn">검색</button> 
@@ -88,11 +86,9 @@ System.out.println(userId);
 	                        </div>
 	                    </div>
 	                    <div class="follow-mylist-btn-div">
-	                    
-	                    <% 
-	                    	if(isUserIdPresent) { %>
-	                        	<button class="follow-no-btn">삭제</button>
-	                       <% } %>
+							<c:if test="${USER_ID eq sessionScope.SESS_USER_ID}">
+		                        	<button class="follow-no-btn">삭제</button>
+		                    </c:if>
 	                    </div>
 	                </div>
 	            </c:forEach>
@@ -110,7 +106,7 @@ System.out.println(userId);
        <div class="follow-list-section">
            <div id="follow-mylist-container-div">
 				<div id="follow-mylist-search-div">
-					<p  class="follow-search-p" >${USER_NICK}님의 대기 목록</p>
+					
 					<div>
 						<input class="follow-search-input" type="text"  placeholder="친구 이름을 입력하세요">
 						<button class="follow-search-btn">검색</button> 
@@ -129,11 +125,10 @@ System.out.println(userId);
 		                        </div>
 		                    </div>
 		                    <div class="follow-mylist-btn-div">
-		                    	<% 
-	                    			if(isUserIdPresent) { %>
-		                        	<button class="follow-follow-btn">팔로우</button>
+		                    	<c:if test="${USER_ID eq sessionScope.SESS_USER_ID}">
+		                        	<button class="follow-yes-btn">팔로우</button>
 	                        		<button class="follow-no-btn">삭제</button>
-	                       		<% } %>
+		                    	</c:if>
 		                    </div>
 		                </div>
 		              </div>
