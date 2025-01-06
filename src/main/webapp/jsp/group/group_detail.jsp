@@ -84,7 +84,7 @@
 			
 			<article class="contents__article--fragment" id="contents__article--fragment-basic">
             
-            <form class="group-basic-info__form">
+            <form id="group-basic-info__form" class="group-basic-info__form">
  				<input type="hidden" id="groupid" name="groupid" value="${GROUP_DETAIL.groupId}" />
  
                 <!-- 그룹 이름 -->
@@ -96,24 +96,24 @@
 
                 <!-- 최대 인원 -->
                 <div class="group-basic-info__form-item">
-                    <label for="group-github">최대인원</label>
+                    <label for="group-size">최대인원</label>
                     <input type="text" id="group-size" name="group-size" value="${GROUP_DETAIL.size}">
                 </div>
 
                 <!-- 참가 조건 -->
                 <div class="group-basic-info__form-item">
-                    <label for="group-solvedac">참가 조건</label>
+                    <label for="group-condition">참가 조건</label>
                     <input type="text" id="group-condition" name="group-condition" value="${GROUP_DETAIL.condition}">
                     
                 </div>
 
-				<label for="group-bio">그룹 소개글</label>
+				<label for="group-description">그룹 소개글</label>
                 <!-- 그룹 소개글 -->
                 <div class="group-basic-info__form-item">
                     <textarea id="group-description" name="group-description" >${GROUP_DETAIL.description}</textarea>
                 </div>
  
-                <button type="submit" class="group-detail-info-update-btn">수정</button>
+                <button type="submit" id="group-detail-info-update-btn" class="group-detail-info-update-btn">수정</button>
                	 
             </form>
         </article>
@@ -127,9 +127,14 @@
 			<h1> "${GROUP_DETAIL.name}"의 그룹원 정보</h1>
 		</div>
 		<div class="group-sub-title">
-			<h1> 총 ${GROUP_USER_CNT} / ${GROUP_DETAIL.size} 명 <button class="group-button">더보기</button></h1>
+			
+			<h1> 총 ${GROUP_USER_CNT} / ${GROUP_DETAIL.size} 명 
+			<button class="group-button">더보기</button>
+			
+			</h1>
 		</div>
 	</div>
+	
 	<div class= "group-info-container-div group-flex-div">
 		
 		<div class ="group-card-button">
@@ -153,7 +158,7 @@
 			        <span id="group-ranking-info-grade"></span>
 			    </p>
 			    <img id="group-ranking-info-img"
-			        src="${pageContext.request.contextPath}/userImage?userid=${user.userId}" style=" width: 100px; height: 150px;" />
+			        src="${pageContext.request.contextPath}/userImage?userid=${user.userId}" style=" width: 60px; height: 70px;" />
 			    <p class="group-ranking-info-p">
 			        <span class="group-ranking-info-p-title">유저 랭킹 포인트</span>
 			        <span class="group-ranking-info-p-point">${user.totalScore}점</span>
@@ -192,9 +197,9 @@
 		<div class="group-sub-title">
 		
 			<h1> 총10명 
-			
+		
 			<a class="group-button" 
-				href="${pageContext.request.contextPath}/missionGroup?userid=<% int userId = (Integer) session.getAttribute("SESS_USER_ID"); %>
+				href="${pageContext.request.contextPath}/missionGroup?groupid=${GROUP_DETAIL.groupId}"
 		">더 보기</a>
 		</h1>
 		</div>
@@ -241,83 +246,24 @@
 <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
 <script>
 $( document ).ready(function() {
-	loadPage();
+
 	
 	$("#group-detail-info-update-btn").click(function() {
-		e.preventDefault();
-		const groupName = $("#group-name")
-				.val();
-		const groupCategory = $(
-				"#group-category").val();
-		const groupSize = $("#group-size")
-				.val();
-		const groupCondition = $(
-				"#group-condition").val();
-		const groupRule = $("#group-rule")
-				.val();
-		const groupDescription = $(
-				"#group-description").val();
-		const groupGroupId= $(
-		"#groupId").val();
+			
+	   	event.preventDefault(); // 폼 제출을 막음
 
-		
-		alert(groupName + "  "
-				+ groupCategory + "  "
-				+ groupSize + "  "
-				+ groupPrivate + "  "
-				+ groupCondition + "  "
-				+ groupRule + "  "
-				+ groupDescription);
-	
-	
-		$("#group-basic-info__form").attr("method",
-				"post");
-		$("#group-basic-info__form").attr("action",
-				"${pageContext.request.contextPath}/groupdetail");
-		// 폼 제출
-        $("#group-basic-info__form").submit();
+	    alert("버튼 클릭");
+		$("#group-basic-info__form").attr("method", "post");
+	   	$("#group-basic-info__form").attr("action",
+	   			"${pageContext.request.contextPath}/groupdetail");
+	   	$("#group-basic-info__form").submit();
+	   
 	});
 	
 	
 	
 	//-----------------------------------------------
 	
-	const GROUP_USER_LIST = ${GROUP_USER_LIST}; // 서버에서 전달받은 전체 유저 리스트
-    let currentPage = 1;  // 현재 페이지 (1부터 시작)
-    const pageSize = 3;  // 한 페이지에 표시할 유저 수
-
-	// 페이지 이동 (이전 / 다음)
-    function changePage(direction) {
-        if (direction === 'next') {
-            currentPage++;
-        } else if (direction === 'prev' && currentPage > 1) {
-            currentPage--;
-        }
-        loadPage();
-    }
-	
-	function loadPage() {
-        const startIndex = (currentPage - 1) * pageSize;
-        const endIndex = currentPage * pageSize;
-        const currentUsers = GROUP_USER_LIST.slice(startIndex, endIndex);
-
-        // 유저 목록을 출력할 div를 선택
-        const userListDiv = document.getElementById("group-user-list");
-        userListDiv.innerHTML = ''; // 기존 목록 초기화
-
-        // 현재 페이지에 해당하는 유저 정보 표시
-        currentUsers.forEach(user => {
-            const userDiv = document.createElement('div');
-            userDiv.classList.add('group-user-detail-info-div');
-            userDiv.innerHTML = `
-                <p>User ID: ${user.userId}</p>
-                <p>User Name: ${user.userName}</p>
-                <p>User Nickname: ${user.nickname}</p>
-                <p>User Total Score: ${user.totalScore}</p>
-            `;
-            userListDiv.appendChild(userDiv);
-        });
-    }
 
 });
 

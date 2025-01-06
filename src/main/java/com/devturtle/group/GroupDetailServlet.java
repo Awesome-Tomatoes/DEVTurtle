@@ -116,12 +116,12 @@ public class GroupDetailServlet extends HttpServlet {
 									description, category,
 									gprivate,	location);
 	    
-	    System.out.println(gvo.toString());
+	    System.out.println(" param check >>>>> " + gvo.toString());
 		
 		  GroupDAO gdao = new GroupDAO(); int result =
 		  gdao.updateGroupDetail(userId,gvo);
 		  System.out.println("updateGroupDetail 수정결과는?? >> " + result);
-		  response.sendRedirect("/groupdetail?groupId="+groupId);
+		  response.sendRedirect("/groupdetail?groupid="+groupId);
 		 	
 	    }
 

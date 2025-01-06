@@ -46,6 +46,7 @@ public class GroupVO {
 			String gPrivate, String location ) {
 	super();
 	this.groupId = groupId;
+	this.size = size;
 	this.name = name;
 	this.condition = condition;
 	this.description = description;

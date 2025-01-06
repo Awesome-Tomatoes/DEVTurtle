@@ -67,6 +67,7 @@
 #group-ranking-info-ul {
 	display: flex;
 	gap: 5px;
+	padding : 10px;
 }
 
 .group-ranking-info-li {
