@@ -6,7 +6,9 @@
 <%@ taglib prefix="fmt" 	uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="fn" 	uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="x" 	uri="http://java.sun.com/jsp/jstl/xml" %>
-<%@ taglib prefix="sql" 	uri="http://java.sun.com/jsp/jstl/sql" %>    
+<%@ taglib prefix="sql" 	uri="http://java.sun.com/jsp/jstl/sql" %>
+
+    
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -14,6 +16,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>로그인 페이지</title>
 	<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/user/user_login.css">
+	<link rel="icon" href="${pageContext.request.contextPath}/assets/favicon/favicon.ico">
 </head>
 <body>
     <div class="container">

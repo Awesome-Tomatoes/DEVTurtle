@@ -15,6 +15,7 @@
 <title>회원가입 페이지</title>
 <link rel="stylesheet" type="text/css"
 	href="${pageContext.request.contextPath}/css/user/user_signup.css">
+<link rel="icon" href="${pageContext.request.contextPath}/assets/favicon/favicon.ico">
 </head>
 <body>
 	<div class="container">

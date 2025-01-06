@@ -12,6 +12,7 @@
 <title>Dev Turtle</title>
 <link rel="stylesheet" type="text/css"
 	href="${pageContext.request.contextPath}/css/index.css" />
+<link rel="icon" href="${pageContext.request.contextPath}/assets/favicon/favicon.ico">
 </head>
 <body>
 	<jsp:include page="./jsp/layout/header.jsp" />
