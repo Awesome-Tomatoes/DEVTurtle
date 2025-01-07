@@ -59,8 +59,8 @@ h2,h1,p {
 }
 
 #group-success-info-div {
-    width: 20%;
-    margin : 3%; 
+    width: 30%;
+    margin-left : 3%; 
     min-height:100%;
     background-color: var(--depth-second-color);
     border-radius: 20px; 
