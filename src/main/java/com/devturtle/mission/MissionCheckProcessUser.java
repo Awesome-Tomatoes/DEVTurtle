@@ -61,8 +61,8 @@ public class MissionCheckProcessUser {
     public static void main(String[] args) {
         // 테스트를 위한 메인 함수
         MissionCheckProcessUser mcp = new MissionCheckProcessUser();
-        int testUserId = 1; // 테스트할 사용자 ID
-        mcp.missionUserCompleteCheck(testUserId);
+        //int testUserId = 1; // 테스트할 사용자 ID
+        mcp.missionUserCompleteCheck(20);
     }
 
 }
