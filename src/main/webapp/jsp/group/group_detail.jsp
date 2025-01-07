@@ -256,7 +256,7 @@ $( document ).ready(function() {
 			
 	   	event.preventDefault(); // 폼 제출을 막음
 
-	    alert("버튼 클릭");
+	    alert("수정됐습니다");
 		$("#group-basic-info__form").attr("method", "post");
 	   	$("#group-basic-info__form").attr("action",
 	   			"${pageContext.request.contextPath}/groupdetail");
