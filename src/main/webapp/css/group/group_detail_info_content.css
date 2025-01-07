@@ -36,7 +36,10 @@
     width: 83%;
     border-bottom: 2px solid var(--depth-third-color);
     padding-bottom: 5px;
-    color: var(--font-white-color);
+    color: var(--main-color);
+    font-size: large;  
+    text-align: center;
+	
 }
 
 .group-detail-info-update-btn {
@@ -75,10 +78,6 @@
     justify-content: space-between;
 }
 
-.group-basic-info__bio textarea {
-    width: %;
-    
-}
 
 .group-basic-info__form-item textarea {
     width: 97%; /* 부모 요소의 너비에 맞게 꽉 차게 설정 */
@@ -87,6 +86,12 @@
     background-color: transparent;
     border: 2px solid var(--depth-third-color);
     border-radius: 10px;
-    color: var(--font-white-color);
+    color: var(--main-color);
     padding: 10px; /* 수동으로 세로 크기 조절이 가능하도록 설정 (optional) */
+    text-align: center;
+    
+    /* 수직 중앙 정렬*/
+ 	padding: 10px 10px;
+    line-height: 100%;
+    
 }
