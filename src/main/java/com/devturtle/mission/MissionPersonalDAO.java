@@ -50,6 +50,33 @@ public class MissionPersonalDAO {
 		return ulist;
 	}
 	
+	public ArrayList<Integer> selectAllMissionUserNum() {
+
+        DBManager o = OracleDBManager.getInstance();
+
+        ArrayList<Integer> mlist = new ArrayList<Integer>();
+
+        String sql = "select objective_id from objective where type = 'U'\r\n" +
+                "order by objective_id asc";
+
+        try {
+            Connection conn = o.connect();
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            ResultSet rs = pstmt.executeQuery();
+
+            while (rs.next()) {
+                int objective_id = rs.getInt("objective_id");
+                mlist.add(objective_id);
+            }
+
+            o.close(conn, pstmt, rs);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return mlist;
+    }
+	
 	public ArrayList<MissionJoinUserVO> selectMissionUser(int userid) {
 		
 		DBManager o = OracleDBManager.getInstance();
