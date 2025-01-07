@@ -93,8 +93,8 @@ public class MissionCheckUserDAO {
 		try {
 			conn = o.connect();
 			pstmt = conn.prepareStatement(sql);		
-			pstmt.setInt(1, objectiveId);
-			pstmt.setInt(2, userId);
+			pstmt.setInt(1, userId);
+			pstmt.setInt(2, objectiveId);
 			rows = pstmt.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
