@@ -53,8 +53,61 @@ public class MissionCheckDAO {
 		return objectQuery;
 	}
 	
+	// 해당 그룹이 미션 수행했는지 조회해서 있으면 true, 없으면 false
+	public boolean isMissionComplete(int groupId, int objectiveId) {
+		
+		DBManager o = OracleDBManager.getInstance();
+		
+		boolean result = false;
+		int notGain = 0;
+		String sql = "select objective_id from objective_group where group_id = ? and objective_id = ?";
+		try {
+			conn = o.connect();
+			pstmt = conn.prepareStatement(sql);	
+			pstmt.setInt(1, groupId);
+			pstmt.setInt(2, objectiveId);
+			rs = pstmt.executeQuery();
+			while(rs.next()) {
+				notGain = rs.getInt("objective_id");
+			}
+			
+			if (notGain != 0) {
+				result = true;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} 
+		o.close(conn, pstmt, rs);
+		
+		return result;
+	}
+	
+	// 성공한 미션 Objective_Group에 insert
+	public int insertGruopMissionSuccessed(int groupId, int objectiveId) {
+			
+		DBManager o = OracleDBManager.getInstance();
+		
+		int rows = 1;
+		
+		String sql = "insert into objective_group values(?, ?, sysdate)";
+		
+		try {
+			conn = o.connect();
+			pstmt = conn.prepareStatement(sql);		
+			pstmt.setInt(1, objectiveId);
+			pstmt.setInt(2, groupId);
+			rows = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		System.out.println("성공 미션 업데이트 완료");
+		o.close(conn, pstmt);
+		
+		return rows;
+	}
+	
 	// 그룹 전부 70퍼센트 이상 출석하면 true, 아니면 false
-	public boolean AttendanceCheck(String objectQuery, int groupId){
+	public boolean attendanceCheck(String objectQuery, int groupId){
 		
 		ArrayList<Double> alist = new ArrayList<Double>();
 		
@@ -176,7 +229,7 @@ public class MissionCheckDAO {
 		MissionCheckDAO mcd = new MissionCheckDAO();
 		String query = mcd.getObjectQuery(1);
 		System.out.println("test01: Attendance Check... ");
-		System.out.println(mcd.AttendanceCheck(query, 1));
+		System.out.println(mcd.attendanceCheck(query, 1));
 
 		System.out.println("test02: PiratesCondition Check... ");
 		String query2 = mcd.getObjectQuery(2);
@@ -193,6 +246,9 @@ public class MissionCheckDAO {
 			System.out.print(a + " ");
 		}
 		System.out.println("");
+		
+		boolean result = mcd.isMissionComplete(1, 4);
+		System.out.println(result + "");
 	}
 
 }
