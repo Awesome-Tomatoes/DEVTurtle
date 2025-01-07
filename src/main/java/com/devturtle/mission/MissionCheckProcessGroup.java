@@ -58,7 +58,7 @@ public class MissionCheckProcessGroup {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		MissionCheckProcessGroup mcp = new MissionCheckProcessGroup();
-		mcp.missionGroupCompleteCheck(1);
+		mcp.missionGroupCompleteCheck(7);
 	}
 
 }
