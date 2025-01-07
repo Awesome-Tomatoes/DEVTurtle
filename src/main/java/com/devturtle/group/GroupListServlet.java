@@ -37,39 +37,55 @@ public class GroupListServlet extends HttpServlet {
 			throws ServletException, IOException {
 		// TODO Auto-generated method stub
 
-		String userIdParam = request.getParameter("userid");
-		Integer userId = null;
-	    
-		if (userIdParam != null && !userIdParam.isEmpty()) {
-        	userId = Integer.parseInt(userIdParam);
-        } else {
-        	HttpSession session = request.getSession();
-            userId = (Integer) session.getAttribute("SESS_USER_ID");
-            if (userId == null) {
-                response.sendRedirect(request.getContextPath() + "/login");
-                return;
-            }
-        }
-		
-		GroupDAO gdao = new GroupDAO();
-		ArrayList<GroupVO> groupList = gdao.selectAllJoinGroup(userId);
+		 // URL 파라미터로 userId를 받는다
+	    String userIdParam = request.getParameter("userid");
+	    Integer userId = null;
 
-		for(GroupVO g : groupList) {
-			System.out.println(g.toString());
-		}
-		
-		if ("json".equals(request.getParameter("type"))) {
-			response.setContentType("application/json");
-			response.setCharacterEncoding("UTF-8");
+	    // userId 파라미터가 있으면 그 값을 사용하고, 없으면 세션에서 userId를 가져온다
+	    if (userIdParam != null && !userIdParam.isEmpty()) {
+	        try {
+	            // 파라미터에서 userId를 가져오기
+	            userId = Integer.parseInt(userIdParam);
+	        } catch (NumberFormatException e) {
+	            // 파라미터 값이 잘못된 경우 처리
+	            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid userId parameter");
+	            return;
+	        }
+	    } else {
+	        // userId 파라미터가 없을 경우 세션에서 현재 로그인된 사용자의 userId를 가져오기
+	        HttpSession session = request.getSession();
+	        userId = (Integer) session.getAttribute("SESS_USER_ID");
+	        
+	        if (userId == null) {
+	            // 세션에 userId가 없으면 로그인 페이지로 리디렉션
+	            response.sendRedirect(request.getContextPath() + "/login");
+	            return;
+	        }
+	    }
 
-			ObjectMapper objectMapper = new ObjectMapper(); // groupList -> JSON 형식
-			String json = objectMapper.writeValueAsString(groupList);
-			response.getWriter().write(json); // JSON 데이터 전송
-		
-		} else {
-			request.setAttribute("contentPage", "/jsp/group/group_list.jsp");
-			request.getRequestDispatcher("/index.jsp").forward(request, response);
-		}
+	    // 그룹 목록을 조회
+	    GroupDAO gdao = new GroupDAO();
+	    ArrayList<GroupVO> groupList = gdao.selectAllJoinGroup(userId);
+
+	    // groupList가 비어있는 경우 한 번만 처리
+	    if (groupList.isEmpty()) {
+	        response.getWriter().write("{ \"message\": \"No groups found\" }");
+	        return;
+	    }
+
+	    // JSON 응답 처리
+	    if ("json".equals(request.getParameter("type"))) {
+	        response.setContentType("application/json");
+	        response.setCharacterEncoding("UTF-8");
+
+	        ObjectMapper objectMapper = new ObjectMapper();
+	        String json = objectMapper.writeValueAsString(groupList);
+	        response.getWriter().write(json);
+	    } else {
+	        // JSP 페이지로 포워딩
+	        request.setAttribute("contentPage", "/jsp/group/group_list.jsp");
+	        request.getRequestDispatcher("/index.jsp").forward(request, response);
+	    }
 		
 		
 	}

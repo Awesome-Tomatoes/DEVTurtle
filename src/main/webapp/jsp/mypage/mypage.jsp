@@ -137,7 +137,7 @@
 				<p>${FOLLOWER_COUNT}</p>
 			</button>
 		</a>
-		<a class="user-info-list__btn" href="${pageContext.request.contextPath}/grouplist">
+		<a class="user-info-list__btn" href="${pageContext.request.contextPath}/grouplist?userid=${USER_INFO.userID}">
 			<button>
 				<div class="user-info-list__title">
 					<img
