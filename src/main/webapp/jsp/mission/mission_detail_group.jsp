@@ -160,7 +160,7 @@ $(document).ready(function () {
          success: function (data) {
         	 console.log("Received data:", data);
         	 const datetime = data.map(data => data.success_date)
-        	 console.log("ddd:", datetime);
+        	 console.log("success_date:", datetime);
         	 const highlightedDates = data;
         	 
         	 const svg = d3.select("svg");
