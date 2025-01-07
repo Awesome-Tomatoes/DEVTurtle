@@ -579,8 +579,8 @@ public class GroupDAO {
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, groupId); // groupId
 			pstmt.setInt(2, userId); // userId
-			if (status == null || status.isEmpty()) {
-				pstmt.setString(3, "MEMBER"); 
+			if (status.equals("MEMBER")) {
+				pstmt.setString(3, status); 
 			}else{
 				pstmt.setString(3, "LEADER"); // 기본 역할: 'MEMBER'
 			}
