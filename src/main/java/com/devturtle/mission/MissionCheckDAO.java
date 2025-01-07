@@ -112,7 +112,7 @@ public class MissionCheckDAO {
 		ArrayList<Double> alist = new ArrayList<Double>();
 		
 		String sql = objectQuery;
-		boolean result = true;
+		boolean result = false;
 		try {
 			conn = o.connect();
 			pstmt = conn.prepareStatement(sql);	
@@ -127,7 +127,9 @@ public class MissionCheckDAO {
 			}
 			
 			for (double a : alist) {
-				if (a < 70.00) {
+				if (a >= 70.00) {
+					result = true;
+				} else {
 					result = false;
 					break;
 				}
@@ -178,7 +180,7 @@ public class MissionCheckDAO {
 	public boolean ratingCount(String objectQuery, int groupId) {
 		
 		String sql = objectQuery;
-		boolean result = true;
+		boolean result = false;
 		int diff = 0;
 		try {
 			conn = o.connect();
@@ -189,8 +191,8 @@ public class MissionCheckDAO {
 				diff = rs.getInt("diff");
 			}
 			
-			if (diff < 100) {
-				result = false;
+			if (diff >= 100) {
+				result = true;
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -229,7 +231,7 @@ public class MissionCheckDAO {
 		MissionCheckDAO mcd = new MissionCheckDAO();
 		String query = mcd.getObjectQuery(1);
 		System.out.println("test01: Attendance Check... ");
-		System.out.println(mcd.attendanceCheck(query, 1));
+		System.out.println(mcd.attendanceCheck(query, 8));
 
 		System.out.println("test02: PiratesCondition Check... ");
 		String query2 = mcd.getObjectQuery(2);
