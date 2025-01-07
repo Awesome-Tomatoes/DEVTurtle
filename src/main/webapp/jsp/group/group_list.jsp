@@ -52,12 +52,12 @@
 	<div class= "group-mylist-container-div">
 			<div id="group-mylist-search-div">
 				<p  class="group-search-p" >GROUP LIST</p>
-				<% if (userIdParam == null || userIdParam.isEmpty()) { %>	 
+				<%-- <% if (userIdParam == null || userIdParam.isEmpty()) { %>	 
 				<div>
 					<input class="group-search-input" type="text"  placeholder="그룹 이름을 입력하세요">
 					<button class="group-search-btn">검색</button> 
 				</div>
-				<% } %>
+				<% } %> --%>
 			</div>
 			<!-- <div class="group-mylist-join-info-div">
 				<div id="group-mylist-per-div">
@@ -90,23 +90,9 @@
 
 $( document ).ready(function() {
 	loadGroupList(); 
-	//paramDisableBtn();
 });
 
-/* function paramDisableBtn() {
-	var groupUserCheck = document.getElementById("group-detail-info-div").getAttribute("data-group-user-check");
 
-	groupUserCheck = (groupUserCheck === 'true');
-
-	const createGroupButton = document.getElementById("create-group-btn");
-
-
-	if (!groupUserCheck) {
-	    createGroupButton.style.display = "none"; 
-	} else {
-	    createGroupButton.style.display = "inline"; 
-	}
-} */
 
 function loadGroupList() {
 	<%
@@ -134,7 +120,13 @@ function loadGroupList() {
 					
 	                
 	                data.forEach(function(group) {
-	                	var shouldAddButton = "<%= (userIdParam == null || userIdParam.isEmpty()) ? "true" : "false" %>";
+
+	                	<%
+	                		Integer sessionUserId = (Integer) session.getAttribute("SESS_USER_ID");
+	                	    // userIdParam이 null, sessionUserId와 같으면 true
+	                	    boolean shouldAddButton = (userIdParam == null || userIdParam.isEmpty() || userIdParam.equals(sessionUserId.toString()));
+	 
+	                	%>
 	                	var groupDiv = 
 	                        '<div class="group-mylist-join-info-div" id="group-' + group.groupId + '">' +
 	                            '<div id="group-mylist-per-div">' +
@@ -147,7 +139,7 @@ function loadGroupList() {
 	                            '<div class="group-mylist-btn-div">'+
 	                            	'<a class="group-yes-btn" href="${pageContext.request.contextPath}/groupdetail?groupid=' + group.groupId + '">이동</a>'
                     			;	                    
-                    if (shouldAddButton === 'true') {
+                    if (<%= shouldAddButton %>) {
                         groupDiv += 
                             		'<button class="group-no-btn" onclick="leaveGroup(\'' + group.groupId + '\')">탈퇴</button>';
                     }
