@@ -21,22 +21,17 @@
 		<div class="group-mylist-main-title">
 			
 			<div id="group-mylist-main-title"> 
-			 <%
-		        // 파라미터에서 닉네임을 받으려고 시도
-		        String userNickName = request.getParameter("userid");
-		
-		        // 만약 파라미터가 없다면, 세션에서 닉네임을 가져옴
-		        if (userNickName == null || userNickName.isEmpty()) {
-		            userNickName = (String) session.getAttribute("SESS_USER_NICKNAME");
-		        }
-		
-		        // 닉네임이 존재하면 출력, 없으면 기본 메시지 출력
-		        if (userNickName != null && !userNickName.isEmpty()) {
-		            out.println("[ " + userNickName + " ]님의 가입한 GROUP LIST");
-		        } else {
-		            out.println("닉네임 정보가 없습니다.");
-		        }
-		    %>
+			<%  
+			    String userId = request.getParameter("userid");
+			
+			    // userid 파라미터가 없을 경우
+			    if (userId == null || userId.isEmpty()) {
+			        userId = (String) session.getAttribute("SESS_USER_NICKNAME");
+			        out.println(userId);
+			        
+			    }
+			%>${USER_INFO.nickname} 's GROUP LIST
+			
 			</div>
 		</div>
 		
@@ -81,7 +76,7 @@
 				
 			</div> -->
 			<div id="group-mylist-ajax-div">
-			
+				
 			</div>
 	</div>
 
@@ -146,7 +141,7 @@ function loadGroupList() {
 	                                '<img id="group-mylist-image" src="${pageContext.request.contextPath}/groupImage?groupid=' + group.groupId + '" />' +
 	                                '<div id="group-detail-simple-info-div">' +
 	                                    '<p> [ ' + group.name + ' ]\'s GROUP' + '</p>' +
-	                                    '<p> No. ' + group.rankScore + ' / ' + group.totalScore + 'p </p>' +
+	                                    '<p> No. ' + group.rank + ' / ' + group.totalScore + 'p </p>' +
 	                                '</div>' +
 	                            '</div>' +
 	                            '<div class="group-mylist-btn-div">'+
@@ -167,8 +162,21 @@ function loadGroupList() {
 	            }
 	        },
 	        error: function(xhr, status, error) {
-	            console.error("에러 발생: " + error);
-	            alert("서버 요청에 실패했습니다.");
+	        	 var errorMessageDiv = '<div class="error-message"> 참여하는 그룹이 없습니다.</div>';
+	        	    
+	        	    // 원하는 위치에 메시지를 추가 (예: body의 끝에 추가)
+	        	    $('#group-mylist-ajax-div').append(errorMessageDiv);
+
+	        	    // 스타일을 적용하거나, 특정 위치에 추가하려면
+	        	    errorMessageDiv.css({
+	        	        'color': 'red',
+	        	        'font-size': '16px',
+	        	        'padding': '10px',
+	        	        'border': '1px solid red',
+	        	        'background-color': '#f8d7da',
+	        	        'border-radius': '5px',
+	        	        'margin-top': '10px'
+	        	    });
 	        }
 	    });   
 }

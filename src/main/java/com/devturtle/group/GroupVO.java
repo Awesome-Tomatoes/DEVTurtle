@@ -17,7 +17,6 @@ public class GroupVO {
 	private String category;
 	private String gPrivate;
 	private int totalScore;
-	private int rankScore;
 	private String createdAt;
 	private String updatedAt;
 	private int rank;
@@ -26,6 +25,9 @@ public class GroupVO {
 	private String location;
 	private String mainPng;
 	private boolean join;
+	// 안쓰는 컬럼
+	private int rankScore;
+		
 	
 	private ArrayList<GroupUserVO> listOfGroupUser;
 	

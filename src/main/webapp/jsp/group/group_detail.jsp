@@ -131,11 +131,11 @@
 		</div>
 		<div class="group-sub-title">
 			
-			<h1> 총 ${GROUP_USER_CNT} / ${GROUP_DETAIL.size} 명 
-				<c:if test="${GROUP_USER_CHECK}">
+			<h3> 총 ${GROUP_USER_CNT} / ${GROUP_DETAIL.size} 명 
+				<%-- <c:if test="${GROUP_USER_CHECK}">
 				<button class="group-button">더보기</button>
-				</c:if>
-			</h1>
+				</c:if> --%>
+			</h3>
 		</div>
 	</div>
 	
@@ -204,7 +204,7 @@
 		<c:if test="${GROUP_USER_CHECK}">
 				<a class="group-button" 
 					href="${pageContext.request.contextPath}/missionGroup?groupid=${GROUP_DETAIL.groupId}"
-			">더 보기</a>
+			">더보기</a>
 		</c:if>
 		</h1>
 		</div>
