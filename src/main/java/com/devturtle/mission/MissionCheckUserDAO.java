@@ -3,25 +3,24 @@
  */
 package com.devturtle.mission;
 
-import java.util.ArrayList;
-import com.devturtle.common.DBManager;
-import com.devturtle.common.OracleDBManager;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import com.devturtle.common.DBManager;
+import com.devturtle.common.OracleDBManager;
+
 /**
  * Description : 클래스에 대한 설명을 입력해주세요.<br>
- * Date : 2025. 1. 6.<br>
+ * Date : 2025. 1. 8.<br>
  * History :<br>
- * - 작성자 : sk-choi, 날짜 : 2025. 1. 6., 설명 : 최초작성<br>
+ * - 작성자 : victo, 날짜 : 2025. 1. 8., 설명 : 최초작성<br>
  *
- * @author sk-choi
+ * @author victo
  * @version 1.0
  */
-public class MissionCheckDAO {
+public class MissionCheckUserDAO {
 
 	DBManager o = OracleDBManager.getInstance();
 	Connection conn = null;
@@ -54,17 +53,17 @@ public class MissionCheckDAO {
 	}
 	
 	// 해당 그룹이 미션 수행했는지 조회해서 있으면 true, 없으면 false
-	public boolean isMissionComplete(int groupId, int objectiveId) {
+	public boolean isMissionComplete(int userId, int objectiveId) {
 		
 		DBManager o = OracleDBManager.getInstance();
 		
 		boolean result = false;
 		int notGain = 0;
-		String sql = "select objective_id from objective_group where group_id = ? and objective_id = ?";
+		String sql = "select objective_id from objective_user where user_id = ? and objective_id = ?";
 		try {
 			conn = o.connect();
 			pstmt = conn.prepareStatement(sql);	
-			pstmt.setInt(1, groupId);
+			pstmt.setInt(1, userId);
 			pstmt.setInt(2, objectiveId);
 			rs = pstmt.executeQuery();
 			while(rs.next()) {
@@ -83,19 +82,19 @@ public class MissionCheckDAO {
 	}
 	
 	// 성공한 미션 Objective_Group에 insert
-	public int insertGruopMissionSuccessed(int groupId, int objectiveId) {
+	public int insertUserMissionSuccessed(int userId, int objectiveId) {
 			
 		DBManager o = OracleDBManager.getInstance();
 		
 		int rows = 1;
 		
-		String sql = "insert into objective_group values(?, ?, sysdate)";
+		String sql = "insert into objective_user values(?, ?, sysdate)";
 		
 		try {
 			conn = o.connect();
 			pstmt = conn.prepareStatement(sql);		
-			pstmt.setInt(1, objectiveId);
-			pstmt.setInt(2, groupId);
+			pstmt.setInt(1, userId);
+			pstmt.setInt(2, objectiveId);
 			rows = pstmt.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -106,41 +105,26 @@ public class MissionCheckDAO {
 		return rows;
 	}
 	
-	// 그룹 전부 70퍼센트 이상 출석하면 true, 아니면 false
-	public boolean attendanceCheck(String objectQuery, int groupId){
+	//첫 번째로 그룹 참여하면 true
+	boolean joinGroupFirst(String objectQuery, int userId) {
 		
-		ArrayList<Double> alist = new ArrayList<Double>();
+		boolean result = false;
 		
 		String sql = objectQuery;
-		boolean result = false;
+		int joinCount = 0;
+		
 		try {
 			conn = o.connect();
 			pstmt = conn.prepareStatement(sql);	
-			pstmt.setInt(1, groupId);
+			pstmt.setInt(1, userId);
 			rs = pstmt.executeQuery();
-			
-			double attendance = 0.0;
-			
 			while(rs.next()) {
-				attendance = rs.getDouble("attendance");
-				alist.add(attendance);
+				joinCount = rs.getInt("cnt");
 			}
 			
-			for (double a : alist) {
-				if (a >= 70.00) {
-					result = true;
-				} else {
-					result = false;
-					break;
-				}
+			if (joinCount == 1) {
+				result = true;
 			}
-			
-			System.out.print("전체 출석 출력 : | ");
-			for (int i = 0; i < alist.size(); i++) {
-				System.out.print(alist.get(i) + " | ");
-			}
-			System.out.println("");
-			
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} 
@@ -150,48 +134,53 @@ public class MissionCheckDAO {
 		return result;
 	}
 	
-	// 그룹 구성원 모두가 해적 뱃지 달았는지 확인
-	public boolean piratesCondition(String objectQuery, int groupId) {
+	// 첫 10회 이상 출석하면 true
+	boolean attendanceOver10(String objectQuery, int userId) {
 		
-		int piratesCondition = 0;
 		boolean result = false;
+		
 		String sql = objectQuery;
+		int attendCount = 0;
+		
 		try {
 			conn = o.connect();
 			pstmt = conn.prepareStatement(sql);	
-			pstmt.setInt(1, groupId);
+			pstmt.setInt(1, userId);
 			rs = pstmt.executeQuery();
 			while(rs.next()) {
-				piratesCondition = rs.getInt("pirates_condition");
+				attendCount = rs.getInt("cnt");
+			}
+			
+			if (attendCount >= 10) {
+				result = true;
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} 
 		o.close(conn, pstmt, rs);
 		
-		if (piratesCondition == 0) { // 그룹원 중 해적 뱃지가 없는 사람이 없다면...
-			result = true; // true이면 모두가 해적 뱃지 있음. false면 한 명 이상이 없음
-		}
 		
 		return result;
 	}
 	
-	//그룹 생성일 기준 socore가 100점 이상 달성되었는지 확인
-	public boolean ratingCount(String objectQuery, int groupId) {
+	// 첫 30회 이상 출석하면 true
+	boolean attendanceOver30(String objectQuery, int userId) {
+			
+		boolean result = false;
 		
 		String sql = objectQuery;
-		boolean result = false;
-		int diff = 0;
+		int attendCount = 0;
+		
 		try {
 			conn = o.connect();
 			pstmt = conn.prepareStatement(sql);	
-			pstmt.setInt(1, groupId);
+			pstmt.setInt(1, userId);
 			rs = pstmt.executeQuery();
 			while(rs.next()) {
-				diff = rs.getInt("diff");
+				attendCount = rs.getInt("cnt");
 			}
 			
-			if (diff >= 100) {
+			if (attendCount >= 30) {
 				result = true;
 			}
 		} catch (SQLException e) {
@@ -202,55 +191,60 @@ public class MissionCheckDAO {
 		return result;
 	}
 	
-	// 수행 안한 미션 뱃지 번호 리스트 리턴. 모든 미션 수행 하면 빈 리스트 반환
-	public ArrayList<Integer> allCollectBadge(String objectQuery, int groupId) {
+	// 오늘 출석 완료하면 true
+	boolean attendanceToday(String objectQuery, int userId) {
+	
+		boolean result = false;
 		
-		ArrayList<Integer> blist = new ArrayList<Integer>();
 		String sql = objectQuery;
-		int notGain = 0;
+		int attendCount = 0;
+		
 		try {
 			conn = o.connect();
 			pstmt = conn.prepareStatement(sql);	
-			pstmt.setInt(1, groupId);
+			pstmt.setInt(1, userId);
 			rs = pstmt.executeQuery();
 			while(rs.next()) {
-				notGain = rs.getInt("not_gain_badge");
-				blist.add(notGain);	
+				attendCount = rs.getInt("cnt");
+			}
+			
+			if (attendCount == 1) {
+				result = true;
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} 
 		o.close(conn, pstmt, rs);
 		
-		return blist;
+		
+		return result;
 	}
 	
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		
-		MissionCheckDAO mcd = new MissionCheckDAO();
-		String query = mcd.getObjectQuery(1);
-		System.out.println("test01: Attendance Check... ");
-		System.out.println(mcd.attendanceCheck(query, 8));
-
-		System.out.println("test02: PiratesCondition Check... ");
-		String query2 = mcd.getObjectQuery(2);
-		System.out.println(mcd.piratesCondition(query2, 3));
+		MissionCheckUserDAO dao = new MissionCheckUserDAO();
 		
-		System.out.println("test03: RatingDiff check... ");
-		String query3 = mcd.getObjectQuery(3);
-		System.out.println(mcd.ratingCount(query3, 3));
+		// 1. 그룹에 처음 참여했는지 확인
+	    String joinGroupQuery = dao.getObjectQuery(5); 
+	    boolean isFirstJoin = dao.joinGroupFirst(joinGroupQuery, 1);
+	    System.out.println(isFirstJoin);
+	    
+	    // 2. 첫 10회 이상 출석했는지 확인
+	    String attendance10Query = dao.getObjectQuery(7); 
+	    boolean hasAttendedOver10 = dao.attendanceOver10(attendance10Query, 1);
+	    System.out.println(hasAttendedOver10);
+	    
+	    // 3. 첫 30회 이상 출석했는지 확인
+	    String attendance30Query = dao.getObjectQuery(8); 
+	    boolean hasAttendedOver30 = dao.attendanceOver30(attendance30Query, 1);
+	    System.out.println(hasAttendedOver30);
+	    
+	    // 4. 오늘 출석했는지 확인
+	    String attendanceTodayQuery = dao.getObjectQuery(6); 
+	    boolean hasAttendedToday = dao.attendanceToday(attendanceTodayQuery, 1);
+	    System.out.println(hasAttendedToday);	
 		
-		System.out.println("test04: AllCollectBadge check... ");
-		String query4 = mcd.getObjectQuery(4);
-		ArrayList<Integer> blist = mcd.allCollectBadge(query4, 3);
-		for (int a : blist) {
-			System.out.print(a + " ");
-		}
-		System.out.println("");
-		
-		boolean result = mcd.isMissionComplete(1, 4);
-		System.out.println(result + "");
 	}
 
 }

@@ -160,7 +160,7 @@ $(document).ready(function () {
          success: function (data) {
         	 console.log("Received data:", data);
         	 const datetime = data.map(data => data.success_date)
-        	 console.log("ddd:", datetime);
+        	 console.log("success_date:", datetime);
         	 const highlightedDates = data;
         	 
         	 const svg = d3.select("svg");
@@ -210,8 +210,10 @@ const generateCalendar = (startDate, endDate) => {
       return allDates;
   };
 
-// 2023년 1년치 데이터 생성
-const calendarData = generateCalendar("2025-01-01", "2025-12-31");
+//현재년도의 1년치 기간 설정  
+var year = new Date().getFullYear();  
+  
+const calendarData = generateCalendar(year+"-01-01", year+"-12-31");
 
 // x축: 주 단위, y축: 요일
 const weekDays = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];

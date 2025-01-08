@@ -50,6 +50,33 @@ public class MissionPersonalDAO {
 		return ulist;
 	}
 	
+	public ArrayList<Integer> selectAllMissionUserNum() {
+
+        DBManager o = OracleDBManager.getInstance();
+
+        ArrayList<Integer> mlist = new ArrayList<Integer>();
+
+        String sql = "select objective_id from objective where type = 'U'\r\n" +
+                "order by objective_id asc";
+
+        try {
+            Connection conn = o.connect();
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            ResultSet rs = pstmt.executeQuery();
+
+            while (rs.next()) {
+                int objective_id = rs.getInt("objective_id");
+                mlist.add(objective_id);
+            }
+
+            o.close(conn, pstmt, rs);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return mlist;
+    }
+	
 	public ArrayList<MissionJoinUserVO> selectMissionUser(int userid) {
 		
 		DBManager o = OracleDBManager.getInstance();
@@ -111,7 +138,7 @@ public class MissionPersonalDAO {
 			
 			ArrayList<MissionJoinUserVO> ulist = new ArrayList<MissionJoinUserVO>();
 			
-			String sql = "select user_id, nickname, objective_id, contents, points, success_date, count(success_date) as cnt\r\n"
+			String sql = "select user_id, nickname, sum(points) as total_points, success_date, count(success_date) as cnt\r\n"
 					+ "from \r\n"
 					+ "(\r\n"
 					+ "select u.user_id, u.nickname, o.objective_id, o.contents, o.points, TO_CHAR(ou.success_date, 'YYYY-MM-DD') as success_date\r\n"
@@ -119,7 +146,7 @@ public class MissionPersonalDAO {
 					+ "where u.user_id = ou.user_id and o.objective_id = ou.objective_id\r\n"
 					+ ") s\r\n"
 					+ "where user_id = ?\r\n"
-					+ "group by user_id, nickname, objective_id, contents, points, success_date";
+					+ "group by user_id, nickname, success_date";
 			
 			try {
 				conn = o.connect();
@@ -131,17 +158,17 @@ public class MissionPersonalDAO {
 				while (rs.next()) {
 					String nickname = rs.getString("nickname");
 					String success_date = rs.getString("success_date");
-					String contents = rs.getString("contents"); // objective_query는 contents로 별칭이 변경됨
+					//String contents = rs.getString("contents"); // objective_query는 contents로 별칭이 변경됨
 					int user_id = rs.getInt("user_id");
-					int objective_id = rs.getInt("objective_id");
-					int points = rs.getInt("points");
+					//int objective_id = rs.getInt("objective_id");
+					int points = rs.getInt("total_points");
 					int cnt = rs.getInt("cnt");
 					
 					mjuv = new MissionJoinUserVO();
 					
-					mjuv.setContents(contents);
+					//mjuv.setContents(contents);
 					mjuv.setUser_id(user_id);
-					mjuv.setObjective_id(objective_id);
+					//mjuv.setObjective_id(objective_id);
 					mjuv.setNickname(nickname);
 					mjuv.setPoints(points);
 					mjuv.setSuccess_date(success_date);

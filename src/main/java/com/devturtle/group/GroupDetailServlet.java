@@ -19,6 +19,8 @@ import com.devturtle.rank.RankGroupVO;
 import com.devturtle.user.UserVO;
 import com.google.gson.Gson;
 
+import com.devturtle.mission.MissionCheckProcessGroup; // 그룹 미션 수행 여부 조회하는 클래스 추가
+
 /**
  * Servlet implementation class GroupDetailServlet
  */
@@ -49,6 +51,10 @@ public class GroupDetailServlet extends HttpServlet {
         if (groupIdParam != null) {
             int groupId = Integer.parseInt(groupIdParam); // groupId를 정수로 변환
 
+            MissionCheckProcessGroup mcpg = new MissionCheckProcessGroup();
+            mcpg.missionGroupCompleteCheck(groupId); // 미션 체크 프로세스 추가 : 2005-01-08
+            
+            
             // 그룹 전체 정보
             GroupDAO gdao = new GroupDAO();
             

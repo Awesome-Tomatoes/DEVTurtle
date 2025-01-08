@@ -61,6 +61,7 @@ public class MissionGroupServlet extends HttpServlet {
 				request.setAttribute("MLIST", mlist);
 			}
 			
+			
 			request.setAttribute("contentPage", "/jsp/mission/mission_detail_group.jsp");
 			request.getRequestDispatcher("/index.jsp").forward(request, response);
 		}
