@@ -159,7 +159,7 @@ public class MissionGroupDAO {
 		
 		ArrayList<MissionJoinGroupVO> mlist = new ArrayList<MissionJoinGroupVO>();
 		
-		String sql = "SELECT GROUP_ID, NAME, OBJECTIVE_ID, SUCCESS_DATE, CONTENTS, POINTS, COUNT(SUCCESS_DATE) AS CNT\r\n"
+		String sql = "SELECT GROUP_ID, NAME, SUCCESS_DATE, SUM(POINTS) AS TOTAL_POINTS, COUNT(SUCCESS_DATE) AS CNT\r\n"
 				+ "FROM\r\n"
 				+ "(SELECT \r\n"
 				+ "    g.group_id, \r\n"
@@ -178,7 +178,7 @@ public class MissionGroupDAO {
 				+ "    ON og.group_id = g.group_id\r\n"
 				+ "    WHERE g.group_id = ?\r\n"
 				+ ")\r\n"
-				+ "group by GROUP_ID, NAME, OBJECTIVE_ID, SUCCESS_DATE, CONTENTS, POINTS";
+				+ "group by GROUP_ID, NAME, SUCCESS_DATE";
 		
 		try {
 			conn = o.connect();
@@ -190,17 +190,17 @@ public class MissionGroupDAO {
 			while (rs.next()) {
 				String gname = rs.getString("name");
 				String success_date = rs.getString("success_date");
-				String contents = rs.getString("contents"); // objective_query는 contents로 별칭이 변경됨
+				//String contents = rs.getString("contents"); // objective_query는 contents로 별칭이 변경됨
 				int group_id = rs.getInt("group_id");
-				int objective_id = rs.getInt("objective_id");
-				int points = rs.getInt("points");
+				//int objective_id = rs.getInt("objective_id");
+				int points = rs.getInt("total_points");
 				int cnt = rs.getInt("cnt");
 				
 				mjgv = new MissionJoinGroupVO();
 				
-				mjgv.setContents(contents);
+				//mjgv.setContents(contents);
 				mjgv.setGroup_id(group_id);
-				mjgv.setObjective_id(objective_id);
+				//mjgv.setObjective_id(objective_id);
 				mjgv.setGname(gname);
 				mjgv.setPoints(points);
 				mjgv.setSuccess_date(success_date);
