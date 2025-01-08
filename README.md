@@ -1,5 +1,9 @@
-# DevTurtle 개요
-## 1\. DevTurtle 기획 배경
+# 🐢 DevTurtle
+
+![preview](https://github.com/user-attachments/assets/2e6c79f0-8040-4b5b-b695-a45380351426)
+
+## 📜 개요
+### 1\. DevTurtle 기획 배경
 
 ![title](https://github.com/user-attachments/assets/ec468476-4575-4790-b685-6f29bd407650)  
 ![title](https://github.com/user-attachments/assets/c8d20fe8-f0d9-45d2-878f-9d7b424fc368)
@@ -13,7 +17,7 @@
 
 * * *
 &nbsp;
-## 2\. DevTurtle 목적
+### 2\. DevTurtle 목적
 
 본 프로젝트는 **취업 준비 과정에서 개발자들에게 새로운 동기를 제공**하기 위해 기획되었습니다.
 
@@ -28,7 +32,7 @@
 
 * * *
 &nbsp;
-## 3\. 관련 포스팅
+### 3\. 관련 포스팅
 
 코딩 테스트 준비와 깃허브 관리가 개발자로서의 기본 역량을 다지는 데 어떻게 도움이 되는지 설명합니다.
 
@@ -47,7 +51,7 @@
 
 * * *
 &nbsp;
-# 서비스 설명
+# 💫 서비스 설명
 
 개발자 취업준비생의 지속적인 성장을 돕는 서비스 DevTurtle 서비스의 사용자들은 각자의 GIT의 커밋(commit), 이슈(issue), 풀 리퀘스트(pull request) 내역과 solved.ac에 제출한 코딩 테스트 풀이 내역을 점수로 환산해서 점수로 가지며 그에 따른 랭킹을 부여받습니다.
 
@@ -60,28 +64,27 @@
 * * *
 
 &nbsp;
-# 팀 소개 : 멋쟁이 토마토 (팀원 소개 및 역할)
+# 👥 팀 소개 : 멋쟁이 토마토 (팀원 소개 및 역할)
 
-## 팀 소개 (Team Introduction)
-
-### 👥 팀명 (Team Name)
+### 🌟 팀명 (Team Name)
 
 - **팀명**: **Awesome Tomato**
 - **구성원** : **5명**
 - **직급** : **전원 리더**
 &nbsp;
-### 🌍 팀 구성원 (Team Members)
+### 🌟 팀 구성원 (Team Members)
 
 | **백종현** | **이찬호** | **이효경** | **조정하** | **최성관** |
 | --- | --- | --- | --- | --- |
 | <img src="https://github.com/user-attachments/assets/d2faec47-3b4e-4136-952a-9c0698accbc0" width="150" height="150" class="jop-noMdConv"> | <img src="https://github.com/user-attachments/assets/096a9124-561a-4133-bf8a-85f25d704b17" width="150" height="150" class="jop-noMdConv"> | <img src="https://github.com/user-attachments/assets/9d35f2a3-7005-4e07-aa58-5bb6fb21b54b" width="150" height="150" class="jop-noMdConv"> | <img src="https://github.com/user-attachments/assets/5bec9175-ed74-415a-9714-8d73e0ecd8b2" width="150" height="150" class="jop-noMdConv"> | <img src="https://github.com/user-attachments/assets/61a67500-59a4-46df-9250-def6158b75fa" width="150" height="150" class="jop-noMdConv"> |
 | [백종현 GitHub](https://github.com/sir-Crab) | [이찬호 GitHub](https://github.com/Hoshi03) | [이효경 GitHub](https://github.com/HyoKyoungLee) | [조정하 GitHub](https://github.com/sk-choi) | [최성관 GitHub](https://github.com/JungHaCho) |
+| 로그인, 회원가입, 팔로우 담당 | 검색, 그룹/사용자 랭킹 담당 | 마이페이지, 메인페이지 담당 | 그룹 생성/관리 담당 | 사용자/그룹 미션 담당 |
 
 * * *
 &nbsp;
-# 개발 기간 및 관리 방법론
+# 📅 개발 기간 및 관리 방법론
 
-## 📅 **개발 기간 (Development Period)**
+## 🌟 **개발 기간 (Development Period)**
 
 - **시작일**: 2024년 12월 23일
 - **종료일**: 2025년 1월 8일
@@ -94,14 +97,19 @@
 
 * * *
 &nbsp;
-## 📋 **프로젝트 관리 (Project Management)**
+## 🌟 **프로젝트 관리 (Project Management)**
 
 🛠️ **commit 컨벤션**
 
 - 우리 팀은 **일관된 COMMIT 규칙**을 유지하여 코드의 가독성과 유지보수성을 높이고 있습니다.
 - 주요 코드 컨벤션은 다음과 같습니다:
 
+| commit규칙 | commit예시 | 
+| --- | --- |
+| <img src="https://github.com/user-attachments/assets/e5b54e5a-5bb1-4233-8790-e307ee06a0be" width="400" height="200" class="jop-noMdConv"> | <img src="https://github.com/user-attachments/assets/06628956-3cc8-4930-826e-fcb098b0f874" width="450" height="250" class="jop-noMdConv"> |
+
 🛠️ **API 명세서**
+- API 명세서는 다음과 같습니다:
 
 | **명세서종류** | **명세서예시** | **명세규칙** |
 | --- | --- | --- |
@@ -120,7 +128,7 @@
 
 * * *
 &nbsp;
-# 사용한 기술 스택
+# 🛠️ 사용한 기술 스택
 
 **Backend**  
 ![Java](https://img.shields.io/badge/java-%23ED8B00.svg?style=for-the-badge&logo=openjdk&logoColor=white) ![Servlet](https://img.shields.io/badge/Servlet-52b5f7.svg?style=for-the-badge&logo=Servlet&logoColor=white)
@@ -142,7 +150,7 @@
 
 * * *
 &nbsp;
-# 화면 구성
+# 💻 화면 구성
 | 로그인 페이지  |  회원가입 페이지   |
 | :-------------------------------------------: | :------------: |
 |  <img width="329" src="https://github.com/user-attachments/assets/f432dc58-abd4-469a-90e5-2ee9600d3ee2"/> |  <img width="329" src="https://github.com/user-attachments/assets/84c7a4e4-bdef-486f-8298-274aa5521d71"/>|  
