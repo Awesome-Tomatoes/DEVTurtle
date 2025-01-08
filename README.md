@@ -155,7 +155,7 @@
 | :-------------------------------------------: | :------------: |
 |  <img width="329" src="https://github.com/user-attachments/assets/f432dc58-abd4-469a-90e5-2ee9600d3ee2"/> |  <img width="329" src="https://github.com/user-attachments/assets/84c7a4e4-bdef-486f-8298-274aa5521d71"/>|  
 | **메인 페이지** |  **마이 페이지**   |
-|  <img width="329" src="https://github.com/user-attachments/assets/b3c677f1-cedf-4b95-bfdb-e9fc4359069d"/> |  <img width="329" src="https://github.com/user-attachments/assets/987cbb1e-fde6-4dcc-ae83-419cd2766068"/>|  
+|  <img width="329" src="https://github.com/user-attachments/assets/b3c677f1-cedf-4b95-bfdb-e9fc4359069d"/> |  <img width="329" src="https://github.com/user-attachments/assets/0c8d3a6b-15a0-4e98-aaed-79d8308d7107"/>|  
 | **검색 페이지**  |  **그룹랭킹 페이지**   |
 |  <img width="329" src="https://github.com/user-attachments/assets/b4516c74-15b6-42b4-9773-b933070a03fb"/> |  <img width="329" src="https://github.com/user-attachments/assets/abad8dfe-8be1-42c4-8d7e-fa9be2b5d3d9"/>|  
 | **사용자 랭킹 페이지**  |  **사용자 미션 페이지**   |
