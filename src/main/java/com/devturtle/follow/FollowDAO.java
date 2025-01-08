@@ -160,11 +160,10 @@ public class FollowDAO {
 
 			
 			for(int uid : list) {
-			sql = "select * from users where user_id = ? and (nickname LIKE ? or user_name like ?) order by nickname";
+			sql = "select * from users where user_id = ? and nickname LIKE ? order by nickname";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, uid);
 			pstmt.setString(2, '%'+query+'%');
-			pstmt.setString(3, '%'+query+'%');
 			rs = pstmt.executeQuery();
 
 			UserVO uvo = new UserVO();
