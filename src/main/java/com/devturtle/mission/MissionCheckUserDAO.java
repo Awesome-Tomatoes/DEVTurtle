@@ -208,7 +208,7 @@ public class MissionCheckUserDAO {
 				attendCount = rs.getInt("cnt");
 			}
 			
-			if (attendCount >= 1) {
+			if (attendCount == 1) {
 				result = true;
 			}
 		} catch (SQLException e) {
