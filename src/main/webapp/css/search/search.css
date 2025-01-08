@@ -1,85 +1,78 @@
 @charset "UTF-8";
-/* 공통 스타일 */
-ul {
-    list-style-type: none;
-    padding: 0;
-    margin: 0;
-}
-
-
-li {
-    display: flex;
-    align-items: center;
-    padding: 10px;
-    border-bottom: 1px solid #ccc;
-    background-color: #1a2b3c;
-    color: white;
-}
-
-li:last-child {
-    border-bottom: none;
-}
-
 /* 사용자 리스트 */
-.user-container {
-    margin: 20px;
-    padding: 10px;
-    background-color: #223344;
+.search-container {
+    padding: 20px;
+    background-color: var(--depth-first-color);
     border-radius: 8px;
+    margin-bottom: 20px;
 }
 
-.user-list .user-item {
+.search-title {
+	font-size: 20px;
+	color: var(--font-bright-color);
+}
+
+.search-list {
+	margin-top: 20px;
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+}
+
+.search-item {
+	display: flex;
+	padding: 20px;
+	align-items: center;
     justify-content: space-between;
+    background-color: var(--depth-second-color);
+    border-radius: 10px;
+}
+
+.search-item-container {
+	display: flex;
+	align-items: center;
+}
+
+.search-info  {
+	display: flex;
+	flex-direction: column;
+	gap: 3px;
+}
+
+.search-info a {
+	color: var(--font-white-color);
 }
 
 .user-avatar {
     width: 50px;
     height: 50px;
-    border-radius: 50%;
     margin-right: 15px;
 }
 
-.user-info {
-    flex-grow: 1;
-}
-
-.follow-btn {
-    background-color: #00cc66;
+.unfollow-btn {
+    background-color: #FF4343;
     border: none;
-    color: white;
-    padding: 5px 10px;
+    color: var(--font-bright-color);
+    padding: 10px;
     border-radius: 5px;
     cursor: pointer;
-    
+}
+
+.unfollow-btn:hover {
+    background-color: #992828;
+}
+
+.follow-btn  {
+    background-color: var(--main-color);
+    border: none;
+    color: var(--back-color);
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
 }
 
 .follow-btn:hover {
-    background-color: #00994c;
-}
-
-.followed-btn {
-    background-color: #00cc66;
-    border: none;
-    color: white;
-    padding: 5px 10px;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-.followed-btn:hover {
-    background-color: #00994c;
-}
-
-/* 그룹 리스트 */
-.group-container {
-    margin: 20px;
-    padding: 10px;
-    background-color: #223344;
-    border-radius: 8px;
-}
-
-.group-list .group-item {
-    justify-content: space-between;
+    background-color: #95c947;
 }
 
 .group-avatar {
@@ -89,37 +82,32 @@ li:last-child {
     margin-right: 15px;
 }
 
-.group-info {
-    flex-grow: 1;
-}
-
 .join-btn {
-    background-color: #6600cc;
+    background-color: var(--main-color);
     border: none;
-    color: white;
-    padding: 5px 10px;
+    color: var(--back-color);
+    padding: 10px;
     border-radius: 5px;
     cursor: pointer;
 }
 
 .join-btn:hover {
-    background-color: #004c99;
+    background-color: #95c947;
 }
 
 .unjoin-btn {
-    background-color: #0066cc;
+    background-color: #FF4343;
     border: none;
-    color: white;
-    padding: 5px 10px;
+    color: var(--font-bright-color);
+    padding: 10px;
     border-radius: 5px;
     cursor: pointer;
 }
 
 .unjoin-btn:hover {
-    background-color: #004c99;
+    background-color: #992828;
 }
 
 a {
     text-decoration: none;
-    color: var(--font-bright-color);
 }

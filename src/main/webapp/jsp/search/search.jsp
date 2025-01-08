@@ -11,84 +11,101 @@
 </head>
 <body>
 
-    <h1>검색 페이지</h1>
-    
     <%
     String query = request.getParameter("query");
     if (query == null) {
         query = ""; // query가 null일 경우 빈 문자열로 초기화
     }
 	%>
-	
 
     
-<div class="user-container">
-    <h3>사용자</h3>
-    <ul class="user-list">
-    
-    	<c:forEach var="uvo" items="${FLIST}">
-            <li class="user-item">
-                <img src="${pageContext.request.contextPath}/userImage?userid=${uvo.userID}" alt="${uvo.userName}" class="user-avatar"> 
-                <div class="user-info">
-                    <a href="/mypage?userid=${uvo.userID}">${uvo.userName}</a>
-                    <p>랭킹 Point: ${uvo.totalScore}</p>
-                </div>
-					
-                	<a class="follow-btn" href="/followDelete?userid=${sessionScope.SESS_USER_ID}&deleteid=${uvo.userID}">삭제</a>
-            </li>
-        </c:forEach>
-    
-        <c:forEach var="uvo" items="${ULIST}">
-            <li class="user-item">
-                <img src="${pageContext.request.contextPath}/userImage?userid=${uvo.userID}" alt="${uvo.userName}" class="user-avatar"> 
-                <div class="user-info">
-                	<a href="/mypage?userid=${uvo.userID}">${uvo.userName}</a>
-                    <p>랭킹 Point: ${uvo.totalScore}</p>
-                </div>
-                <a href="/followFollow?userid=${sessionScope.SESS_USER_ID}&followid=${uvo.userID}">팔로우</a>
-            </li>
-        </c:forEach>
+<div class="search-container">
+    <h1 class="search-title">사용자</h1>
+    <ul class="search-list">
+        <c:choose>
+            <c:when test="${empty FLIST && empty ULIST}">
+                <li class="search-item">검색된 사용자가 없습니다.</li>
+            </c:when>
+            <c:otherwise>
+                <c:forEach var="uvo" items="${FLIST}">
+                    <li class="search-item">
+                        <div class="search-item-container">
+                            <img src="${pageContext.request.contextPath}/userImage?userid=${uvo.userID}" alt="${uvo.userName}" class="user-avatar"> 
+                            <div class="search-info">
+                                <a href="/mypage?userid=${uvo.userID}">${uvo.userName}</a>
+                                <p>랭킹 Point ${uvo.totalScore}p</p>
+                            </div>
+                        </div>
+                        <a class="unfollow-btn" href="/followDelete?userid=${sessionScope.SESS_USER_ID}&deleteid=${uvo.userID}">언팔로우</a>
+                    </li>
+                </c:forEach>
+
+                <c:forEach var="uvo" items="${ULIST}">
+                    <li class="search-item">
+                        <div class="search-item-container">
+                            <img src="${pageContext.request.contextPath}/userImage?userid=${uvo.userID}" alt="${uvo.userName}" class="user-avatar"> 
+                            <div class="search-info">
+                                <a href="/mypage?userid=${uvo.userID}">${uvo.userName}</a>
+                                <p>랭킹 Point ${uvo.totalScore}p </p>
+                            </div>
+                        </div>
+                        <a class="follow-btn" href="/followFollow?userid=${sessionScope.SESS_USER_ID}&followid=${uvo.userID}">팔로우</a>
+                    </li>
+                </c:forEach>
+            </c:otherwise>
+        </c:choose>
     </ul>
 </div>
 
-<div class="group-container">
-    <h3>그룹</h3>
-    <ul class="group-list">
-        <c:forEach var="gvo" items="${GLIST}">
-            <li class="group-item">
-                <c:if test="${gvo.join}">
-                <div class="group-info">
-                    <a href="/groupdetail?groupid=${gvo.groupId}">${gvo.name}</a>
-                   
-                    <p>그룹 Point: ${gvo.totalScore}</p>
-                </div>
-                    <form id="unjoinForm_${gvo.groupId}" method="POST" action="${pageContext.request.contextPath}/groupdelete">
-                        <input type="hidden" name="groupId" value="${gvo.groupId}">
-                        <input type="hidden" name="search" value="search">
-                        <button type="button" class="unjoin-btn">
-                            그룹 탈퇴
-                        </button>
-                    </form>
-                </c:if>
-
-                <c:if test="${not gvo.join}">
-                <div class="group-info">
-                    <a href="/groupdetail?groupid=${gvo.groupId}">${gvo.name}</a>
-                    <p>그룹 Point: ${gvo.totalScore}</p>
-                </div>
-                    <form id="joinForm_${gvo.groupId}" method="POST" action="${pageContext.request.contextPath}/groupAdd">
-                        <input type="hidden" name="groupId" value="${gvo.groupId}">
-                        <input type="hidden" name="search" value="search">
-                        <button type="button" class="join-btn">
-                            그룹 참여
-                        </button>
-                    </form>
-                </c:if> 
-
-            </li>
-        </c:forEach>
+<div class="search-container">
+    <h1 class="search-title">그룹</h1>
+    <ul class="search-list">
+        <c:choose>
+            <c:when test="${empty GLIST}">
+                <li class="search-item">검색된 그룹이 없습니다.</li>
+            </c:when>
+            <c:otherwise>
+                <c:forEach var="gvo" items="${GLIST}">
+                    <li class="search-item">
+                        <c:if test="${gvo.join}">
+	                        <div class="search-item-container">
+	                            	<img class="user-avatar" src="${pageContext.request.contextPath}/groupImage?groupid=${gvo.groupId}"/>
+	                            	<div class="search-info">
+		                                <a href="/groupdetail?groupid=${gvo.groupId}">${gvo.name}</a>
+		                                <p>그룹 Point ${gvo.totalScore}p</p>
+	                            	</div>
+	                        </div>
+                            <form id="unjoinForm_${gvo.groupId}" method="POST" action="${pageContext.request.contextPath}/groupdelete">
+                                <input type="hidden" name="groupId" value="${gvo.groupId}">
+                                <input type="hidden" name="search" value="search">
+                                <button type="button" class="unjoin-btn">
+                                    그룹 탈퇴
+                                </button>
+                            </form>
+                        </c:if>
+                        <c:if test="${not gvo.join}">
+                        <div class="search-item-container">
+	                            	<img class="user-avatar" src="${pageContext.request.contextPath}/groupImage?groupid=${gvo.groupId}"/>
+		                            <div class="search-info">
+		                                <a href="/groupdetail?groupid=${gvo.groupId}">${gvo.name}</a>
+		                                <p>그룹 Point ${gvo.totalScore}p</p>
+		                            </div>
+                        </div>
+                        <form id="joinForm_${gvo.groupId}" method="POST" action="${pageContext.request.contextPath}/groupAdd">
+                            <input type="hidden" name="groupId" value="${gvo.groupId}">
+                            <input type="hidden" name="search" value="search">
+                            <button type="button" class="join-btn">
+                                그룹 참여
+                            </button>
+                        </form>
+                        </c:if> 
+                    </li>
+                </c:forEach>
+            </c:otherwise>
+        </c:choose>
     </ul>
 </div>
+
 
 <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
 <script>
