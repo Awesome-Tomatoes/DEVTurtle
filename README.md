@@ -143,6 +143,21 @@
 * * *
 &nbsp;
 # 화면 구성
+| 로그인 페이지  |  회원가입 페이지   |
+| :-------------------------------------------: | :------------: |
+|  <img width="329" src="https://github.com/user-attachments/assets/f432dc58-abd4-469a-90e5-2ee9600d3ee2"/> |  <img width="329" src="https://github.com/user-attachments/assets/84c7a4e4-bdef-486f-8298-274aa5521d71"/>|  
+| **메인 페이지** |  **마이 페이지**   |
+|  <img width="329" src="https://github.com/user-attachments/assets/b3c677f1-cedf-4b95-bfdb-e9fc4359069d"/> |  <img width="329" src="https://github.com/user-attachments/assets/987cbb1e-fde6-4dcc-ae83-419cd2766068"/>|  
+| **검색 페이지**  |  **그룹랭킹 페이지**   |
+|  <img width="329" src="https://github.com/user-attachments/assets/b4516c74-15b6-42b4-9773-b933070a03fb"/> |  <img width="329" src="https://github.com/user-attachments/assets/abad8dfe-8be1-42c4-8d7e-fa9be2b5d3d9"/>|  
+| **사용자 랭킹 페이지**  |  **사용자 미션 페이지**   |
+|  <img width="329" src="https://github.com/user-attachments/assets/6abd5298-c16d-47bc-b3cc-4c7856bec3fb"/> |  <img width="329" src="https://github.com/user-attachments/assets/f744be40-6bbf-45c9-ac41-4c485b427422"/>|  
+| **팔로우 목록 페이지**  |  **그룹 목록 페이지**   |
+|  <img width="329" src="https://github.com/user-attachments/assets/351af669-6978-4cad-b206-9fd16cbdeb7d"/> |  <img width="329" src="https://github.com/user-attachments/assets/d404ab50-028e-4729-ac43-a8fb38f16cc9"/>|  
+| **그룹 생성 페이지**  |  **그룹 상세 페이지**   |
+|  <img width="329" src="https://github.com/user-attachments/assets/2e421215-bdd7-424e-aa78-0541092e1b62"/> |  <img width="329" src="https://github.com/user-attachments/assets/01cb8da8-9de4-4bba-8d76-74d5e318e6fb"/>|  
+| **그룹 미션 페이지**  |
+|  <img width="329" src="https://github.com/user-attachments/assets/6fd16604-c37c-4392-bfa9-e89781209207"/> |
 
 &nbsp;
 
