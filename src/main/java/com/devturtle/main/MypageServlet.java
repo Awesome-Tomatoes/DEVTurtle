@@ -25,6 +25,8 @@ import com.devturtle.user.UserRankingProgress;
 import com.devturtle.user.UserVO;
 import com.google.gson.Gson;
 
+import com.devturtle.mission.MissionCheckProcessUser; // 2025-01-08 테스트
+
 @WebServlet("/mypage")
 public class MypageServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -63,6 +65,7 @@ public class MypageServlet extends HttpServlet {
         
         if (userIdParam != null && !userIdParam.isEmpty()) {
         	userId = Integer.parseInt(userIdParam);
+        	
         } else {
         	HttpSession session = request.getSession();
             userId = (Integer) session.getAttribute("SESS_USER_ID");
@@ -71,6 +74,9 @@ public class MypageServlet extends HttpServlet {
                 return;
             }
         }
+        
+        MissionCheckProcessUser mcpu = new MissionCheckProcessUser();
+    	mcpu.missionUserCompleteCheck(userId);
         
         UserVO uinfo = udao.selectUser(userId);
          
