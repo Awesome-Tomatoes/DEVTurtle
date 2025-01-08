@@ -177,6 +177,8 @@ $(document).ready(function () {
 
 <script>
 
+
+
 const cellSize = 15; // 블록 크기
 const margin = { top: 10, right: 0, bottom: 10, left: 0 };
 
@@ -193,9 +195,10 @@ const generateCalendar = (startDate, endDate) => {
       return allDates;
   };
 
-
-// 2023년 1년치 데이터 생성
-const calendarData = generateCalendar("2025-01-01", "2025-12-31");
+//현재년도의 1년치 기간 설정
+var year = new Date().getFullYear();  
+  
+const calendarData = generateCalendar(year+"-01-01", year+"-12-31");
 
 // x축: 주 단위, y축: 요일
 const weekDays = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
