@@ -30,7 +30,7 @@
             <li class="user-item">
                 <img src="${pageContext.request.contextPath}/userImage?userid=${uvo.userID}" alt="${uvo.userName}" class="user-avatar"> 
                 <div class="user-info">
-                    <a href="/mypage?userid=${uvo.userID}">${uvo.nickname}</a>
+                    <a href="/mypage?userid=${uvo.userID}">${uvo.userName}</a>
                     <p>랭킹 Point: ${uvo.totalScore}</p>
                 </div>
 					
@@ -42,7 +42,7 @@
             <li class="user-item">
                 <img src="${pageContext.request.contextPath}/userImage?userid=${uvo.userID}" alt="${uvo.userName}" class="user-avatar"> 
                 <div class="user-info">
-                	<a href="/mypage?userid=${uvo.userID}">${uvo.nickname}</a>
+                	<a href="/mypage?userid=${uvo.userID}">${uvo.userName}</a>
                     <p>랭킹 Point: ${uvo.totalScore}</p>
                 </div>
                 <a href="/followFollow?userid=${sessionScope.SESS_USER_ID}&followid=${uvo.userID}">팔로우</a>
