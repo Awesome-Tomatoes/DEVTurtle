@@ -50,7 +50,7 @@ public class SearchServlet extends HttpServlet {
     	
         if (query == null || query.isEmpty()) {
             query = "";
-            
+            	
             request.setAttribute("contentPage", "/jsp/search/search.jsp");
     	    request.getRequestDispatcher("/index.jsp").forward(request, response);
         }

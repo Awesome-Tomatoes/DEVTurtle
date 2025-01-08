@@ -32,8 +32,8 @@
                         <div class="search-item-container">
                             <img src="${pageContext.request.contextPath}/userImage?userid=${uvo.userID}" alt="${uvo.userName}" class="user-avatar"> 
                             <div class="search-info">
-                                <a href="/mypage?userid=${uvo.userID}">${uvo.userName}</a>
-                                <p>랭킹 Point ${uvo.totalScore}p</p>
+                                <a href="/mypage?userid=${uvo.userID}">이름 : ${uvo.userName}</a>
+                                <p>Point ${uvo.totalScore}p</p>
                             </div>
                         </div>
                         <a class="unfollow-btn" href="/followDelete?userid=${sessionScope.SESS_USER_ID}&deleteid=${uvo.userID}">언팔로우</a>
@@ -45,8 +45,8 @@
                         <div class="search-item-container">
                             <img src="${pageContext.request.contextPath}/userImage?userid=${uvo.userID}" alt="${uvo.userName}" class="user-avatar"> 
                             <div class="search-info">
-                                <a href="/mypage?userid=${uvo.userID}">${uvo.userName}</a>
-                                <p>랭킹 Point ${uvo.totalScore}p </p>
+                                <a href="/mypage?userid=${uvo.userID}">이름 : ${uvo.userName}</a>
+                                <p>Point ${uvo.totalScore}p </p>
                             </div>
                         </div>
                         <a class="follow-btn" href="/followFollow?userid=${sessionScope.SESS_USER_ID}&followid=${uvo.userID}">팔로우</a>

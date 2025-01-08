@@ -162,7 +162,7 @@ public class UserDAO {
 		ResultSet rs = null;
 
 		try {
-			String sql = "select * from users where NICKNAME like ? order by nickname";
+			String sql = "select * from users where USER_NAME like ? and user_id != ? order by USER_NAME";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, '%'+query+'%');;
 			pstmt.setInt(2, userID);
