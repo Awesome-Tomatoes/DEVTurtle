@@ -91,54 +91,86 @@
 
 	<script src="https://code.jquery.com/jquery-3.7.1.js"></script>
 	<script>
-		$(document).ready(
-				function() {
-					//$("#btn").click( function() {  
-					//    	$("#input").val();
-					//});
+		$(document).ready(function () {
+		        let isDuplicateChecked = false; // 중복 체크 여부
 
-					$("#group-create-submit-btn")
-							.click(
-									function() {
-										const groupName = $("#group-name")
-												.val();
-										const groupCategory = $(
-												"#group-category").val();
-										const groupSize = $("#group-size")
-												.val();
-										const groupCondition = $(
-												"#group-condition").val();
-										const groupRule = $("#group-rule")
-												.val();
-										const groupDescription = $(
-												"#group-description").val();
+		        // 중복체크 버튼 클릭 이벤트
+		        $("#group-name-check-btn").click(function () {
+		            const groupName = $("#group-name").val();
 
-										//const groupPrivate = $("#group-private").val();
+		            if (!groupName) {
+		                alert("아이디를 입력하세요.");
+		                return;
+		            }
 
-										if (!groupName || !groupCategory
-												|| !groupSize
-												|| !groupCondition
-												|| !groupRule
-												|| !groupDescription) {
-											alert(groupName + "  "
-													+ groupCategory + "  "
-													+ groupSize + "  "
-													+ groupPrivate + "  "
-													+ groupCondition + "  "
-													+ groupRule + "  "
-													+ groupDescription);
-
-											alert(" 내용을 입력하시오.");
-											return;
-										}
-
-										$("#group-create-form").attr("method",
-												"post");
-										$("#group-create-form").attr("action",
-												"${pageContext.request.contextPath}/groupcreate");
-										$("#group-create-form").submit();
-									});
+		            $.ajax({
+		                url: "/checkGroupName",
+		                type: "POST",
+		                data: { groupName: groupName },
+		                success: function (response) {
+		                    if (response.isDuplicate) {
+		                        alert("해당 그룹이름은 이미 존재합니다.");
+		                        isDuplicateChecked = false;
+		                    } else {
+		                        alert("사용 가능한 그룹이름입니다.");
+		                        isDuplicateChecked = true;
+		                    }
+		                },
+		                error: function () {
+		                    alert("중복체크 중 오류가 발생했습니다.");
+		                },
+		            });
 				});
+
+		        $("#group-name").on("input", function () {
+		            isDuplicateChecked = false; 
+		        });
+		        
+
+				$("#group-create-submit-btn").click(function() {
+					if (!isDuplicateChecked) {
+		                alert("그룹이름 중복체크를 해주세요.");
+		                return;
+		            }	
+					const groupName = $("#group-name")
+								.val();
+					const groupCategory = $(
+							"#group-category").val();
+					const groupSize = $("#group-size")
+							.val();
+					const groupCondition = $(
+							"#group-condition").val();
+					const groupRule = $("#group-rule")
+							.val();
+					const groupDescription = $(
+							"#group-description").val();
+
+					//const groupPrivate = $("#group-private").val();
+
+					if (!groupName || !groupCategory
+							|| !groupSize
+							|| !groupCondition
+							|| !groupRule
+							|| !groupDescription) {
+						alert(groupName + "  "
+								+ groupCategory + "  "
+								+ groupSize + "  "
+								+ groupPrivate + "  "
+								+ groupCondition + "  "
+								+ groupRule + "  "
+								+ groupDescription);
+
+						alert(" 내용을 입력하시오.");
+						return;
+					}
+
+					$("#group-create-form").attr("method",
+							"post");
+					$("#group-create-form").attr("action",
+							"${pageContext.request.contextPath}/groupcreate");
+					$("#group-create-form").submit();
+				});
+		});
 	</script>
 
 

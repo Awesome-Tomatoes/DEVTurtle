@@ -200,7 +200,7 @@
 		</div>
 		<div class="group-sub-title">
 		
-			<h1> 총10명 
+			<h1> 
 		<c:if test="${GROUP_USER_CHECK}">
 				<a class="group-button" 
 					href="${pageContext.request.contextPath}/missionGroup?groupid=${GROUP_DETAIL.groupId}"

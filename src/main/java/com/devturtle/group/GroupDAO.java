@@ -14,6 +14,27 @@ import com.devturtle.user.UserVO;
 public class GroupDAO {
 
 	// -------------------------GROUP Info 메서드---------------------------------
+	public boolean checkGroupNameExists(String groupName) {
+
+		DBManager dbm = OracleDBManager.getInstance();
+		
+        String query = "SELECT COUNT(*) FROM groups WHERE name like ?";
+        try (Connection conn = dbm.connect();
+             PreparedStatement pstmt = conn.prepareStatement(query)) {
+            
+            pstmt.setString(1, groupName);
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getInt(1) > 0; // 중복이면 true 반환
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+	
 	// 전체그룹 리스트 정보
 	public ArrayList<GroupVO> selectAllGroup() {
 		ArrayList<GroupVO> alist = new ArrayList<GroupVO>();
