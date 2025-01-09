@@ -116,7 +116,7 @@
 | <img src="https://github.com/user-attachments/assets/4049da1e-d4a4-48a5-a1fd-832f734673f1" width="400" height="190" class="jop-noMdConv"> | <img src="https://github.com/user-attachments/assets/a4a90a6d-c716-4ffe-b1d4-f34800a7693e" width="450" height="250" class="jop-noMdConv"> | <img src="https://github.com/user-attachments/assets/1c0ab86d-bf6c-41a2-b9bd-f581a0277be6" width="350" height="150" class="jop-noMdConv"> |
 
 🖥️ **화면 설계**
-- Figma를 이용해 화면을 기획 및 설계하고 협업 했습니다.
+- Figma를 이용해 **화면을 기획 및 설계**하고 **협업** 했습니다.
 - 화면 설계서는 다음과 같습니다:
 
 | **산출물** |
