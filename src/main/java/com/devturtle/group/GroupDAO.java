@@ -18,14 +18,16 @@ public class GroupDAO {
 
 		DBManager dbm = OracleDBManager.getInstance();
 		
-        String query = "SELECT COUNT(*) FROM groups WHERE name like ?";
+        String query = "SELECT COUNT(*) as cnt FROM groups WHERE name like ?";
         try (Connection conn = dbm.connect();
              PreparedStatement pstmt = conn.prepareStatement(query)) {
             
             pstmt.setString(1, groupName);
             try (ResultSet rs = pstmt.executeQuery()) {
                 if (rs.next()) {
-                    return rs.getInt(1) > 0; // 중복이면 true 반환
+                    if (rs.getInt("cnt") > 0) { // 중복이면 true 반환
+                    	return true;
+                    }
                 }
             }
         } catch (Exception e) {
